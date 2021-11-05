@@ -1,0 +1,13 @@
+[Unit]
+Description=Xeventbind auto start
+PartOf=i3.target
+After=i3.target
+
+[Service]
+Environment=DISPLAY=:0
+ExecStart=/usr/local/bin/xeventbind resolution /usr/local/bin/resetwallpaper
+ExecStop=/usr/bin/pkill xeventbind
+Restart=always
+
+[Install]
+WantedBy=i3.target

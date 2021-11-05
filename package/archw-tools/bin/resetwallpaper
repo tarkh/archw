@@ -1,0 +1,7 @@
+#!/bin/sh
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+archw --wp reset

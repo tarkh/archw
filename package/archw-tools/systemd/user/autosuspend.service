@@ -1,0 +1,12 @@
+[Unit]
+Description=Auto suspend on system idle
+PartOf=screen-state-off.target
+After=screen-state-off.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/autosuspend
+ExecStop=/usr/bin/pkill autosuspend
+
+[Install]
+WantedBy=screen-state-off.target

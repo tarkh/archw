@@ -1,0 +1,40 @@
+#
+# ArchW
+# LOCAL patch settings
+#
+#
+
+# !!! ATTENTION !!!
+# ==========================================
+# Here you can override options from GLOBAL
+# patch config. To disable any options from
+# GLOBAL config, do 'unset OPTION_NAME'
+# ==========================================
+
+#
+# Graphics driver
+S_GRAPHICS=intel
+
+#
+# Main monitor size and interface scaling
+S_GUIDPI=20x2
+
+#
+# Grub
+S_ADD_GRUBCFG=silent
+
+#
+# Plymouth
+S_ADD_PLYMOUTH=true
+
+#
+# Power management
+S_ADD_TLP=true
+
+#
+# Backlight monitor/keyboard
+S_ADD_ACPILIGHT=true
+
+#
+# Trackpad
+S_ADD_MTRACK=true

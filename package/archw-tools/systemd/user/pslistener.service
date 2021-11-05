@@ -1,0 +1,12 @@
+[Unit]
+Description=Power States listener
+PartOf=i3.target
+After=i3.target
+
+[Service]
+ExecStart=/usr/local/bin/pslistener
+ExecStop=/usr/bin/pkill pslistener
+Restart=always
+
+[Install]
+WantedBy=i3.target

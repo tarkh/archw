@@ -1,0 +1,111 @@
+[theme]
+file = "archw.toml"
+[icons]
+file = "archw.toml"
+
+#
+# Network
+[[block]]
+block = "networkmanager"
+#on_click = "alacritty -e nmtui"
+interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+"]
+interface_name_include = []
+#ap_format = "{ssid}"
+device_format = "{icon}{ips}"
+
+#
+# Battery
+[[block]]
+block = "battery"
+allow_missing = true
+hide_missing = true
+interval = 30
+format = "{percentage} {time}"
+
+#
+# Package updates
+[[block]]
+block = "custom"
+command = "archw --status json sysupd"
+interval = 5
+on_click = "archw --status json sysupd run"
+json = true
+
+#
+# Keyboard layout
+[[block]]
+block = "custom"
+command = "echo '{\"icon\":\"kbd_layout\",\"text\": \"'$(archw --lang get | tr '[:lower:]' '[:upper:]')'\"}'"
+interval = 30
+on_click = "archw --lang cycle"
+json = true
+
+#
+# Disk
+[[block]]
+block = "disk_space"
+path = "/"
+info_type = "used"
+alert = 90
+warning = 80
+format = "{icon} {percentage:4}"
+
+#
+# CPU usage
+[[block]]
+block = "cpu"
+interval = 1
+format = "{utilization}"
+warning = 75
+critical = 90
+
+#
+# System load
+#[[block]]
+#block = "load"
+#format = "{1m}"
+#interval = 1
+
+#
+# Memory usage
+[[block]]
+block = "memory"
+format_mem = "{mem_used_percents:4}"
+format_swap = "{swap_used_percents:4}"
+display_type = "memory"
+icons = true
+clickable = true
+interval = 5
+warning_mem = 80
+warning_swap = 80
+critical_mem = 95
+critical_swap = 95
+
+#
+# Temps
+[[block]]
+block = "temperature"
+collapsed = false
+interval = 10
+format = "{average:2}"
+chip = "*-isa-*"
+inputs = ["Package id 0", "Package id 1", "Package id 2", "Package id 3"]
+good = 25
+idle = 45
+info = 60
+warning = 75
+
+#
+# Time
+[[block]]
+block = "custom"
+command = "echo '{\"icon\":\"date\",\"text\": \"'$(date +\"%b %d\")'\"}'"
+interval = 10
+json = true
+
+[[block]]
+block = "custom"
+command = "archw --status json time"
+on_click = "archw --status json time sectoggle"
+interval = 1
+json = true

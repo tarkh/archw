@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Acpilight save/restore
+
+case "$1" in
+  pre)
+    brightnessctl -s
+    ;;
+  post)
+    brightnessctl -r
+    ;;
+esac

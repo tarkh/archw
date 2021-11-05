@@ -1,0 +1,12 @@
+[Unit]
+Description=Flameshot screen capture auto start
+PartOf=i3.target
+After=i3.target
+
+[Service]
+ExecStart=/usr/local/bin/xprof /usr/bin/flameshot
+ExecStop=/usr/bin/killall flameshot
+Restart=always
+
+[Install]
+WantedBy=i3.target

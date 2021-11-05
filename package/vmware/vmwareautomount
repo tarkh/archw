@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for i in $(ls -p /usr/share/archw/automount 2>/dev/null | grep -v /); do
+  if [ -d "$(cat /usr/share/archw/automount/$i)" ]; then
+    archw --vmware mount "$i" "$(cat /usr/share/archw/automount/$i)"
+  fi
+done

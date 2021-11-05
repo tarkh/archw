@@ -1,0 +1,72 @@
+[Plymouth Theme]
+Name[da]=ArchW
+Name[de]=ArchW
+Name[eo]=ArchW
+Name[eu]=ArchW
+Name[fr]=ArchW
+Name[hu]=ArchW
+Name[id]=ArchW
+Name[it]=ArchW
+Name[nl]=ArchW
+Name[pa]=ArchW
+Name[pl]=ArchW
+Name[pt_BR]=ArchW
+Name[ru]=ArchW
+Name[sr]=ArchW
+Name[sv]=ArchW
+Name[uk]=ArchW
+Name[ms]=ArchW
+Name[he]=ArchW
+Name=ArchW
+Description=ArchW theme. Modification of jimmac simple spinner.
+ModuleName=two-step
+
+[two-step]
+Font=Cantarell 12
+TitleFont=Cantarell Light 30
+ImageDir=/usr/share/plymouth/themes/archw
+DialogHorizontalAlignment=.5
+DialogVerticalAlignment=.35
+TitleHorizontalAlignment=.5
+TitleVerticalAlignment=.35
+HorizontalAlignment=.5
+VerticalAlignment=.7
+WatermarkHorizontalAlignment=.5
+WatermarkVerticalAlignment=.47
+Transition=cross-fade
+TransitionDuration=.3
+BackgroundStartColor=0x000000
+BackgroundEndColor=0x000000
+ProgressBarBackgroundColor=0x000000
+ProgressBarForegroundColor=0xA75EAF
+MessageBelowAnimation=true
+
+[boot-up]
+UseEndAnimation=false
+
+[shutdown]
+UseEndAnimation=true
+
+[reboot]
+UseEndAnimation=true
+
+[updates]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+Title=Installing Updates...
+SubTitle=Do not turn off your computer
+
+[system-upgrade]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+Title=Upgrading System...
+SubTitle=Do not turn off your computer
+
+[firmware-upgrade]
+SuppressMessages=true
+ProgressBarShowPercentComplete=true
+UseProgressBar=true
+Title=Upgrading Firmware...
+SubTitle=Do not turn off your computer

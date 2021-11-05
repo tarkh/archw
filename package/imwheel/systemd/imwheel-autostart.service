@@ -1,0 +1,13 @@
+[Unit]
+Description=IMWheel daemon auto start
+PartOf=i3.target
+After=i3.target
+
+[Service]
+Environment=XAUTHORITY=%h/.Xauthority
+ExecStart=/usr/bin/imwheel -d
+ExecStop=/usr/bin/killall imwheel
+Restart=always
+
+[Install]
+WantedBy=i3.target

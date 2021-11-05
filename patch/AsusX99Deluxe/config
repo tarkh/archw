@@ -1,0 +1,12 @@
+#
+# ArchW
+# LOCAL patch settings
+#
+#
+
+# !!! ATTENTION !!!
+# ==========================================
+# Here you can override options from GLOBAL
+# patch config. To disable any options from
+# GLOBAL config, do 'unset OPTION_NAME'
+# ==========================================

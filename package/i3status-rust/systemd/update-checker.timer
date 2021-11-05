@@ -1,0 +1,11 @@
+[Unit]
+Description=System update checker schedule
+Requires=update-checker.service
+
+[Timer]
+Unit=update-checker.service
+OnCalendar=00/6:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

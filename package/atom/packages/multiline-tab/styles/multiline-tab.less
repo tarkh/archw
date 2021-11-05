@@ -1,0 +1,20 @@
+@import "ui-variables";
+
+.tab-bar {
+  display: flex !important; // for specific theme　(display: table)
+  flex-wrap: wrap !important;
+  overflow-y: visible;
+  height: auto !important;
+  max-height: inherit !important;
+
+  &::after {
+    display: none !important;
+  }
+
+  .tab {
+    display: block !important; // for specific theme　(display: table-cell)
+    top: 0 !important;
+    min-width: 12em !important;
+    /*max-width: 20em !important;*/
+  }
+}

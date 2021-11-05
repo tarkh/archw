@@ -1,0 +1,65 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+CYCLETIMEOUT=1
+
+#
+# Get config path
+if ! CONFIGPATH=$(archw --sys pathconf "pm.conf"); then
+  echo "Can't find config"
+  exit 1
+fi
+
+#
+# Load config
+. $CONFIGPATH
+
+#
+# Service Active checker
+sa() {
+  if [ "$(systemctl --user show -p ActiveState --value $1)" == "active" ]; then
+    return 0
+  fi
+  return 1
+}
+
+#
+# Checker eternal loop
+INC=0
+while true; do
+  #
+  # Set timeout
+  if sa "dc-state-on.target"; then
+    TIMEOUT=$SUSPEND_AC
+  else
+    TIMEOUT=$SUSPEND_BAT
+  fi
+
+  #
+  # If off
+  if [ "$TIMEOUT" == "0" ]; then
+    exit 0
+  fi
+
+  #
+  # If timer fires
+  if (( $INC > $TIMEOUT )); then
+    #
+    # Check if display is still off
+    if sa "screen-state-off.target"; then
+      systemctl suspend
+    fi
+    exit 0
+  fi
+
+  #
+  # Increment timer
+  INC=$(( $INC + 1 ))
+
+  #
+  # Sleep timeout
+  sleep $CYCLETIMEOUT
+done

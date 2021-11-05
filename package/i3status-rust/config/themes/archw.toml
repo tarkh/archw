@@ -1,0 +1,30 @@
+#
+# Idle
+#idle_bg = "#000000"
+idle_fg = "#D2AAD2"
+
+#
+# Info
+#info_bg = "#000000"
+info_fg = "#D2AAD2"
+
+#
+# Good
+#good_bg = "#000000"
+good_fg = "#03F702"
+
+#
+# Warning
+#warning_bg  = "#000000"
+warning_fg  = "#F7D702"
+
+#
+# Critical
+#critical_bg = "#000000"
+critical_fg = "#F73602"
+
+#
+# Separator
+separator = ""
+#separator_bg = "#000000"
+separator_fg = "#a9a9a9"

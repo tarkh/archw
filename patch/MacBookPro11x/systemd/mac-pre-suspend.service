@@ -1,0 +1,10 @@
+[Unit]
+Description=Coordinate suspending via lid-close and systemctl
+After=sleep.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/mac-pre-suspend
+
+[Install]
+WantedBy=sleep.target

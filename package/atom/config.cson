@@ -1,0 +1,12 @@
+"*":
+  core:
+    autoHideMenuBar: true
+    openEmptyEditorOnStart: false
+    telemetryConsent: "no"
+    titleBar: "hidden"
+  editor:
+    fontFamily: "Menlo, Consolas, DejaVu Sans Mono, monospace, RobotoMono Nerd Font Mono"
+    fontSize: 12
+    softWrap: true
+  welcome:
+    showOnStartup: false

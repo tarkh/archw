@@ -1,0 +1,13 @@
+[Unit]
+Description=Sxhkd hotkey service auto start
+PartOf=i3.target
+After=i3.target
+
+[Service]
+ExecStart=/usr/local/bin/sxhkdrun
+ExecStopPre=/usr/bin/killall sxhkd
+ExecStop=/usr/bin/killall sxhkdrun
+Restart=always
+
+[Install]
+WantedBy=i3.target

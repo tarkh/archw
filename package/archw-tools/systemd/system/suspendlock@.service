@@ -1,0 +1,12 @@
+[Unit]
+Description=Lock screen on suspend
+Before=sleep.target
+
+[Service]
+User=%I
+Type=forking
+Environment=DISPLAY=:0
+ExecStart=archw --lock
+
+[Install]
+WantedBy=sleep.target

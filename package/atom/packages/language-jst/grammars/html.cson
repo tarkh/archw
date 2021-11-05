@@ -1,0 +1,88 @@
+# This grammar file is responsible for including the actual jst grammar
+# by capturing <?jst ?> tags
+'scopeName': 'text.html.jst'
+'name': 'JST'
+'fileTypes': [
+  'jst'
+]
+'firstLineMatch': '''(?x)
+  # Regular opening jst tags
+  ^\\s*<\\?(?i:jst|=|\\s|$)
+'''
+'foldingStartMarker': '(/\\*|\\{\\s*$|<<<HTML)'
+'foldingStopMarker': '(\\*/|^\\s*\\}|^HTML;)'
+'injections':
+  'text.html.jst - (meta.embedded | meta.tag), L:((text.html.jst meta.tag) - (meta.embedded.block.jst | meta.embedded.line.jst)), L:(source.js.embedded.html - (meta.embedded.block.jst | meta.embedded.line.jst))':
+    'patterns': [
+      {
+        'include': '#jst-tag'
+      }
+    ]
+'patterns': [
+  {
+    'begin': '\\A#!'
+    'beginCaptures':
+      '0':
+        'name': 'punctuation.definition.comment.jst'
+    'end': '$'
+    'name': 'comment.line.shebang.jst'
+  }
+  {
+    'include': 'text.html.basic'
+  }
+]
+'repository':
+  'jst-tag':
+    'patterns': [
+      {
+        'begin': '\\${'
+        'captures':
+          '0':
+            'name': 'punctuation.section.snippet.embedded.jst'
+        'end': '}'
+        'name': 'snippet.embedded.block.jst'
+        'patterns': [
+          {
+            'include': 'source.js'
+          }
+        ]
+      }
+      {
+        'begin': '<\\?(?i:jst|=)?(?!(.*?)\\?>)'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.section.embedded.begin.jst'
+        'end': '(\\?)>'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.section.embedded.end.jst'
+          '1':
+            'name': 'source.jst'
+        'name': 'meta.embedded.block.jst'
+        'contentName': 'source.jst'
+        'patterns': [
+          {
+            'include': 'source.jst'
+          }
+        ]
+      }
+      {
+        'begin': '<\\?(?i:jst|=)?'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.section.embedded.begin.jst'
+        'end': '(\\?)>'
+        'endCaptures':
+          '0':
+            'name': 'punctuation.section.embedded.end.jst'
+          '1':
+            'name': 'source.jst'
+        'name': 'meta.embedded.line.jst'
+        'contentName': 'source.jst'
+        'patterns': [
+          {
+            'include': 'source.jst'
+          }
+        ]
+      }
+    ]

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+TIMEOUT=10
+
+#
+# Focus on first window
+#ALLWS=($(i3-msg -t get_workspaces | jq '.[]."name"' | sed -E "s:\"::g" | sort))
+#i3-msg workspace $ALLWS focus
+
+#
+# Load previous session
+#(bash -c "/usr/local/bin/archw --layout load" &)
+
+#
+# Sleep on init
+sleep 10
+
+#
+# Line processor
+process_line () {
+  local EVENT=$(echo "$@" | jq '."change"' | cut -d"\"" -f2)
+  if [[ $EVENT =~ ^(new|move|close|resize)$ ]]; then
+    #
+    # Run layout save subprocess
+    echo "$EVENT"
+    run_layout_save
+  fi
+}
+
+#
+# Run layout save subprocess
+run_layout_save () {
+  #
+  # Kill last PID
+  kill $SPPID > /dev/null 2>&1
+
+  #
+  # Run layout save with exec delay
+  bash -c "sleep $TIMEOUT; /usr/local/bin/archw --layout save" &
+  SPPID=$!
+}
+
+#
+# Run i3 event listener
+i3-msg -t subscribe -m '[ "window", "mode" ]' | while read line; do
+  process_line $line
+done

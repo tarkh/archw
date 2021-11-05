@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if cat /proc/acpi/wakeup | grep -qE '^LID0.*enabled'; then
+  grep -qE '^state: *open$' /proc/acpi/button/lid/LID0/state \
+  && echo LID0 > /proc/acpi/wakeup
+else
+  grep -qE '^state: *closed$' /proc/acpi/button/lid/LID0/state \
+  && echo LID0 > /proc/acpi/wakeup
+fi
+
+exit 0

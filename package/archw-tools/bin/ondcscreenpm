@@ -1,0 +1,9 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+#
+# Re-apply archw screen pm settings
+archw --pm applynow

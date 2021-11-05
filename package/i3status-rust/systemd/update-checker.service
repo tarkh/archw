@@ -1,0 +1,10 @@
+[Unit]
+Description=System update checker
+Wants=update-checker.target
+
+[Service]
+Type=oneshot
+ExecStart=archw --status json sysupd check
+
+[Install]
+WantedBy=i3.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=i3 auto language layouts loader
+After=i3.target
+
+[Service]
+Type=oneshot
+ExecStart=archw --lang load
+
+[Install]
+WantedBy=i3.target

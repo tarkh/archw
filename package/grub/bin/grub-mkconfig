@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+#
+# Run grub make config
+sudo /usr/bin/grub-mkconfig "$@"
+
+#
+# Hide verbose text
+sudo sed -i -E \
+"s:^(\s*)(echo\s+.*):\1\#\2:" \
+/boot/grub/grub.cfg
