@@ -28,7 +28,7 @@ mergeconf user ./package/i3status-rust/archw-config/ $S_ARCHW_TMPFS
 #
 # Set time format
 if [ -e "$S_I3_STATUS_TIMEFORMAT" ]; then
-  archw --status json formatset "$S_I3_STATUS_TIMEFORMAT"
+  archw --status time $S_I3_STATUS_TIMEFORMAT
 fi
 
 #
