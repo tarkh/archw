@@ -86,7 +86,7 @@ Option "ScrollDownButton" "4"
 Option "ScrollLeftButton" "7"
 Option "ScrollRightButton" "6"
 # Tweak scroll sensitivity with ScrollDistance, don't touch ScrollSensitivity
-Option "ScrollDistance" "105"
+Option "ScrollDistance" "250"
 Option "ScrollClickTime" "0"
 # Three finger drag
 Option "SwipeDistance" "1"
