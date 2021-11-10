@@ -15,6 +15,12 @@ fi
 # Load config
 . $CONFIGPATH
 
+#
+# Set QT platform theme
 export QT_QPA_PLATFORMTHEME="qt5ct"
+
+#
+# Enable one-to-one trackpad scrolling
+export MOZ_USE_XINPUT2=1
 
 "$@"
