@@ -38,3 +38,7 @@ S_ADD_ACPILIGHT=true
 #
 # Trackpad
 S_ADD_MTRACK=true
+
+#
+# FF XINPUT2
+S_ADD_FF_XINPUT=true

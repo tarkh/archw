@@ -93,6 +93,9 @@ S_AUTODISPLAY=true
 # Install vm tools
 # Avaliable options:
 # 1: vmware
+# 2: parallels-postinstall (manual post-install)
+# 3: parallels-16.1.2.patched
+# 4: parallels-16.5.0.patched
 # Remove value to disable
 # Warning: for Parallels Tools patched
 # versions linux-lts is recommended
@@ -175,5 +178,7 @@ S_ADD_MPV=true
 
 # Firefox
 S_ADD_FF=true
+# Enable XINPUT2
+#S_ADD_FF_XINPUT=true
 # Enable hardware video acceleration with VA-API
 S_ADD_FF_VAAPI=true

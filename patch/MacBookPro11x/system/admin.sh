@@ -45,6 +45,16 @@ MatchIsTouchpad "on"
 Identifier "Touchpads"
 MatchDevicePath "/dev/input/event*"
 Driver "mtrack"
+# Physical buttons
+Option "ButtonEnable" "true"
+Option "ButtonIntegrated" "true"
+# Zones
+Option "ButtonZonesEnable" "true"
+Option "FirstZoneButton" "1"
+Option "SecondZoneButton" "2"
+Option "ThirdZoneButton" "3"
+Option "LimitButtonZonesToBottomEdge" "true"
+Option "EdgeBottomSize" "0"
 # Gesture wait time
 Option "GestureWaitTime" "20"
 # The faster you move, the more distance pointer will travel, using "polynomial" profile
@@ -77,17 +87,17 @@ Option "ClickFinger3" "2"
 Option "ButtonMoveEmulate" "false"
 Option "ButtonIntegrated" "true"
 # The momentum after scroll fingers released
-Option "ScrollCoastDuration" "200"
-Option "ScrollCoastEnableSpeed" ".1"
+Option "ScrollCoastDuration" "950"
+Option "ScrollCoastEnableSpeed" "0.05"
 # Natural scrolling with two fingers
 Option "ScrollSmooth" "true"
-Option "ScrollUpButton" "5"
-Option "ScrollDownButton" "4"
+Option "ScrollUpButton" "4"
+Option "ScrollDownButton" "5"
 Option "ScrollLeftButton" "7"
 Option "ScrollRightButton" "6"
 # Tweak scroll sensitivity with ScrollDistance, don't touch ScrollSensitivity
-Option "ScrollDistance" "250"
-Option "ScrollClickTime" "0"
+Option "ScrollDistance" "650"
+Option "ScrollClickTime" "20"
 # Three finger drag
 Option "SwipeDistance" "1"
 Option "SwipeLeftButton" "1"
@@ -122,7 +132,7 @@ Section "InputClass"
       MatchIsPointer "on"
       MatchDevicePath "/dev/input/event*"
       Driver "libinput"
-      Option "NaturalScrolling" "True"
+      Option "NaturalScrolling" "False"
 EndSection
 EOL
 
