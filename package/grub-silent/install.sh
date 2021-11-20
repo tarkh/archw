@@ -4,18 +4,12 @@
 sudo pacman --noconfirm -Rns grub
 
 #
-# Try to install prebuilt version
-# if fails, build and install
-if ! sudo pacman --noconfirm -U ./package/grub-silent/prebuilt/grub-silent-2.06-2-x86_64.pkg.tar.zst; then
+# Try to install prebuilt version to save overall install time
+# if it fails, build and install from aur
+if ! sudo pacman --noconfirm -U https://github.com/tarkh/archw/raw/assets/prebuilt/grub-silent-2.06-5-x86_64.pkg.tar.zst; then
   # Build and install grub-silent
   yay --noconfirm -S grub-silent
 fi
-
-#
-# TMP typo fix
-sudo sed -i -E \
-"s:^\s+(EOF.*):\1:" \
-/etc/grub.d/10_linux
 
 #
 # Get res and check splash file
