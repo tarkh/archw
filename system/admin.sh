@@ -22,6 +22,13 @@ fi
 ProgressBar
 V_HOME="/home/${S_MAINUSER}"
 V_AUR="$S_PKG/AUR"
+V_PB="$S_PKG/PREBUILT"
+V_RPB="https://github.com/tarkh/archw/raw/assets/prebuilt"
+
+#
+# Create dirs
+mkdir -p $V_AUR
+mkdir -p $V_PB
 
 #
 # Remove autoinstaller from .bashrc

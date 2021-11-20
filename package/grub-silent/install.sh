@@ -6,10 +6,13 @@ sudo pacman --noconfirm -Rns grub
 #
 # Try to install prebuilt version to save overall install time
 # if it fails, build and install from aur
-if ! sudo pacman --noconfirm -U https://github.com/tarkh/archw/raw/assets/prebuilt/grub-silent-2.06-5-x86_64.pkg.tar.zst; then
+cd $V_PB
+curl -LO ${V_RPB}/grub-silent-2.06-5-x86_64.pkg.tar.zst
+if ! sudo pacman --noconfirm -U grub-silent-2.06-5-x86_64.pkg.tar.zst; then
   # Build and install grub-silent
   yay --noconfirm -S grub-silent
 fi
+cd $V_HOME
 
 #
 # Get res and check splash file
