@@ -22,8 +22,9 @@ fi
 ProgressBar
 V_HOME="/home/${S_MAINUSER}"
 V_AUR="$S_PKG/AUR"
+V_TR="https://github.com/tarkh"
 V_PB="$S_PKG/PREBUILT"
-V_RPB="https://github.com/tarkh/archw/raw/assets/prebuilt"
+V_RPB="${V_TR}/archw/raw/assets/prebuilt"
 
 #
 # Create dirs
