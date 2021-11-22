@@ -12,7 +12,6 @@ sed -i -E \
 "s:^\s*(shadow-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'utility'\",:g; \
 s:^\s*(shadow-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'tooltip'\",:g; \
 s:^\s*(shadow-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'menu'\",:g; \
-s:^\s*(blur-background-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'utility'\",:g; \
 s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g = 'firefox' \&\& focused\",:g; \
 s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g = 'firefoxdeveloperedition' \&\& focused\",:g" \
 $V_HOME/.config/picom/picom.conf
@@ -28,7 +27,7 @@ sudo bash -c "cat > /usr/lib/firefox-developer-edition/mozilla.cfg" << EOL
 // Disable timeout warning
 defaultPref("full-screen-api.warning.timeout", 0);
 // Disable fingerprint memory
-defaultPref("privacy.resistFingerprinting", true);
+//defaultPref("privacy.resistFingerprinting", true);
 // Enable touch screen
 defaultPref("dom.w3c_touch_events.enabled", 1);
 EOL

@@ -36,8 +36,12 @@ layout () {
   #
   # Dedupe apps array
   # Run this apps only onece in auto mode
-  local DEDUPE=(
+  local REMOVE_DUPLICATES_FOR_APPS=(
     "firefox$"
+  )
+
+  local LEAVE_TITLES_FOR_CLASSES=(
+    "firefoxdeveloperedition"
   )
 
   #
@@ -125,7 +129,7 @@ layout () {
       sed -i -E \
       "\:\s*//\s+[^\"].*:d; \
       s:(\s*)//:\1:; \
-      \:\s*\"name\"\:.*:d; \
+      \:\s*\"name\"\:.*:d;
       s:(\s*)\"title\"\:\s+\"(.*)\"([,]*)\s*$:\1\"title\"\: \"^.*$\"\3:" \
       $LOPATH/${WSNAME}.json
 
@@ -143,27 +147,58 @@ layout () {
           #
           APPCMD="cd $APPCMDREADLINK && $APPCMD"
         fi
+
         #
-        #echo "$c > $APPID > $APPCMD" >> ~/test-log.txt
+        # Modify keeped titles
+        #if [ "$MODE" == "auto" ]; then
+        #  for class in "${LEAVE_TITLES_FOR_CLASSES[@]}"; do
+        #    if [[ $class =~ $c ]]; then
+        #      sed -i -E \
+        #      "/^\s+\"class\"\:\s+\"\\^${class}\\$\"/,/^\s+\]/ s:(\s*)\"title\"\:(.*)$:\1\"title-autokeep\"\:\2:" \
+        #      $LOPATH/${WSNAME}.json
+        #    fi
+        #  done
+        #fi
+
         #
-        # Check dedupe in auto mode
+        # Trim APPCMD
+        APPCMD=$(echo $APPCMD | tr -d '[:space:]')
+
+        #
+        # Checks if auto mode
         local WRITE=1
         if [ "$MODE" == "auto" ]; then
-          for app in "${DEDUPE[@]}"; do
+          #
+          # Check for dedupe
+          for app in "${REMOVE_DUPLICATES_FOR_APPS[@]}"; do
             if [[ $APPCMD =~ $app ]]; then
-              if cat "${LOPATH}/$SCRNAME" | grep -w $app > /dev/null 2>&1; then
+              if cat "${LOPATH}/$SCRNAME" | sed -E "s:\s+\&\)\s*$::" | grep -w $app > /dev/null 2>&1; then
                 WRITE=0
                 break
               fi
             fi
           done
         fi
+
         #
         # Save to file
         if [ "$WRITE" == "1" ]; then
           echo "($APPCMD &)" >> "${LOPATH}/$SCRNAME"
         fi
       done
+
+      #
+      # Patch titles
+      #sed -i -E \
+      #"s:(\s*)\"title\"\:\s+\"(.*)\"([,]*)\s*$:\1\"title\"\: \"^.*$\"\3:" \
+      #$LOPATH/${WSNAME}.json
+
+      #
+      # Restore keeped titles
+      #sed -i -E \
+      #"s:(\s*)\"title-autokeep\"\:(.*)$:\1\"title\"\:\2:" \
+      #$LOPATH/${WSNAME}.json
+
     done
 
     #echo "" > "${LOPATH}/$SCRNAME"
