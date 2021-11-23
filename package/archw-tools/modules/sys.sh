@@ -38,7 +38,7 @@ sys () {
   #
   # Get git pkg name
   archw_pkg_name () {
-    if [ -z "$1" ]; then
+    if [ -n "$1" ]; then
       local DIR=$1
     fi
     S_ARCHW_GITPKG_NAME=$(ls $DIR | grep $S_ARCHW_GITPKG_NAME | tr -d '[:space:]')
