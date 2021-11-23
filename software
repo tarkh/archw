@@ -45,6 +45,9 @@
 # Graphics editor
 #S_ADD_GIMP=true
 
+# Import/manage media
+#S_ADD_SHOTWELL=true
+
 # YouTube Music app
 #S_ADD_YOUTUBEMUSIC=true
 

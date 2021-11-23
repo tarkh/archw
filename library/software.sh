@@ -244,3 +244,17 @@ ProgressBar
 if [ -n "$S_GUIDPI" ]; then
   . ./package/guidpi/install.sh
 fi
+
+#
+# IOS mount drivers
+ProgressBar
+if [ -n "$S_ADD_IOS" ]; then
+  . ./package/ios/install.sh
+fi
+
+#
+# Shotwell
+ProgressBar
+if [ -n "$S_ADD_SHOTWELL" ]; then
+  . ./package/shotwell/install.sh
+fi

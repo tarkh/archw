@@ -170,6 +170,9 @@ S_ADD_BTEXTRA=true
 # control abilities
 #S_ADD_BTEXTRA_AVRCP_OFF=true
 
+# IOS device support
+S_ADD_IOS=true
+
 # Moc cli audio player
 S_ADD_MOC=true
 
