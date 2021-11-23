@@ -162,7 +162,7 @@ layout () {
 
         #
         # Trim APPCMD
-        APPCMD=$(echo $APPCMD | tr -d '[:space:]')
+        APPCMD=$(echo $APPCMD | xargs echo -n)
 
         #
         # Checks if auto mode

@@ -157,7 +157,7 @@ set \$mode_system $SCR_LOCK_HIB_SUS
 
 mode "\$mode_system" {
   bindsym l exec --no-startup-id \$i3lockwall, mode "default"
-  bindsym e exec --no-startup-id i3-msg exit, mode "default"$SCR_LOCK_HIB_SUS_PROC
+  bindsym e exec --no-startup-id systemctl --user stop i3.target && i3-msg exit, mode "default"$SCR_LOCK_HIB_SUS_PROC
   bindsym r exec --no-startup-id systemctl reboot, mode "default"
   bindsym Ctrl+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
