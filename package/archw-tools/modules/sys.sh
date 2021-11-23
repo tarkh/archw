@@ -36,11 +36,24 @@ fi
 # Module content
 sys () {
   #
+  # Get git pkg name
+  archw_pkg_name {
+    if [ -z "$1" ]; then
+      local DIR=$1
+    fi
+    S_ARCHW_GITPKG_NAME=$(ls $DIR | grep $S_ARCHW_GITPKG_NAME | tr -d '[:space:]')
+  }
+  #
   # Get archw package
   archw_pkg_get () {
     local CD=$(pwd)
     cd /tmp
-    curl $S_ARCHW_GITPKG | tar xz
+    curl -L $S_ARCHW_GITPKG | tar xz
+    #
+    # Set exact package name
+    archw_pkg_name
+    #
+    # Go back
     cd $CD
   }
 
@@ -49,6 +62,14 @@ sys () {
   archw_tools_update () {
     local GITVER=$(curl --silent $S_ARCHW_GITPKG_VERSION -o /dev/stdout 2> /dev/null)
     local VER=$(archw --version | sed -n -e 's/^.*version //p')
+    #
+    # Check if archw exist locally
+    if ls /tmp/$S_ARCHW_GITPKG_NAME > /dev/null 2>&1; then
+      #
+      # Get name
+      archw_pkg_name /tmp
+    fi
+
     if [ -n "$GITVER" ] && [ "$GITVER" != "$VER" ]; then
       #
       # If check only

@@ -13,9 +13,12 @@ S_ARCHW_TMPFS=/tmp/archw-runtime
 S_ARCHW_LIB=/usr/local/lib/archw
 S_ARCHW_MODULES=$S_ARCHW_LIB/modules
 S_ARCHW_BIN=/usr/local/bin
-S_ARCHW_GITPKG_NAME=archw-main
-S_ARCHW_GITPKG=https://git.tarkh.com/tarkh/archw/-/archive/main/${S_ARCHW_GITPKG_NAME}.tar.gz
-S_ARCHW_GITPKG_VERSION=https://git.tarkh.com/tarkh/archw/-/raw/main/package/archw-tools/VERSION
+
+S_ARCHW_GIT=https://github.com/tarkh
+S_ARCHW_GITRAW=https://raw.githubusercontent.com/tarkh
+S_ARCHW_GITPKG_NAME=tarkh-archw-*
+S_ARCHW_GITPKG=$S_ARCHW_GIT/archw/tarball/main
+S_ARCHW_GITPKG_VERSION=$S_ARCHW_GITRAW/archw/main/package/archw-tools/VERSION
 
 #
 # List modules
