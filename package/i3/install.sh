@@ -120,6 +120,10 @@ EOL
 fi
 
 #
+# System stop script
+SCR_SYSTEM_STOP="archw --sys stopsystem"
+
+#
 # Set HIB string
 SCR_LOCK_HIB_SUS="System (l) lock, (e) logout,$SCR_LOCK_HIB_SUS_MENU (r) reboot, (CTRL+s) shutdown"
 
@@ -157,9 +161,9 @@ set \$mode_system $SCR_LOCK_HIB_SUS
 
 mode "\$mode_system" {
   bindsym l exec --no-startup-id \$i3lockwall, mode "default"
-  bindsym e exec --no-startup-id systemctl --user stop i3.target && i3-msg exit, mode "default"$SCR_LOCK_HIB_SUS_PROC
-  bindsym r exec --no-startup-id systemctl reboot, mode "default"
-  bindsym Ctrl+s exec --no-startup-id systemctl poweroff -i, mode "default"
+  bindsym e exec --no-startup-id $SCR_SYSTEM_STOP && i3-msg exit, mode "default"$SCR_LOCK_HIB_SUS_PROC
+  bindsym r exec --no-startup-id $SCR_SYSTEM_STOP && systemctl reboot, mode "default"
+  bindsym Ctrl+s exec --no-startup-id $SCR_SYSTEM_STOP && systemctl poweroff -i, mode "default"
 
   # back to normal: Enter or Escape
   bindsym Return mode "default"

@@ -4,20 +4,18 @@
 # ArchW by tarkh (c) 2021
 #
 
-TIMEOUT=10
-
-#
-# Focus on first window
-#ALLWS=($(i3-msg -t get_workspaces | jq '.[]."name"' | sed -E "s:\"::g" | sort))
-#i3-msg workspace $ALLWS focus
-
-#
-# Load previous session
-#(bash -c "/usr/local/bin/archw --layout load" &)
+TIMEOUT=2
 
 #
 # Sleep on init
 sleep 10
+
+#
+# Get focused workspace name
+fws_num () {
+  i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' | cut -d"\"" -f2
+}
+FWS_MEM=$(fws_num)
 
 #
 # Line processor
@@ -26,8 +24,17 @@ process_line () {
   if [[ $EVENT =~ ^(new|move|close|resize)$ ]]; then
     #
     # Run layout save subprocess
-    echo "$EVENT"
     run_layout_save
+  elif [ "$EVENT" == "focus" ]; then
+    #
+    # Check if workspace has been changed
+    local FWS=$(fws_num)
+    if [ "$FWS" != "$FWS_MEM" ]; then
+      FWS_MEM=$FWS
+      #
+      # Run layout save subprocess
+      run_layout_save ws_upd
+    fi
   fi
 }
 
@@ -35,13 +42,35 @@ process_line () {
 # Run layout save subprocess
 run_layout_save () {
   #
-  # Kill last PID
-  kill $SPPID > /dev/null 2>&1
+  # Check save type
+  if [ -n "$1" ]; then
+    #
+    # If LO PID is running, return
+    if ps -p $LOPID > /dev/null 2>&1; then
+      return 0
+    fi
+    #
+    # Kill last WS PID
+    kill $WSPID > /dev/null 2>&1
+  else
+    #
+    # Kill last WS and LO PID
+    kill $WSPID > /dev/null 2>&1
+    kill $LOPID > /dev/null 2>&1
+  fi
 
   #
   # Run layout save with exec delay
-  bash -c "sleep $TIMEOUT; /usr/local/bin/archw --layout save" &
-  SPPID=$!
+  bash -c "sleep $TIMEOUT; /usr/local/bin/archw --layout save \"\" \"\" $1" &
+  local PID=$!
+
+  #
+  # Differentiate PIDs
+  if [ -n "$1" ]; then
+    WSPID=$PID
+  else
+    LOPID=$PID
+  fi
 }
 
 #

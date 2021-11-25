@@ -293,6 +293,16 @@ sys () {
   elif [ $2 == "pathconf" ] && [ -n "$3" ]; then
     wconf path $3
     return 0
+  elif [ $2 == "stopsystem" ]; then
+    #
+    # Gently stop system before logout/restart/shutdown
+    systemctl --user stop autolayoutloader.target
+    systemctl --user stop i3.target
+    i3-msg workspace "Shutting down windows manager..."
+    #
+    # Wait
+    sleep 1
+    return 0
   fi
   error
 }

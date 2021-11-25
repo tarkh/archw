@@ -27,6 +27,17 @@ fi
 #
 # Module content
 layout () {
+  #
+  # Service Active checker
+  sa() {
+    if [ "$(systemctl --user show -p ActiveState --value $1)" == "active" ]; then
+      return 0
+    fi
+    return 1
+  }
+
+  #
+  # Set initial paths
   local LODIR=$S_ARCHW_CONFIG/layouts
   if [ ! -d $LODIR ]; then
     mkdir -p $LODIR/auto
@@ -40,8 +51,16 @@ layout () {
     "firefox$"
   )
 
-  local LEAVE_TITLES_FOR_CLASSES=(
-    "firefoxdeveloperedition"
+  #
+  # Leave titles for this apps
+  #local LEAVE_TITLES_FOR_CLASSES=(
+  #  "firefoxdeveloperedition"
+  #)
+
+  #
+  # Manually map classnames to apps
+  declare -A MANUAL_APPS_MAPPING=(
+    ["^Tor\ Browser$"]="torbrowser-launcher"
   )
 
   #
@@ -53,7 +72,17 @@ layout () {
   local MODE=auto
   local SCRNAME="apps.sh"
 
+  #
+  #
+  # SAVE
+  #
   if [ "$2" == "save" ]; then
+    #
+    # Check if i3.target active
+    if ! sa "i3.target"; then
+      exit 0
+    fi
+
     #
     # If preset name defined
     if [ -n "$3" ]; then
@@ -68,10 +97,10 @@ layout () {
       fi
     fi
 
+    #
+    # If workspace defined
     if [ -n "$4" ]; then
       MODE=workspace
-      #
-      # If workspace defined
       local WS=($4)
       #
       # Check if workspace exist
@@ -83,6 +112,25 @@ layout () {
       #
       # If no, scan active workspaces
       local WS=($(i3-msg -t get_workspaces | jq '.[]."name"' | sed -E "s:\"::g"))
+    fi
+
+    #
+    # If auto + ws_upd mode
+    if [ "$MODE" == "auto" ] && [ "$5" == "ws_upd" ]; then
+      if [ -f $LOPATH/$SCRNAME ]; then
+        local FWS=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' | cut -d"\"" -f2)
+        if cat $LOPATH/$SCRNAME | grep "^i3-msg workspace" > /dev/null 2>&1; then
+          sed -i -E \
+          "s:^(i3-msg workspace).*$:\1 \"$FWS\":" \
+          $LOPATH/$SCRNAME
+        else
+          echo "i3-msg workspace \"$FWS\"" >> "$LOPATH/$SCRNAME"
+        fi
+        echo "Auto script updated with focused workspace name"
+      fi
+      #
+      # End save function
+      return 0
     fi
 
     #
@@ -110,6 +158,7 @@ layout () {
         WSNAME=$LONAME
         SCRNAME="${LONAME}.sh"
       fi
+
       #
       # Save each one
       if ! i3-save-tree --workspace="$w" > $LOPATH/${WSNAME}.json; then
@@ -137,15 +186,31 @@ layout () {
       # Create launch script
       for c in "${CNAMES[@]}"; do
         local APPID=$(xdotool search --class "$c" getwindowpid)
-        local APPCMD=$(ps -f --pid $APPID | grep $APPID | awk '{ s = ""; for (i = 8; i <= NF; i++) s = s $i " "; print s }' | sed -E "s:.*\s+(/.*)$:\1:")
-        # If exec path is relative, try to readlink the process
-        if [[ $APPCMD =~ ^\./[^[:space:]]+ ]]; then
-          local APPCMDREADLINK=$(readlink /proc/$APPID/exe | sed -E "s:(.*)/\S+$:\1:")
+        local APPCMD=""
+
+        #
+        # Manual mapping
+        for mclass in "${!MANUAL_APPS_MAPPING[@]}"; do
           #
-          # App cmd line fixes
-          APPCMD=$(echo $APPCMD | perl -ne 's/(\-\-class\s+)([^"]+?)(?=\s+\-|$)/$1\"$2\"/g; print;')
-          #
-          APPCMD="cd $APPCMDREADLINK && $APPCMD"
+          # If class matched, set APPCMD
+          if [ "$mclass" == "$c" ]; then
+            APPCMD="${MANUAL_APPS_MAPPING[$mclass]}"
+          fi
+        done
+
+        #
+        # If no APPCMD has been defined, do automatic mapping
+        if [ -z "$APPCMD" ]; then
+          APPCMD=$(ps -f --pid $APPID | grep $APPID | awk '{ s = ""; for (i = 8; i <= NF; i++) s = s $i " "; print s }' | sed -E "s:.*\s+(/.*)$:\1:")
+          # If exec path is relative, try to readlink the process
+          if [[ $APPCMD =~ ^\./[^[:space:]]+ ]]; then
+            local APPCMDREADLINK=$(readlink /proc/$APPID/exe | sed -E "s:(.*)/\S+$:\1:")
+            #
+            # App cmd line fixes
+            APPCMD=$(echo $APPCMD | perl -ne 's/(\-\-class\s+)([^"]+?)(?=\s+\-|$)/$1\"$2\"/g; print;')
+            #
+            APPCMD="cd $APPCMDREADLINK && $APPCMD"
+          fi
         fi
 
         #
@@ -164,15 +229,15 @@ layout () {
         # Trim APPCMD
         APPCMD=$(echo $APPCMD | xargs echo -n)
 
+        local WRITE=1
         #
         # Checks if auto mode
-        local WRITE=1
         if [ "$MODE" == "auto" ]; then
           #
           # Check for dedupe
           for app in "${REMOVE_DUPLICATES_FOR_APPS[@]}"; do
             if [[ $APPCMD =~ $app ]]; then
-              if cat "${LOPATH}/$SCRNAME" | sed -E "s:\s+\&\)\s*$::" | grep -w $app > /dev/null 2>&1; then
+              if [ -f "${LOPATH}/$SCRNAME" ] && cat "${LOPATH}/$SCRNAME" | sed -E "s:\s+\&\)\s*$::" | grep -w $app > /dev/null 2>&1; then
                 WRITE=0
                 break
               fi
@@ -200,16 +265,26 @@ layout () {
       #$LOPATH/${WSNAME}.json
 
     done
+    #
+    # If mode auto, append focused workspace to script
+    if [ "$MODE" == "auto" ]; then
+      local FWS=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' | cut -d"\"" -f2)
+      echo "i3-msg workspace \"$FWS\"" >> "$LOPATH/$SCRNAME"
+    fi
 
-    #echo "" > "${LOPATH}/$SCRNAME"
+    #
+    # Add script header
     cat <<< "#!/usr/bin/env bash
 $(cat $LOPATH/$SCRNAME)" > $LOPATH/$SCRNAME
     chmod +x "${LOPATH}/$SCRNAME"
-
     #
     #
     echo "Layout saved${SUFFIX}"
     return 0
+  #
+  #
+  # LOAD
+  #
   elif [ "$2" == "load" ]; then
     #
     # If preset name defined
@@ -277,13 +352,13 @@ $(cat $LOPATH/$SCRNAME)" > $LOPATH/$SCRNAME
     nohup bash -c "xprof $LOPATH/$SCRNAME" > /dev/null 2>&1 &
 
     #
-    # Restart i3
-    #i3-msg restart
-
-    #
     #
     echo "Layout restored"
     return 0
+  #
+  #
+  # LIST
+  #
   elif [ "$2" == "ls" ]; then
     local LOLIST=($(ls $LODIR/presets/))
     for p in "${LOLIST[@]}" ; do
@@ -294,6 +369,10 @@ $(cat $LOPATH/$SCRNAME)" > $LOPATH/$SCRNAME
       fi
     done
     return 0
+  #
+  #
+  # REMOVE
+  #
   elif [ "$2" == "rm" ]; then
     LOPATH=$LODIR/presets
     local LONAME=$3
@@ -310,6 +389,10 @@ $(cat $LOPATH/$SCRNAME)" > $LOPATH/$SCRNAME
       exit 1
     fi
     return 0
+  #
+  #
+  # AUTO
+  #
   elif [ "$2" == "auto" ]; then
     if [ -n "$3" ]; then
       if [ "$3" == "on" ]; then
@@ -329,6 +412,10 @@ $(cat $LOPATH/$SCRNAME)" > $LOPATH/$SCRNAME
       echo "Auto layout manager status: $(systemctl --user show -p UnitFileState --value autolayout.service)"
       return 0
     fi
+  #
+  #
+  # MENU
+  #
   elif [ "$2" == "menu" ]; then
     #
     # Show main menu
