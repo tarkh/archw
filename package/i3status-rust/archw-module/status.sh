@@ -14,9 +14,10 @@ if [ "$1" == 'help_draft' ]; then
 fi
 if [ "$1" == 'help' ]; then
   echo "
---status <mode> ;i3status pannel option <mode>s:
-  time [24|12]  ;Show time mode status, optionally set clock to [24|12] mode
-  config        ;Edit i3status config
+--status <mode>         ;i3status pannel option <mode>s:
+  time [24|12]          ;Show time mode status, optionally set clock to [24|12] mode
+  updautocheck [on|off] ;Show auto updates checker status, optionally set it to [on] or [off]
+  config                ;Edit i3status config
 "
 #
 # System api:
@@ -52,6 +53,23 @@ status () {
       # Show current settings
       echo "Current time format: $TIME_FORMAT"
       return 0
+    elif [ $2 == "updautocheck" ]; then
+      if [ -n "$3" ]; then
+        if [ "$3" == "on" ]; then
+          systemctl --user enable update-checker.timer > /dev/null 2>&1
+          systemctl --user start update-checker.timer > /dev/null 2>&1
+          echo "Auto updates checker enabled"
+          return 0
+        elif [ "$3" == "off" ]; then
+          systemctl --user disable update-checker.timer > /dev/null 2>&1
+          systemctl --user stop update-checker.timer > /dev/null 2>&1
+          echo "Auto updates checker disabled"
+          return 0
+        fi
+      else
+        echo "Auto updates checker status: $(systemctl --user show -p UnitFileState --value update-checker.timer)"
+        return 0
+      fi
     elif [ $2 == "json" ]; then
       wconf load "status.conf"
       #

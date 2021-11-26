@@ -58,7 +58,7 @@ layout () {
   #)
 
   #
-  # Manually map classnames to apps
+  # Manually map i3wm classnames to apps bin
   declare -A MANUAL_APPS_MAPPING=(
     ["^Tor\ Browser$"]="torbrowser-launcher"
   )
