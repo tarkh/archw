@@ -108,6 +108,7 @@ else
   systemctl --user enable screen-state-off-lock.service
   systemctl --user enable xeventbind-autostart.service
   systemctl --user enable autolanguageloader.service
+  systemctl --user enable initiateaudio.service
 fi
 
 #

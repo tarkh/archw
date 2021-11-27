@@ -1,0 +1,11 @@
+[Unit]
+Description=Initiate audio
+PartOf=i3.target
+After=i3.target
+
+[Service]
+Type=oneshot
+ExecStart=archw --sys initiateaudio
+
+[Install]
+WantedBy=i3.target

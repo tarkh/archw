@@ -154,6 +154,8 @@ sys () {
     fi
     exit 0
   elif [ "$2" == "install" ]; then
+    #
+    # Install archw packages
     archw_tools_update --noconfirm
     #
     # Check if archw package exist in tmp
@@ -230,6 +232,8 @@ sys () {
     pgrep i3status | xargs --no-run-if-empty kill -s USR1
     return 0
   elif [ "$2" == "waitconn" ] && [[ $3 =~ ^[0-9]+$ ]] && [[ $4 =~ ^[0-9]+$ ]]; then
+    #
+    # Wait for internet connection
     local SLEEPTIME=$3
     local ATTEMPTS=$4
     #
@@ -291,6 +295,8 @@ sys () {
       exit 1
     fi
   elif [ $2 == "pathconf" ] && [ -n "$3" ]; then
+    #
+    # Get config path
     wconf path $3
     return 0
   elif [ $2 == "stopsystem" ]; then
@@ -302,6 +308,14 @@ sys () {
     #
     # Wait
     sleep 1
+    return 0
+  elif [ $2 == "initiateaudio" ]; then
+    #
+    # Fix some sound cards by initiating audio
+    bash -c "aplay -f S16_LE /dev/zero" &
+    local PID=$!
+    sleep 2
+    kill $PID > /dev/null 2>&1
     return 0
   fi
   error
