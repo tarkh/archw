@@ -38,6 +38,7 @@ sys () {
   #
   # Get git pkg name
   archw_pkg_name () {
+    local DIR="./"
     if [ -n "$1" ]; then
       local DIR=$1
     fi
@@ -51,8 +52,7 @@ sys () {
     curl -L $S_ARCHW_GITPKG | tar xz
     #
     # Set exact package name
-    sleep 1
-    archw_pkg_name
+    archw_pkg_name /tmp
     #
     # Go back
     cd $CD
