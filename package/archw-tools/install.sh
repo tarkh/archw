@@ -43,7 +43,7 @@ yay --noconfirm -S xlayoutdisplay --needed
 if [ -n "$ARG_ARCHW_UPDATE" ]; then
   VER=$(archw --version | sed -n -e 's/^.*version //p')
   if [ -d ./package/archw-tools/updates ]; then
-    SYSUPD=(ls ./package/archw-tools/updates | sort --version-sort)
+    SYSUPD=($(ls ./package/archw-tools/updates | sort --version-sort))
     for u in "${SYSUPD[@]}"; do
       uv="${u%.*}"
       if [ $(version $uv) -gt $(version $VER) ]; then
