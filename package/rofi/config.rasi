@@ -5,7 +5,6 @@ configuration {
 	terminal: "";
 	sort: true;
 	dpi: 1;
-	theme: "archw-theme";
 
   timeout {
       action: "kb-cancel";
@@ -16,3 +15,5 @@ configuration {
       sorting-method:    "name";
   }
 }
+
+@theme "archw-theme"

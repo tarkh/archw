@@ -20,16 +20,42 @@ sst () {
 }
 
 #
-# Disable services if updating
+# Version compare
+version () {
+  echo "$@" | awk -F. '{ printf("%d%04d%04d%04d\n", $1,$2,$3,$4); }'
+}
+
 if [ -n "$ARG_ARCHW_UPDATE" ]; then
+  #
+  # Disable services if updating
   sst off
   sleep 2
 fi
 
 #
 # Packages
-sudo pacman --noconfirm -S pacman-contrib jq xdotool
+sudo pacman --noconfirm -S pacman-contrib bc jq xdotool
 yay --noconfirm -S xlayoutdisplay --needed
+
+#
+# Install system updates
+# that not yet installed
+if [ -n "$ARG_ARCHW_UPDATE" ]; then
+  VER=$(archw --version | sed -n -e 's/^.*version //p')
+  if [ -d ./package/archw-tools/updates ]; then
+    SYSUPD=(ls ./package/archw-tools/updates | sort --version-sort)
+    for u in "${SYSUPD[@]}"; do
+      uv="${u%.*}"
+      if [ $(version $uv) -gt $(version $VER) ]; then
+        #&& [ $(version $uv) -lt $(version $NEWVER) ]
+        if [ -f ./package/archw-tools/updates/$u ]; then
+          echo "Installing system update $uv"
+          . ./package/archw-tools/updates/$u
+        fi
+      fi
+    done
+  fi
+fi
 
 #
 # Create dirs
@@ -93,10 +119,22 @@ sudo \cp -r ./package/archw-tools/udev/* /etc/udev/rules.d/
 sudo chmod +x ./package/archw-tools/systemd/system-sleep/*
 sudo \cp -r ./package/archw-tools/systemd/system-sleep/* /usr/lib/systemd/system-sleep/
 
-#
-# Enable services state
 if [ -n "$ARG_ARCHW_UPDATE" ]; then
+  #
+  # Enable services state
   sst on
+
+  #
+  # Start some i3 driven services if updating
+  sudo udevadm control --reload
+
+  #
+  # Install curren system update
+  #VER=$(archw --version | sed -n -e 's/^.*version //p')
+  #if [ -f ./package/archw-tools/updates/${VER}.sh ]; then
+  #  echo "Installing system update $VER"
+  #  . ./package/archw-tools/updates/${VER}.sh
+  #fi
 else
   #
   # Set default state while install
@@ -109,10 +147,4 @@ else
   systemctl --user enable xeventbind-autostart.service
   systemctl --user enable autolanguageloader.service
   systemctl --user enable initiateaudio.service
-fi
-
-#
-# Start some i3 driven services if updating
-if [ -n "$ARG_ARCHW_UPDATE" ]; then
-  sudo udevadm control --reload
 fi

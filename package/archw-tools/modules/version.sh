@@ -9,17 +9,17 @@
 # Help content
 if [ "$1" == 'help_draft' ]; then
   echo "
---version ;Show ArchW tools version
+--version ;Show ArchW version
 "
 fi
 if [ "$1" == 'help' ]; then
   echo "
---version ;Show ArchW tools version
+--version ;Show ArchW version
 "
 fi
 
 #
 # Module content
 version () {
-  echo "ArchW tools version $(cat $S_ARCHW_LIB/VERSION)"
+  echo "ArchW version $(cat $S_ARCHW_LIB/VERSION)"
 }

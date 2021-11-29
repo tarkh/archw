@@ -16,7 +16,7 @@ if [ "$1" == 'help' ]; then
   echo "
 --key <mode>      ;Hot keys server <mode>s:
   find            ;Find key codes with xev inspector
-  config [<name>] ;Show avaliable configs, edit optional [<name>] config (sxhkd)
+  config [<name>] ;Show avaliable configs, edit optional [<name>] config
   restart         ;Restart Hotkey server (sxhkd)
 "
 fi
