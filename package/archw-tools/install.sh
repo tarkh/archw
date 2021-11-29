@@ -27,6 +27,10 @@ version () {
 
 if [ -n "$ARG_ARCHW_UPDATE" ]; then
   #
+  # Get old (current) ArchW version
+  OLDVER=$(archw --version | sed -n -e 's/^.*version //p')
+
+  #
   # Disable services if updating
   sst off
   sleep 2
@@ -111,16 +115,16 @@ if [ -n "$ARG_ARCHW_UPDATE" ]; then
   #
   # Install system updates
   # that not yet installed
-  VER=$(archw --version | sed -n -e 's/^.*version //p')
   if [ -d ./package/archw-tools/updates ]; then
     SYSUPD=($(ls ./package/archw-tools/updates | sort --version-sort))
     for u in "${SYSUPD[@]}"; do
       uv="${u%.*}"
-      if [ $(version $uv) -gt $(version $VER) ]; then
+      if [ $(version $uv) -gt $(version $OLDVER) ]; then
         #&& [ $(version $uv) -lt $(version $NEWVER) ]
         if [ -f ./package/archw-tools/updates/$u ]; then
           echo "Installing system update $uv"
           . ./package/archw-tools/updates/$u
+          sleep 1
         fi
       fi
     done
