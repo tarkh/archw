@@ -38,26 +38,6 @@ sudo pacman --noconfirm -S pacman-contrib bc jq xdotool
 yay --noconfirm -S xlayoutdisplay --needed
 
 #
-# Install system updates
-# that not yet installed
-if [ -n "$ARG_ARCHW_UPDATE" ]; then
-  VER=$(archw --version | sed -n -e 's/^.*version //p')
-  if [ -d ./package/archw-tools/updates ]; then
-    SYSUPD=($(ls ./package/archw-tools/updates | sort --version-sort))
-    for u in "${SYSUPD[@]}"; do
-      uv="${u%.*}"
-      if [ $(version $uv) -gt $(version $VER) ]; then
-        #&& [ $(version $uv) -lt $(version $NEWVER) ]
-        if [ -f ./package/archw-tools/updates/$u ]; then
-          echo "Installing system update $uv"
-          . ./package/archw-tools/updates/$u
-        fi
-      fi
-    done
-  fi
-fi
-
-#
 # Create dirs
 sudo mkdir -p $S_ARCHW_FOLDER $S_ARCHW_LIB
 sudo chmod 777 $S_ARCHW_FOLDER
@@ -129,12 +109,22 @@ if [ -n "$ARG_ARCHW_UPDATE" ]; then
   sudo udevadm control --reload
 
   #
-  # Install curren system update
-  #VER=$(archw --version | sed -n -e 's/^.*version //p')
-  #if [ -f ./package/archw-tools/updates/${VER}.sh ]; then
-  #  echo "Installing system update $VER"
-  #  . ./package/archw-tools/updates/${VER}.sh
-  #fi
+  # Install system updates
+  # that not yet installed
+  VER=$(archw --version | sed -n -e 's/^.*version //p')
+  if [ -d ./package/archw-tools/updates ]; then
+    SYSUPD=($(ls ./package/archw-tools/updates | sort --version-sort))
+    for u in "${SYSUPD[@]}"; do
+      uv="${u%.*}"
+      if [ $(version $uv) -gt $(version $VER) ]; then
+        #&& [ $(version $uv) -lt $(version $NEWVER) ]
+        if [ -f ./package/archw-tools/updates/$u ]; then
+          echo "Installing system update $uv"
+          . ./package/archw-tools/updates/$u
+        fi
+      fi
+    done
+  fi
 else
   #
   # Set default state while install

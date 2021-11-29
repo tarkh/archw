@@ -51,6 +51,7 @@ sys () {
     curl -L $S_ARCHW_GITPKG | tar xz
     #
     # Set exact package name
+    sleep 1
     archw_pkg_name
     #
     # Go back
@@ -82,6 +83,7 @@ sys () {
       echo "Updating ArchW tools"
       sudo rm -rf /tmp/$S_ARCHW_GITPKG_NAME > /dev/null 2>&1
       archw_pkg_get
+      echo "Installing package: $S_ARCHW_GITPKG_NAME"
       (cd /tmp/$S_ARCHW_GITPKG_NAME && ./install.sh --archw-tools $1)
     else
       #
