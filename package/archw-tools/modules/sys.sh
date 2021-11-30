@@ -21,6 +21,7 @@ if [ "$1" == 'help' ]; then
                           ;archw - update only archw packages
                           ;check - check for available updates and list them
   install [<package> ...] ;List avaliable ArchW integrated packages, optionally set [<package> ...] to install
+  audiosleep [on|off]     ;Show audio sleep status, optionally turn it [on|off]
   rsa [<name>]            ;Generate RSA key with optional [<name>] and copy it to clipboard
   gpg                     ;Generate GnuPG key
 "
@@ -211,6 +212,55 @@ sys () {
     echo "Avaliable packages:"
     ls /tmp/$S_ARCHW_GITPKG_NAME/package | sed -E "/(archw-tools|common-scripts|wallpapers)/d"
     return 0
+  elif [ "$2" == "audiosleep" ]; then
+    #
+    # Control audio sleep
+    # Check audio sleep status
+    local AUDSLPSTAT="on"
+    if cat /etc/pulse/default.pa | grep -w "#load-module module-suspend-on-idle" > /dev/null 2>&1; then
+      AUDSLPSTAT="off"
+    fi
+
+    if [ -n "$3" ]; then
+      if [ "$3" == "on" ]; then
+        if [ "$AUDSLPSTAT" == "off" ]; then
+          #
+          # Enable module
+          sudo sed -i -E \
+          "s:^#(load-module module-suspend-on-idle):\1:" \
+          /etc/pulse/default.pa
+          #
+          # Change idle time
+          sudo sed -i -E \
+          "s:^\s*(exit-idle-time =).*:\; \1 20:" \
+          /etc/pulse/daemon.conf
+        fi
+        systemctl --user restart pulseaudio
+        #bash -c "archw --sys initiateaudio > /dev/null 2>&1" &
+        echo "Audio sleep mode on"
+        return 0
+      elif [ "$3" == "off" ]; then
+        if [ "$AUDSLPSTAT" == "on" ]; then
+          #
+          # Disable module
+          sudo sed -i -E \
+          "s:^(load-module module-suspend-on-idle):#\1:" \
+          /etc/pulse/default.pa
+          #
+          # Change idle time
+          sudo sed -i -E \
+          "s:^\s*;\s*(exit-idle-time =).*:\1 -1:" \
+          /etc/pulse/daemon.conf
+        fi
+        systemctl --user restart pulseaudio
+        bash -c "archw --sys initiateaudio > /dev/null 2>&1" &
+        echo "Audio sleep mode off"
+        return 0
+      fi
+    else
+      echo "Audio sleep status: $AUDSLPSTAT"
+      return 0
+    fi
   elif [ "$2" == "rsa" ]; then
     #
     # RSA gen
@@ -314,10 +364,9 @@ sys () {
   elif [ $2 == "initiateaudio" ]; then
     #
     # Fix some sound cards by initiating audio
-    sleep 5
     bash -c "aplay -f S16_LE /dev/zero" &
     local PID=$!
-    sleep 2
+    sleep 5
     kill $PID > /dev/null 2>&1
     return 0
   fi
