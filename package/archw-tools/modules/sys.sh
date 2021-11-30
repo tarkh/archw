@@ -314,6 +314,7 @@ sys () {
   elif [ $2 == "initiateaudio" ]; then
     #
     # Fix some sound cards by initiating audio
+    sleep 5
     bash -c "aplay -f S16_LE /dev/zero" &
     local PID=$!
     sleep 2
