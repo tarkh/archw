@@ -9,5 +9,9 @@ sudo systemctl disable ntpd.service > /dev/null 2>&1
 sudo pacman --noconfirm -S ntp
 
 #
+# Sync time now
+sudo ntpd -gq
+
+#
 # On
 sudo systemctl enable ntpd.service
