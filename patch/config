@@ -136,7 +136,11 @@ S_ADD_BTOP=true
 S_ADD_SXHKD=true
 
 # Trackpad
-#S_ADD_MTRACK=true
+S_ADD_MTRACK=true
+
+#
+# Libinput general
+S_ADD_LIBINPUT=true
 
 # Mouse wheel
 #S_ADD_IMWHEEL=true
