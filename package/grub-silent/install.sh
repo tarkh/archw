@@ -12,7 +12,7 @@ if ! sudo pacman --noconfirm -U grub-silent-2.06-5-x86_64.pkg.tar.zst; then
   # Build and install grub-silent
   yay --noconfirm -S grub-silent
 fi
-cd $V_HOME
+cd $S_PKG
 
 #
 # Get res and check splash file
@@ -30,7 +30,8 @@ GRUBCFG_DISABLE="#"
 if [ "$S_ADD_GRUBCFG" == "text" ] || [ "$S_ADD_GRUBCFG" == "menu" ]; then
   GRUBCFG_TIMEOUT=3
 elif [ "$S_ADD_GRUBCFG" == "silent" ]; then
-  GRUBCFG_DISABLE=""
+  #GRUBCFG_DISABLE=""
+  GRUBCFG_TIMEOUT=0
 fi
 
 #
