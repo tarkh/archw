@@ -94,6 +94,12 @@ if [ "$S_GS" == "xorg" ]; then
 fi
 
 #
+# Libinput general config
+if [ -n "$S_ADD_LIBINPUT" ]; then
+  sudo cp ./package/common-scripts/40-libinput.conf /etc/X11/xorg.conf.d/
+fi
+
+#
 # If Network Manager autorun enabled
 ProgressBar
 . ./package/nm-applet/install.sh
