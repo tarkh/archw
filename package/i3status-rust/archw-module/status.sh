@@ -159,11 +159,18 @@ status () {
           archw --sys i3status-restart
           echo ""; read -p "Do you want to install all updates? (y/n) " -r
           if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 0; fi
-          archw --sys upd -y
-          wconf set "status.conf" UPDATES_PENDING "0"
-          wconf set "status.conf" UPDATES_WARNING "0"
-          archw --sys i3status-restart
-          return 0
+          #
+          # Start update process
+          if archw --sys upd -y; then
+            wconf set "status.conf" UPDATES_PENDING "0"
+            wconf set "status.conf" UPDATES_WARNING "0"
+            archw --sys i3status-restart
+            return 0
+          else
+            echo -e "\n\nError occured while installing updates!\n"
+            read -p "Press any key to close this window " -r
+            exit 1
+          fi
         else
           #
           # Show updates
