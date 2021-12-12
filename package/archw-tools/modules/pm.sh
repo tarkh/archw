@@ -17,8 +17,10 @@ if [ "$1" == 'help' ]; then
 --pm [<mode>]    ;List basic PM status, optional [<mode>]s:
   mon <sec>      ;Turn off monitor after <sec>, 0 to disable
   sleep <sec>    ;System sleep after <sec> after monitor is off, 0 to disable.
+  hib <sec>      ;System hibernation after <sec> after sleep, 0 to disable.
   monbat <sec>   ;Same as <mon>, but when system is on battery
   sleepbat <sec> ;Same as <sleep>, but when system is on battery
+  hibbat <sec>   ;Same as <hib>, but when system is on battery
 "
 fi
 

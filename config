@@ -87,6 +87,10 @@ S_CREATE_SWAP=true
 S_SWAP_BS=1G
 # Swap size (S_SWAP_BS * S_SWAP_COUNT)
 S_SWAP_COUNT=4
+# Enable hibernation
+# It is recommended to set swap size at
+# least the size of your system RAM
+S_HIBERNATION=true
 
 # Linux version
 S_LINUX=linux
