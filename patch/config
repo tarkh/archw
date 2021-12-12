@@ -117,7 +117,7 @@ S_ADD_NTP=true
 # Avaliable options:
 # 1: text (verbose text booting, will not work with S_ADD_GRUBSILENT)
 # 2: menu (show menu, no text while booting)
-# 3: silent (show menu only if ESC pressed, no text while booting)
+# 3: silent (show menu only if ESC pressed, with S_ADD_GRUBSILENT will disable menu)
 S_ADD_GRUBCFG=silent
 # Grub silent
 # Install patched grub version
