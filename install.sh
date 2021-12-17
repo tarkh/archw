@@ -94,8 +94,14 @@ if [ -z "$ARG_ARCHW_UPDATE" ]; then
 fi
 
 ################################
-# Test makepkg jobs
-#export MAKEFLAGS="-j$(nproc)"
+# Set global shortcuts
+set_glob_shortcuts () {
+  V_AUR="$S_PKG/AUR"
+  V_TR="https://github.com/tarkh"
+  V_PB="$S_PKG/PREBUILT"
+  V_RPB="${V_TR}/archw/raw/assets/prebuilt"
+}
+set_glob_shortcuts
 
 ################################
 # ArchW tools update
@@ -104,10 +110,23 @@ if [ -n "$ARG_ARCHW_UPDATE" ]; then
 		echo ""; read -p "Update ArchW tools? (y/n) " -r
 		if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 0; fi
 	fi
+  # Set glob shortcuts
+  set_glob_shortcuts
+  # Create dirs
+  sudo mkdir -p $S_PKG
+  sudo chmod 777 $S_PKG
+  mkdir -p $V_AUR
+  mkdir -p $V_PB
+  # Set update runtime shortcuts
+  V_SYS_PKG=$S_PKG
+  S_PKG=$(pwd)
 	S_MAINUSER=$(id -un)
 	V_HOME="/home/${S_MAINUSER}"
-	V_AUR="$S_PKG/AUR"
+
+  # Run ArchW-tools install/update
 	. ./package/archw-tools/install.sh
+  # Cleanup
+  sudo rm -rf $V_SYS_PKG
 	echo "ArchW tools installed/updated!"
 	exit 0
 fi

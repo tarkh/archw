@@ -30,8 +30,8 @@ GRUBCFG_DISABLE="#"
 if [ "$S_ADD_GRUBCFG" == "text" ] || [ "$S_ADD_GRUBCFG" == "menu" ]; then
   GRUBCFG_TIMEOUT=3
 elif [ "$S_ADD_GRUBCFG" == "silent" ]; then
-  #GRUBCFG_DISABLE=""
-  GRUBCFG_TIMEOUT=0
+  GRUBCFG_DISABLE=""
+  #GRUBCFG_TIMEOUT=0
 fi
 
 #
@@ -41,7 +41,7 @@ sudo sed -i -E \
 s:^[#\s]*(GRUB_DISTRIBUTOR=).*:\1\"${S_BOOTLOADER_ID}\":; \
 s:^[#\s]*(GRUB_HIDDEN_TIMEOUT=).*:${GRUBCFG_DISABLE}\1${GRUBCFG_HIDDENTIMEOUT}:; \
 s:^[#\s]*(GRUB_HIDDEN_TIMEOUT_QUIET=).*:${GRUBCFG_DISABLE}\1true:;
-s:^[#\s]*(GRUB_GFXMODE=)(.*):\1${SCREEN_RES},\2:;
+s:^[#\s]*(GRUB_GFXMODE=).*:\1${SCREEN_RES},auto:;
 s:^[#\s]*(GRUB_COLOR_NORMAL=).*:\1\"magenta/black\":; \
 s:^[#\s]*(GRUB_COLOR_HIGHLIGHT=).*:\1\"light-magenta/magenta\":; \
 s:^[#\s]*(GRUB_BACKGROUND=).*:\1\"${SPLASH_IMG}\":" \

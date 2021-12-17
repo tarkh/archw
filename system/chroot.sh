@@ -11,10 +11,10 @@ if ! connected; then
   ProgressBar remove
   clear
   echo "Connection to internet is needed for this installation!"
-	echo "Please, manually set up connection and run installer again."
-	echo "This is chroot stage process, you need to execute"
-	echo "installer with flag ./install.sh --chroot"
-	exit 1
+  echo "Please, manually set up connection and run installer again."
+  echo "This is chroot stage process, you need to execute"
+  echo "installer with flag ./install.sh --chroot"
+  exit 1
 fi
 
 #
@@ -120,30 +120,9 @@ install_grub packageInstall
 
 #
 # Enable hibernation
+ProgressBar
 if [ -n "$S_CREATE_SWAP" ] && [ -n "$S_HIBERNATION" ]; then
-  #
-  # Set kernel hook
-  sed -i -E \
-  "s:^\s*(HOOKS=\(.* filesystems )(.*):\1resume \2:" \
-  /etc/mkinitcpio.conf
-  #
-  # Get swapfile UUID
-  SWAPFILE_UUID=$(findmnt -no UUID -T /swapfile)
-  SWAPFILE_UUID_PARAM="resume=UUID=${SWAPFILE_UUID}"
-  SWAPFILE_OFFSET=$(filefrag -v /swapfile | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
-  SWAPFILE_OFFSET_PARAM="resume_offset=${SWAPFILE_OFFSET}"
-  # patch grub config
-  sed -i -E \
-  "s:^(\s*GRUB_CMDLINE_LINUX_DEFAULT=\")(.*):\1${SWAPFILE_UUID_PARAM} ${SWAPFILE_OFFSET_PARAM} \2:" \
-  /etc/default/grub
-  # Apply
-  install_grub
-  #
-  # Maj:min device number
-  MAJMIN_DEV_NUM=$(lsblk | grep -w ${S_DISK}${S_DISK_SYSTEM} | awk '{print $2}')
-  # Apply immediately
-  echo $MAJMIN_DEV_NUM > /sys/power/resume
-  echo $SWAPFILE_OFFSET > /sys/power/resume_offset
+  set_hibernation
 fi
 
 #
@@ -151,7 +130,7 @@ fi
 ProgressBar
 touch "/home/${S_MAINUSER}/.bashrc"
 if [ -z "$ARG_MANUAL" ]; then
-	bash -c "cat >> /home/${S_MAINUSER}/.bashrc" << EOL
+  bash -c "cat >> /home/${S_MAINUSER}/.bashrc" << EOL
 cd $S_PKG
 ./install.sh --admin
 EOL
@@ -161,10 +140,9 @@ fi
 # Enable admin autologin
 ProgressBar
 if [ -z "$ARG_MANUAL" ]; then
-	mkdir -p /etc/systemd/system/getty@tty1.service.d
-	bash -c "cat >> /etc/systemd/system/getty@tty1.service.d/autologin.conf" << EOL
+  mkdir -p /etc/systemd/system/getty@tty1.service.d
+  bash -c "cat >> /etc/systemd/system/getty@tty1.service.d/autologin.conf" << EOL
 [Service]
-ExecStart=
 ExecStart=-/sbin/agetty --autologin $S_MAINUSER --noclear %I 38400 linux
 EOL
 fi
@@ -186,7 +164,7 @@ fi
 # Run custom patch
 ProgressBar
 if [ -n "$S_PATCH" ]; then
-	. ./patch/${S_PATCH}/install.sh
+  . ./patch/${S_PATCH}/install.sh
 fi
 
 #

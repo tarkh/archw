@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+PM_LOGIN=/usr/lib/systemd/logind.conf.d/pm-login.conf
+PM_SLEEP=/usr/lib/systemd/sleep.conf.d/pm-sleep.conf
+
+update_settings () {
+  sudo sed -i -E \
+  "s:\s*($2=).*$:\1$2:"
+  $1
+}

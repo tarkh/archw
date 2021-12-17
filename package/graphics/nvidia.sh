@@ -1,12 +1,11 @@
 #!/bin/bash
 
+#
 # Enable multilib
-bash -c "cat >> /etc/pacman.conf" << EOL
-[multilib]
-Include = /etc/pacman.d/mirrorlist
-EOL
-pacman -Sy
-pacman -Sl multilib
+sed -i -E \
+"/\[multilib\]/,/Include/"'s/^#//' \
+/etc/pacman.conf
+pacman -Syyu
 
 # Install drivers
 pacman --noconfirm -S intel-ucode mesa nvidia nvidia-utils lib32-nvidia-utils \
@@ -36,7 +35,8 @@ EndSection
 EOL
 
 # Kernel module
-sed -i -E "s:^\s*(MODULES=\()(.*):\1nvidia nvidia_modeset nvidia_uvm nvidia_drm\2:" /etc/mkinitcpio.conf
+add_system_module "nvidia nvidia_modeset nvidia_uvm nvidia_drm"
+
 # Enable DRM
 bash -c "cat >> /etc/modprobe.d/nvidia.conf" << EOL
 options nvidia-drm modeset=1
@@ -73,4 +73,6 @@ EOL
 
 #nvidia-xconfig
 
+#
+# Mkinit
 mkinitcpio -P

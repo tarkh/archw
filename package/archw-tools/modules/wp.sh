@@ -92,7 +92,8 @@ wp () {
       convert $SRC_FILE -resize "${SCREEN_RES}^" -gravity center -extent $SCREEN_RES $S_WALLPAPER_FOLDER/wallpaper.png
       convert $S_WALLPAPER_FOLDER/archw-splash-src.png -resize "${SCREEN_RES}^" -gravity center -extent $SCREEN_RES $S_WALLPAPER_FOLDER/splash.png
     else
-      echo $WPF_RES_W
+      :
+      #echo $WPF_RES_W
     fi
 
     #

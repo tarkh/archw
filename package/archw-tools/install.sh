@@ -90,10 +90,8 @@ fi
 #
 # Apps configs
 sudo \cp -r ./package/archw-tools/config/* $S_ARCHW_FOLDER
-#if [ -z "$ARG_ARCHW_UPDATE" ]; then
-  mkdir -p $S_ARCHW_CONF
-  mergeconf user ./package/archw-tools/config/ $S_ARCHW_CONF
-#fi
+mkdir -p $S_ARCHW_CONF
+mergeconf user ./package/archw-tools/config/ $S_ARCHW_CONF
 
 #
 # Install services
@@ -102,6 +100,16 @@ sudo \cp -r ./package/archw-tools/systemd/user/* /usr/lib/systemd/user/
 sudo \cp -r ./package/archw-tools/udev/* /etc/udev/rules.d/
 sudo chmod +x ./package/archw-tools/systemd/system-sleep/*
 sudo \cp -r ./package/archw-tools/systemd/system-sleep/* /usr/lib/systemd/system-sleep/
+
+#
+# Install systemd configs
+sudo mkdir -p /usr/lib/systemd/{logind.conf.d,sleep.conf.d}
+mergeconf sys ./package/archw-tools/systemd/logind.conf.d /usr/lib/systemd/logind.conf.d
+mergeconf sys ./package/archw-tools/systemd/sleep.conf.d /usr/lib/systemd/sleep.conf.d
+
+#
+# Install sudoers.d
+sudo \cp -r ./package/archw-tools/sudoers.d/* /etc/sudoers.d/
 
 if [ -n "$ARG_ARCHW_UPDATE" ]; then
   #

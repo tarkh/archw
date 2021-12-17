@@ -1,4 +1,7 @@
 #!/usr/bin/bash
+#
+# Grum config maker and patcher
+# for ArchW system
 
 #
 # Run grub make config

@@ -21,10 +21,6 @@ fi
 # Set shortcuts
 ProgressBar
 V_HOME="/home/${S_MAINUSER}"
-V_AUR="$S_PKG/AUR"
-V_TR="https://github.com/tarkh"
-V_PB="$S_PKG/PREBUILT"
-V_RPB="${V_TR}/archw/raw/assets/prebuilt"
 
 #
 # Create dirs
@@ -50,6 +46,18 @@ mkdir -p $S_ARCHW_FOLDER/config/patch
 mkdir -p $S_ARCHW_FOLDER/config/patch/$S_PATCH
 \cp -r ./patch/$S_PATCH/config $S_ARCHW_FOLDER/config/patch/$S_PATCH
 \cp -r ./software $S_ARCHW_FOLDER/config
+
+#
+# Save disk/fs info
+ProgressBar
+if [ -d "$S_ARCHW_FOLDER" ]; then
+  V_DEV_EFI=$(sudo lsblk -o PATH,UUID | grep ${S_DISK}${S_DISK_EFI} | awk '{print $2}')
+  V_DEV_SYSTEM=$(sudo lsblk -o PATH,UUID | grep ${S_DISK}${S_DISK_SYSTEM} | awk '{print $2}')
+  bash -c "cat > $S_ARCHW_FOLDER/DEVICES" << EOL
+V_DEV_EFI=$V_DEV_EFI
+V_DEV_SYSTEM=$V_DEV_SYSTEM
+EOL
+fi
 
 #
 # Autodetect sensors
@@ -94,6 +102,19 @@ if [ "$S_GS" == "xorg" ]; then
 fi
 
 #
+# Set grub
+ProgressBar
+if [ -n "$S_ADD_GRUBSILENT" ]; then
+  #
+  # Grub silent
+  . ./package/grub-silent/install.sh
+elif [ -n "$S_ADD_GRUBCFG" ]; then
+  #
+  # Grub regular
+  . ./package/grub/install.sh
+fi
+
+#
 # Libinput general config
 if [ -n "$S_ADD_LIBINPUT" ]; then
   sudo cp ./package/common-scripts/40-libinput.conf /etc/X11/xorg.conf.d/
@@ -110,17 +131,9 @@ ProgressBar
 . ./package/blueman/install.sh
 
 #
-# Drub cfg
-if [ -n "$S_ADD_GRUBCFG" ]; then
-. ./package/grub/install.sh
-fi
-
-#
-# Grub silent
+# Install lightdm
 ProgressBar
-if [ -n "$S_ADD_GRUBSILENT" ]; then
-. ./package/grub-silent/install.sh
-fi
+. ./package/lightdm/install.sh
 
 #
 # Plymouth
@@ -128,11 +141,6 @@ ProgressBar
 if [ -n "$S_ADD_PLYMOUTH" ]; then
 . ./package/plymouth/install.sh
 fi
-
-#
-# Install lightdm
-ProgressBar
-. ./package/lightdm/install.sh
 
 #
 # Install lightdm-mini-greeter

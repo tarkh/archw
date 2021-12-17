@@ -14,6 +14,7 @@ EndSection
 EOL
 
 # Kernel module
-ProgressBar
-sed -i -E "s:^\s*(MODULES=\()(.*):\1amdgpu radeon\2:" /etc/mkinitcpio.conf
+add_system_module "amdgpu radeon"
+
+# Mkinit
 mkinitcpio -P

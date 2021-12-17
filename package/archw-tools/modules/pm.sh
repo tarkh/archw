@@ -63,10 +63,14 @@ pm () {
         wconf set "pm.conf" SCREEN_OFF_AC "$3"
       elif [ $2 == "sleep" ]; then
         wconf set "pm.conf" SUSPEND_AC "$3"
+      elif [ $2 == "hib" ]; then
+        wconf set "pm.conf" HIBERNATE_AC "$3"
       elif [ $2 == "monbat" ]; then
         wconf set "pm.conf" SCREEN_OFF_BAT "$3"
       elif [ $2 == "sleepbat" ]; then
         wconf set "pm.conf" SUSPEND_BAT "$3"
+      elif [ $2 == "hibbat" ]; then
+        wconf set "pm.conf" HIBERNATE_BAT "$3"
       fi
       archw --pm applynow
       echo "PM applied, $2: $3"
@@ -81,8 +85,10 @@ pm () {
     # Show current settings
     echo "mon: $SCREEN_OFF_AC
 sleep: $SUSPEND_AC
+hib: $HIBERNATE_AC
 monbat: $SCREEN_OFF_BAT
-sleepbat: $SUSPEND_BAT"
+sleepbat: $SUSPEND_BAT
+hibbat: $HIBERNATE_BAT"
     return 0
   fi
   error

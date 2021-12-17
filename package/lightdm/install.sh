@@ -11,7 +11,8 @@ sudo systemctl enable lightdm
 #
 # Patch config
 sudo sed -i -E \
-"s:^\s*[#]*(run-directory=).*:\1/run/lightdm:; \
+"s:^\s*[#]*(minimum-vt=).*:\11:; \
+s:^\s*[#]*(run-directory=).*:\1/run/lightdm:; \
 s:^\s*[#]*(user-session=).*:\1i3:; \
 s:^\s*[#]*(session-wrapper=).*:\1/etc/lightdm/Xsession:; \
 s:^\s*[#]*(display-setup-script=).*:\1/usr/share/lightdm/scripts/display-setup.sh:; \

@@ -28,14 +28,27 @@ sa() {
 
 #
 # Checker eternal loop
+COMMAND=suspend
 INC=0
 while true; do
   #
   # Set timeout
   if sa "dc-state-on.target"; then
+    # Suspend timeout
     TIMEOUT=$SUSPEND_AC
+    # Hibernation
+    sudo /usr/local/bin/pmhibmod "$HIBERNATE_AC"
+    if [ "$HIBERNATE_AC" -gt "0" ]; then
+      COMMAND=suspend-then-hibernate
+    fi
   else
+    # Suspend bat timeout
     TIMEOUT=$SUSPEND_BAT
+    # Hibernation
+    sudo /usr/local/bin/pmhibmod "$HIBERNATE_BAT"
+    if [ "$HIBERNATE_BAT" -gt "0" ]; then
+      COMMAND=suspend-then-hibernate
+    fi
   fi
 
   #
@@ -50,7 +63,7 @@ while true; do
     #
     # Check if display is still off
     if sa "screen-state-off.target"; then
-      systemctl suspend
+      systemctl $COMMAND
     fi
     exit 0
   fi

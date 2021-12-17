@@ -43,13 +43,6 @@ if [ -n "$S_ADD_BTOP" ]; then
 fi
 
 #
-# Grub silent
-ProgressBar
-if [ -n "$S_ADD_ACPILIGHT" ]; then
-. ./package/acpilight/install.sh
-fi
-
-#
 # Key service
 ProgressBar
 if [ -n "$S_ADD_SXHKD" ]; then

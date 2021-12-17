@@ -14,9 +14,14 @@ EndSection
 EOL
 
 # Kernel module
+add_system_module "i915"
+
+# Modprobe
 mkdir -p /etc/modprobe.d/
-sed -i -E "s:^\s*(MODULES=\()(.*):\1i915\2:" /etc/mkinitcpio.conf
 bash -c "cat >> /etc/modprobe.d/i915.conf" << EOL
-options i915 modeset=1 enable_fbc=0 fastboot=1 disable_power_well=1 mitigations=off
+options i915 modeset=1
 EOL
+
+#
+# Mkinit
 mkinitcpio -P
