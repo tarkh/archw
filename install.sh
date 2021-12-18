@@ -95,13 +95,10 @@ fi
 
 ################################
 # Set global shortcuts
-set_glob_shortcuts () {
-  V_AUR="$S_PKG/AUR"
-  V_TR="https://github.com/tarkh"
-  V_PB="$S_PKG/PREBUILT"
-  V_RPB="${V_TR}/archw/raw/assets/prebuilt"
-}
-set_glob_shortcuts
+V_AUR="$S_PKG/AUR"
+V_TR="https://github.com/tarkh"
+V_PB="$S_PKG/PREBUILT"
+V_RPB="${V_TR}/archw/raw/assets/prebuilt"
 
 ################################
 # ArchW tools update
@@ -110,8 +107,6 @@ if [ -n "$ARG_ARCHW_UPDATE" ]; then
 		echo ""; read -p "Update ArchW tools? (y/n) " -r
 		if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 0; fi
 	fi
-  # Set glob shortcuts
-  set_glob_shortcuts
   # Create dirs
   sudo mkdir -p $S_PKG
   sudo chmod 777 $S_PKG
@@ -122,7 +117,6 @@ if [ -n "$ARG_ARCHW_UPDATE" ]; then
   S_PKG=$(pwd)
 	S_MAINUSER=$(id -un)
 	V_HOME="/home/${S_MAINUSER}"
-
   # Run ArchW-tools install/update
 	. ./package/archw-tools/install.sh
   # Cleanup
