@@ -2,12 +2,13 @@
 
 #
 # Copy bin
-if [ "$S_ADD_GRUBCFG" != "text" ]; then
-  sudo \cp -r ./package/grub/bin/grub-mkconfig /usr/local/bin
-  sudo chmod +x /usr/local/bin/grub-mkconfig
-fi
+# (deprecated)
+#if [ "$S_ADD_GRUBCFG" != "text" ]; then
+#  sudo \cp -r ./package/grub/bin/grub-mkconfig /usr/local/bin
+#  sudo chmod +x /usr/local/bin/grub-mkconfig
+#fi
 # Engage new bin in shell
-PATH=$PATH
+#PATH=$PATH
 
 #
 # Get res and check splash file

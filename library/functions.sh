@@ -102,6 +102,92 @@ add_system_hook () {
 }
 
 #
+# Set glob shortcuts
+set_glob_shortcuts () {
+  if [ -n "$S_PKG" ]; then
+    V_AUR="$S_PKG/AUR"
+    V_PB="$S_PKG/PREBUILT"
+    V_TR="https://github.com/tarkh"
+    V_RPB="${V_TR}/archw/raw/assets/prebuilt"
+  else
+    echo "Error: \$S_PKG variable empty"
+    exit 1
+}
+
+#
+# Save DEVICES
+save_devices_config () {
+  echo "Creating DEVICES config"
+  #
+  if [ -n "$S_DISK" ] && [ -n "$S_DISK_SYSTEM" ] && [ -n "$S_ARCHW_FOLDER" ]; then
+    # Set DEVICES file
+    sudo touch $S_ARCHW_FOLDER/DEVICES
+    # Write system device UUID
+    V_DEV_SYSTEM=$(sudo lsblk -o PATH,UUID | grep ${S_DISK}${S_DISK_SYSTEM} | awk '{print $2}')
+    sudo bash -c "echo "V_DEV_SYSTEM=$V_DEV_SYSTEM" > $S_ARCHW_FOLDER/DEVICES"
+    # If EFI exist
+    if [ "$S_BOOT" != "bios" ] && [ -n "$S_DISK_EFI" ]; then
+      # Write EFI device UUID
+      V_DEV_EFI=$(sudo lsblk -o PATH,UUID | grep ${S_DISK}${S_DISK_EFI} | awk '{print $2}')
+      sudo bash -c "echo "V_DEV_EFI=$V_DEV_EFI" >> $S_ARCHW_FOLDER/DEVICES"
+    fi
+    # If swap exist
+    if [ -n "$S_CREATE_SWAP" ] && [ -n "$S_SWAP_FILE" ]; then
+      V_DEV_SWAP=$(findmnt -no UUID -T ${S_SWAP_FILE})
+      sudo bash -c "echo "V_DEV_SWAP=$V_DEV_SWAP" >> $S_ARCHW_FOLDER/DEVICES"
+    fi
+  else
+    echo "Can't save DEVICES config, insufficient parameters"
+    return 1
+  fi
+}
+
+#
+# Load DEVICES
+load_devices_config () {
+  echo "Loading DEVICES config"
+  if [ -f "${S_ARCHW_FOLDER}/DEVICES" ]; then
+    . ${S_ARCHW_FOLDER}/DEVICES
+  else
+    echo "DEVICES config not found"
+    save_devices_config
+  fi
+}
+
+#
+# Load local confs
+load_archw_local_conf () {
+  if [ -n "$S_ARCHW_FOLDER" ] && [ -f "${S_ARCHW_FOLDER}/config/config" ] && [ -f "${S_ARCHW_FOLDER}/config/patch/config" ] && [ -f "$S_ARCHW_FOLDER/config/patch/${S_PATCH}/config" ] && [ -f "$S_ARCHW_FOLDER/config/software" ]; then
+    . $S_ARCHW_FOLDER/config/config
+    . $S_ARCHW_FOLDER/config/patch/config
+    . $S_ARCHW_FOLDER/config/patch/${S_PATCH}/config
+    . $S_ARCHW_FOLDER/config/software
+    echo "Local config loaded"
+  else
+    if [[ -n "$ARCHW_PKG_INST" || -n "$ARG_ARCHW_UPDATE" ]] && [ ! -f "$S_ARCHW_FOLDER/DEVICES" ]; then
+      echo "Local config and DEVICES config not found, installation process can't continue"
+      exit 1
+    else
+      echo "WARNING! Local config not found"
+      read -p "Use default? (y/n) " -r
+      if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 0; fi
+    fi
+  fi
+
+}
+
+#
+# Create install additional dirs
+mk_install_sys_dirs () {
+  if [ -n "$S_PKG" ]; then
+    sudo mkdir -p $S_PKG
+    sudo chmod 777 $S_PKG
+    mkdir -p $V_AUR
+    mkdir -p $V_PB
+  fi
+}
+
+#
 # Set hibernation
 set_hibernation () {
   #
@@ -110,9 +196,9 @@ set_hibernation () {
 
   #
   # Get swapfile UUID
-  SWAPFILE_UUID=$(findmnt -no UUID -T /swapfile)
+  SWAPFILE_UUID=$(findmnt -no UUID -T ${S_SWAP_FILE})
   SWAPFILE_UUID_PARAM="resume=UUID=${SWAPFILE_UUID}"
-  SWAPFILE_OFFSET=$(filefrag -v /swapfile | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
+  SWAPFILE_OFFSET=$(filefrag -v ${S_SWAP_FILE} | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
   SWAPFILE_OFFSET_PARAM="resume_offset=${SWAPFILE_OFFSET}"
   # patch grub config
   add_kernel_param "${SWAPFILE_UUID_PARAM} ${SWAPFILE_OFFSET_PARAM}"
@@ -347,7 +433,12 @@ install_grub () {
     fi
     sudo mkdir -p /boot/EFI
     sudo mkdir -p /boot/grub/
-    sudo mount /dev/${S_DISK}${S_DISK_EFI} /boot/EFI
+    # Try to load with UUID
+    if [ -n "$V_DEV_EFI"]; then
+      sudo mount -U "$V_DEV_EFI" /boot/EFI
+    else
+      sudo mount /dev/${S_DISK}${S_DISK_EFI} /boot/EFI
+    fi
     sudo mkinitcpio -p $S_LINUX
     sudo grub-mkconfig -o /boot/grub/grub.cfg
     sudo grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=$S_BOOTLOADER_ID --recheck
@@ -364,7 +455,12 @@ install_grub () {
     sudo mkdir -p /boot/EFI
     sudo mkdir -p /boot/grub/
     # Mount HFS+
-    sudo mount /dev/${S_DISK}${S_DISK_EFI} /boot/EFI
+    # Try to load with UUID
+    if [ -n "$V_DEV_EFI"]; then
+      sudo mount -U "$V_DEV_EFI" /boot/EFI
+    else
+      sudo mount /dev/${S_DISK}${S_DISK_EFI} /boot/EFI
+    fi
     #
     sudo mkinitcpio -p $S_LINUX
     sudo grub-mkconfig -o /boot/grub/grub.cfg

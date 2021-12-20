@@ -142,10 +142,10 @@ rm -R /mnt/var/lib/pacman/sync/ > /dev/null 2>&1
 # Create swap file
 ProgressBar
 if [ -n "$S_CREATE_SWAP" ]; then
-	dd if=/dev/zero of=/mnt/swapfile bs=$S_SWAP_BS count=$S_SWAP_COUNT status=progress
-	chmod 600 /mnt/swapfile
-	mkswap /mnt/swapfile
-	swapon /mnt/swapfile
+	dd if=/dev/zero of=/mnt${S_SWAP_FILE} bs=$S_SWAP_BS count=$S_SWAP_COUNT status=progress
+	chmod 600 /mnt${S_SWAP_FILE}
+	mkswap /mnt${S_SWAP_FILE}
+	swapon /mnt${S_SWAP_FILE}
 fi
 
 #
@@ -191,7 +191,7 @@ chmod -R 777 "/mnt${S_PKG}"
 
 ProgressBar remove
 clear
-
+${S_SWAP_FILE}
 #
 # Chroot to new system
 arch-chroot /mnt sh -c "cd ${S_PKG};./install.sh --chroot${ARG_MANUAL}"

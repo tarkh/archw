@@ -120,8 +120,8 @@ S_ADD_NTP=true
 # 3: silent (show menu only if ESC pressed, with S_ADD_GRUBSILENT will disable menu)
 S_ADD_GRUBCFG=silent
 # Grub silent
-# Install patched grub version
-S_ADD_GRUBSILENT=true
+# Install patched grub version (deprecated)
+#S_ADD_GRUBSILENT=true
 
 # Plymouth
 #S_ADD_PLYMOUTH=true

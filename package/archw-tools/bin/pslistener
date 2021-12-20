@@ -4,7 +4,7 @@
 # ArchW by tarkh (c) 2021
 #
 
-TIMEOUT=10
+TIMEOUT=1
 
 #
 # Service Active checker

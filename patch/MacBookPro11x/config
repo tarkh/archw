@@ -20,10 +20,6 @@ S_GRAPHICS=intel
 S_GUIDPI=20x2
 
 #
-# Grub
-S_ADD_GRUBCFG=silent
-
-#
 # Plymouth
 S_ADD_PLYMOUTH=true
 

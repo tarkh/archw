@@ -83,6 +83,8 @@ S_DISK_SYSTEM=2
 
 # Create and activate swap file
 S_CREATE_SWAP=true
+# Swap file location
+S_SWAP_FILE=/swapfile
 # Swap block size
 S_SWAP_BS=1G
 # Swap size (S_SWAP_BS * S_SWAP_COUNT)

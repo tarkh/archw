@@ -64,19 +64,32 @@ pm () {
       elif [ $2 == "sleep" ]; then
         wconf set "pm.conf" SUSPEND_AC "$3"
       elif [ $2 == "hib" ]; then
-        wconf set "pm.conf" HIBERNATE_AC "$3"
+        if [ -f "/usr/share/archw/HIB" ]; then
+          wconf set "pm.conf" HIBERNATE_AC "$3"
+        else
+          echo "Hibernation is not configured on your system"
+          return 1
+        fi
       elif [ $2 == "monbat" ]; then
         wconf set "pm.conf" SCREEN_OFF_BAT "$3"
       elif [ $2 == "sleepbat" ]; then
         wconf set "pm.conf" SUSPEND_BAT "$3"
       elif [ $2 == "hibbat" ]; then
-        wconf set "pm.conf" HIBERNATE_BAT "$3"
+        if [ -f "/usr/share/archw/HIB" ]; then
+          wconf set "pm.conf" HIBERNATE_BAT "$3"
+        else
+          echo "Hibernation is not configured on your system"
+          return 1
+        fi
+      else
+        error
       fi
       archw --pm applynow
-      echo "PM applied, $2: $3"
+      echo "Settings applied: $2: $3"
       return 0
     elif [ $2 == "applynow" ]; then
       dpms
+      pmhibmod
       return 0
     fi
     error

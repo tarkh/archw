@@ -50,13 +50,12 @@ mkdir -p $S_ARCHW_FOLDER/config/patch/$S_PATCH
 #
 # Save disk/fs info
 ProgressBar
-if [ -d "$S_ARCHW_FOLDER" ]; then
-  V_DEV_EFI=$(sudo lsblk -o PATH,UUID | grep ${S_DISK}${S_DISK_EFI} | awk '{print $2}')
-  V_DEV_SYSTEM=$(sudo lsblk -o PATH,UUID | grep ${S_DISK}${S_DISK_SYSTEM} | awk '{print $2}')
-  bash -c "cat > $S_ARCHW_FOLDER/DEVICES" << EOL
-V_DEV_EFI=$V_DEV_EFI
-V_DEV_SYSTEM=$V_DEV_SYSTEM
-EOL
+save_devices_config
+
+#
+# If hibernate supported
+if [ -n "$S_CREATE_SWAP" ] && [ -n "$S_HIBERNATION" ]; then
+  touch ${S_ARCHW_FOLDER}/HIB
 fi
 
 #

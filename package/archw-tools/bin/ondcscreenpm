@@ -5,5 +5,5 @@
 #
 
 #
-# Re-apply archw screen pm settings
+# Re-apply archw pm settings
 archw --pm applynow

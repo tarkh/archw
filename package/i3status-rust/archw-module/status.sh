@@ -9,7 +9,7 @@
 # Help content
 if [ "$1" == 'help_draft' ]; then
   echo "
---status        ;i3status pannel options
+--status                ;i3status pannel options
 "
 fi
 if [ "$1" == 'help' ]; then
@@ -21,7 +21,7 @@ if [ "$1" == 'help' ]; then
 "
 #
 # System api:
-# json          ;System interface for i3status custom widgets
+# json                  ;System interface for i3status custom widgets
 #
 fi
 
@@ -160,11 +160,30 @@ status () {
           echo ""; read -p "Do you want to install all updates? (y/n) " -r
           if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 0; fi
           #
+          # Load current conf to check if
+          # restart needed after update
+          wconf load "status.conf"
+
+          #
           # Start update process
           if archw --sys upd -y; then
             wconf set "status.conf" UPDATES_PENDING "0"
             wconf set "status.conf" UPDATES_WARNING "0"
             archw --sys i3status-restart
+            #
+            # Ask for reboot if needed
+            if [ "$UPDATES_WARNING" == "1" ]; then
+              echo "";
+              echo "================="
+              echo "!!! ATTENTION !!!"
+              echo "================="
+              echo "This update requires a system restart."
+              read -p "Do you want to restart now? (y/n) " -r
+              if [[ $REPLY =~ ^[Yy]$ ]]; then
+                archw --sys stopsystem
+                systemctl reboot
+              fi
+            fi
             return 0
           else
             echo -e "\n\nError occured while installing updates!\n"

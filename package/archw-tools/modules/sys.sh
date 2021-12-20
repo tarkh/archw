@@ -180,22 +180,23 @@ sys () {
       done
       #
       # Install packages
-
-      # load configs
-      . $S_ARCHW_FOLDER/config/config
-      . $S_ARCHW_FOLDER/config/patch/config
-      . $S_ARCHW_FOLDER/config/patch/${S_PATCH}/config
-      . $S_ARCHW_FOLDER/config/software
-      #
-      S_PKG=/tmp/$S_ARCHW_GITPKG_NAME
-      V_AUR=$S_PKG/AUR
-      cd $S_PKG
+      ARCHW_PKG_INST=1
+      cd /tmp/$S_ARCHW_GITPKG_NAME
       . ./library/functions.sh
-      local ARCHW_PKG_INST=1
-      local V_HOME=$HOME
-      local S_ARCHW_FOLDER=/usr/share/archw
-      mkdir -p $V_AUR
-      chmod 777 $V_AUR
+      # Set glob shortcuts
+      set_glob_shortcuts
+      # Load local archw config
+      load_archw_local_conf
+      # Create dirs
+      mk_install_sys_dirs
+      # Load devices config
+      load_devices_config
+      # Set update runtime shortcuts
+      V_TMP_PKG=$S_PKG
+      S_PKG=/tmp/$S_ARCHW_GITPKG_NAME
+    	cd $S_PKG
+    	S_MAINUSER=$(id -un)
+      V_HOME=$HOME
       # loop packages
       for pkg in "${PKGS[@]}" ; do
         echo "Installing package \"$pkg\"..."
@@ -205,6 +206,8 @@ sys () {
       if ps -A | grep sxhkd; then
         archw --key restart > /dev/null 2>&1 &
       fi
+      # Cleanup
+      sudo rm -rf $V_TMP_PKG
       return 0
     fi
     #
