@@ -121,7 +121,7 @@ S_ADD_NTP=true
 S_ADD_GRUBCFG=silent
 # Grub silent
 # Install patched grub version (deprecated)
-#S_ADD_GRUBSILENT=true
+S_ADD_GRUBSILENT=true
 
 # Plymouth
 #S_ADD_PLYMOUTH=true

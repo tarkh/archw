@@ -218,7 +218,7 @@ ProgressBar
 #
 # Disable admin autologin
 ProgressBar
-sudo rm -rf /etc/systemd/system/getty@tty1.service./autologin.conf
+sudo rm -rf /etc/systemd/system/getty@tty1.service/autologin.conf
 
 #
 # Run reboot with timeout

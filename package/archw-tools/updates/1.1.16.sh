@@ -15,13 +15,13 @@ if pacman -Q --info grub-silent; then
   yay -noconfirm -R grub-silent
 fi
 #
-sudo sed -i -E \
-"s:\s*(S_ADD_GRUBCFG=).*:\1silent:; \
-s:\s*(S_ADD_GRUBSILENT=.*):#\1:" \
-$S_ARCHW_FOLDER/config/patch/config
+#sudo sed -i -E \
+#"s:\s*(S_ADD_GRUBCFG=).*:\1silent:; \
+#s:\s*(S_ADD_GRUBSILENT=.*):#\1:" \
+#$S_ARCHW_FOLDER/config/patch/config
 #
-sudo pacman -S grub
-. ./package/grub/install.sh
+#sudo pacman -S grub
+#. ./package/grub/install.sh
 
 #
 # Set hibernation

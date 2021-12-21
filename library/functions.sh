@@ -112,6 +112,7 @@ set_glob_shortcuts () {
   else
     echo "Error: \$S_PKG variable empty"
     exit 1
+  fi
 }
 
 #
