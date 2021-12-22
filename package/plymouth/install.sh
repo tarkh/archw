@@ -28,11 +28,11 @@ sudo sed -i -E \
 #
 # Alter services
 sudo sed -i -E \
-"s:\s*(ExecStart=.*):\1 --retain-splash:"
+"s:\s*(ExecStart=.*):\1 --retain-splash:" \
 /usr/lib/systemd/system/plymouth-quit.service
 
 sudo sed -i -E \
-"s:\s*(ExecStart=.*):\1 --tty=tty${S_SYS_TTY}:"
+"s:\s*(ExecStart=.*):\1 --tty=tty${S_SYS_TTY}:" \
 /usr/lib/systemd/system/plymouth-start.service
 
 sudo systemctl daemon-reload

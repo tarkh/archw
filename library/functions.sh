@@ -422,6 +422,12 @@ partition_guid () {
 # grub-silent package (without packageInstall option)
 install_grub () {
   #
+  # Errors
+  efi_mount_err () {
+    echo "Error occured while mounting EFI drive! Please check UUID of your EFI drive in the /usr/share/archw/DEVICES config. Quitting process..."
+  }
+
+  #
   # Change udev to systemd
   sudo sed -i -E \
   "s:^\s*(HOOKS=.*[\( ])udev([\) ].*):\1systemd\2:" \
@@ -442,8 +448,11 @@ install_grub () {
     sudo mkdir -p /boot/EFI
     sudo mkdir -p /boot/grub/
     # Try to load with UUID
-    if [ -n "$V_DEV_EFI"]; then
-      sudo mount -U "$V_DEV_EFI" /boot/EFI
+    if [ -n "$V_DEV_EFI" ]; then
+      if ! sudo mount -U "$V_DEV_EFI" /boot/EFI; then
+        efi_mount_err
+        exit 1
+      fi
     else
       sudo mount /dev/${S_DISK}${S_DISK_EFI} /boot/EFI
     fi
@@ -464,8 +473,11 @@ install_grub () {
     sudo mkdir -p /boot/grub/
     # Mount HFS+
     # Try to load with UUID
-    if [ -n "$V_DEV_EFI"]; then
-      sudo mount -U "$V_DEV_EFI" /boot/EFI
+    if [ -n "$V_DEV_EFI" ]; then
+      if ! sudo mount -U "$V_DEV_EFI" /boot/EFI; then
+        efi_mount_err
+        exit 1
+      fi
     else
       sudo mount /dev/${S_DISK}${S_DISK_EFI} /boot/EFI
     fi
