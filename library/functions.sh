@@ -212,7 +212,7 @@ load_devices_config () {
 # Load local confs
 load_archw_local_conf () {
   echo "S_ARCHW_FOLDER: $S_ARCHW_FOLDER"
-  if [ -n "$S_ARCHW_FOLDER" ] && [ -f "${S_ARCHW_FOLDER}/config/config" ] && [ -f "${S_ARCHW_FOLDER}/config/patch/config" ] && [ -f "$S_ARCHW_FOLDER/config/patch/${S_PATCH}/config" ] && [ -f "$S_ARCHW_FOLDER/config/software" ]; then
+  if [ -n "$S_ARCHW_FOLDER" ] && [ -f "${S_ARCHW_FOLDER}/config/config" ] && [ -f "${S_ARCHW_FOLDER}/config/patch/config" ] && [ -f "$S_ARCHW_FOLDER/config/software" ]; then
     . $S_ARCHW_FOLDER/config/config
     . $S_ARCHW_FOLDER/config/patch/config
     . $S_ARCHW_FOLDER/config/patch/${S_PATCH}/config
