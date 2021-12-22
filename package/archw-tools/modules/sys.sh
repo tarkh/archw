@@ -183,10 +183,10 @@ sys () {
       ARCHW_PKG_INST=1
       cd /tmp/$S_ARCHW_GITPKG_NAME
       . ./library/functions.sh
-      # Set glob shortcuts
-      set_glob_shortcuts
       # Load local archw config
       load_archw_local_conf
+      # Set glob shortcuts
+      set_glob_shortcuts
       # Create dirs
       mk_install_sys_dirs
       # Load devices config
