@@ -35,7 +35,7 @@ add_system_entrie () {
     return 1
   fi
   # Check if entrie alredy exist
-  if $(cat /etc/mkinitcpio.conf | grep -E "^[[:space:]]*$1=" | grep -w "${2:-$3}"); then
+  if cat /etc/mkinitcpio.conf | grep -E "^[[:space:]]*$1=" | grep -w "${2:-$3}" > /dev/null; then
     echo "add_system_entrie: \"${2:-$3}\" alredy exist in \"$1\""
     return 0
   fi
@@ -73,7 +73,7 @@ remove_system_entrie () {
     return 1
   fi
   # Check if entrie exist
-  if ! $(cat /etc/mkinitcpio.conf | grep -E "^[[:space:]]*$1=" | grep -w "${2}"); then
+  if ! cat /etc/mkinitcpio.conf | grep -E "^[[:space:]]*$1=" | grep -w "${2}" > /dev/null; then
     echo "remove_system_entrie: \"${2}\" does not exist in \"$1\""
     return 0
   fi
