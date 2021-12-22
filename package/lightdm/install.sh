@@ -11,7 +11,7 @@ sudo systemctl enable lightdm
 #
 # Patch config
 sudo sed -i -E \
-"s:^\s*[#]*(minimum-vt=).*:\11:; \
+"s:^\s*[#]*(minimum-vt=).*:\1${S_SYS_TTY}:; \
 s:^\s*[#]*(run-directory=).*:\1/run/lightdm:; \
 s:^\s*[#]*(user-session=).*:\1i3:; \
 s:^\s*[#]*(session-wrapper=).*:\1/etc/lightdm/Xsession:; \

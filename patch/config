@@ -26,6 +26,9 @@
 #
 #
 
+# Run display manager no specific tty
+S_SYS_TTY=7
+
 # Disable power button
 S_SYS_IGNORE_PWR=true
 

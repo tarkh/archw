@@ -26,14 +26,26 @@ sudo sed -i -E \
 /etc/plymouth/plymouthd.conf
 
 #
+# Alter services
+sudo sed -i -E \
+"s:\s*(ExecStart=.*):\1 --retain-splash:"
+/usr/lib/systemd/system/plymouth-quit.service
+
+sudo sed -i -E \
+"s:\s*(ExecStart=.*):\1 --tty=tty${S_SYS_TTY}:"
+/usr/lib/systemd/system/plymouth-start.service
+
+sudo systemctl daemon-reload
+
+#
 # On
 sudo systemctl enable lightdm-plymouth.service
 
 #
 # Adjust GRUB
-sudo sed -i -E \
-"s:\s*(GRUB_BACKGROUND=.*):#\1:" \
-/etc/default/grub
+#sudo sed -i -E \
+#"s:\s*(GRUB_BACKGROUND=.*):#\1:" \
+#/etc/default/grub
 
 #
 # Rebuild GRUB and kernel
