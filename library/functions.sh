@@ -66,6 +66,28 @@ add_system_entrie () {
 }
 
 #
+# Remove system entrie
+remove_system_entrie () {
+  # Check for proper params
+  if [[ -z "$1" && -z "$2" ]]; then
+    return 1
+  fi
+  # Check if entrie exist
+  if ! $(cat /etc/mkinitcpio.conf | grep -E "^[[:space:]]*$1=" | grep -w "${2}"); then
+    echo "remove_system_entrie: \"${2}\" does not exist in \"$1\""
+    return 0
+  fi
+  # Replace
+  sudo sed -i -E \
+  "s:^\s*($1=.*[\( ])${2}([\) ].*):\1\2:" \
+  /etc/mkinitcpio.conf
+  # Remove extra spaces
+  sudo sed -i -E \
+  -e "/^\s*$1=.*/"'s:\s+: :g' \
+  /etc/mkinitcpio.conf
+}
+
+#
 # Add system modules
 add_system_module () {
   # $1 - new module $1 at the beginning
@@ -76,7 +98,7 @@ add_system_module () {
   # example: add_system_module "test" "" "intel"
   # will add module test after module intel
   #
-  echo "Adding system module: ${1:-$2}"
+  echo "Adding system modules: ${1:-$2}"
   if ! add_system_entrie "MODULES" "$@"; then
     echo "add_system_module: error in parameters"
     return 1
@@ -97,6 +119,30 @@ add_system_hook () {
   echo "Adding system hooks: ${1:-$2}"
   if ! add_system_entrie "HOOKS" "$@"; then
     echo "add_system_hook: error in parameters"
+    return 1
+  fi
+}
+
+#
+# Remove system modules
+remove_system_module () {
+  # $1 - one module to remove per command
+  #
+  echo "Removing system module: ${1}"
+  if ! remove_system_entrie "MODULES" "$1"; then
+    echo "remove_system_module: error in parameters"
+    return 1
+  fi
+}
+
+#
+# Remove system hooks
+remove_system_hook () {
+  # $1 - one hook to remove per command
+  #
+  echo "Removing system hook: ${1}"
+  if ! remove_system_entrie "HOOKS" "$1"; then
+    echo "remove_system_hook: error in parameters"
     return 1
   fi
 }

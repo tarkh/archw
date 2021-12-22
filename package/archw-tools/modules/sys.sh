@@ -182,6 +182,12 @@ sys () {
       # Install packages
       ARCHW_PKG_INST=1
       cd /tmp/$S_ARCHW_GITPKG_NAME
+      #
+      # Load package configs
+      . ./config
+      . ./patch/config
+      . ./software
+      # Load main functions
       . ./library/functions.sh
       # Load local archw config
       load_archw_local_conf

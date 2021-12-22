@@ -11,9 +11,7 @@ yay --noconfirm -S plymouth-git
 
 #
 # Add hook
-sudo sed -i \
--E "s:^\s*(HOOKS=\(.*\s+systemd\s+)(.*):\1sd-plymouth \2:" \
-/etc/mkinitcpio.conf
+add_system_hook "sd-plymouth" "" "systemd"
 
 #
 # Add theme
