@@ -424,7 +424,10 @@ install_grub () {
   #
   # Errors
   efi_mount_err () {
-    echo "Error occured while mounting EFI drive! Please check UUID of your EFI drive in the /usr/share/archw/DEVICES config. Quitting process..."
+    echo "Error occured while mounting EFI drive! Please check UUID of your EFI drive in the /usr/share/archw/DEVICES config."
+  }
+  efi_umount_err () {
+    echo "Error occured while unmounting /boot/EFI. Please, unmount drive manually and repeat this process."
   }
 
   #
@@ -447,6 +450,9 @@ install_grub () {
     fi
     sudo mkdir -p /boot/EFI
     sudo mkdir -p /boot/grub/
+    # Mount EFI
+    sudo umount /boot/EFI
+    sleep 1
     # Try to load with UUID
     if [ -n "$V_DEV_EFI" ]; then
       if ! sudo mount -U "$V_DEV_EFI" /boot/EFI; then
@@ -471,7 +477,9 @@ install_grub () {
     fi
     sudo mkdir -p /boot/EFI
     sudo mkdir -p /boot/grub/
-    # Mount HFS+
+    # Mount HFS+ EFI
+    sudo umount /boot/EFI
+    sleep 1
     # Try to load with UUID
     if [ -n "$V_DEV_EFI" ]; then
       if ! sudo mount -U "$V_DEV_EFI" /boot/EFI; then
