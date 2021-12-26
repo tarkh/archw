@@ -28,6 +28,18 @@ add_kernel_param () {
 }
 
 #
+# Remove kernel parameters
+remove_kernel_param () {
+  echo "Removing kernel parameters: $1"
+  sudo sed -E \
+  -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=.*/"'s:'$1'(=[^ \"]+|[=]*[ ]+|[=]*([\"]+)):\2:' \
+  -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=.*/"'s:\"\s+:\":' \
+  -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=.*/"'s:\s+\":\":' \
+  -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=.*/"'s:\s+: :g' \
+  /etc/default/grub
+}
+
+#
 # Add system entrie
 add_system_entrie () {
   # Check for proper params
@@ -253,9 +265,11 @@ set_hibernation () {
   # Get swapfile UUID
   SWAPFILE_UUID=$(findmnt -no UUID -T ${S_SWAP_FILE})
   SWAPFILE_UUID_PARAM="resume=UUID=${SWAPFILE_UUID}"
-  SWAPFILE_OFFSET=$(filefrag -v ${S_SWAP_FILE} | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
+  SWAPFILE_OFFSET=$(sudo filefrag -v ${S_SWAP_FILE} | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
   SWAPFILE_OFFSET_PARAM="resume_offset=${SWAPFILE_OFFSET}"
   # patch grub config
+  remove_kernel_param "resume"
+  remove_kernel_param "resume_offset"
   add_kernel_param "${SWAPFILE_UUID_PARAM} ${SWAPFILE_OFFSET_PARAM}"
 
   # Apply
