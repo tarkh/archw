@@ -285,11 +285,13 @@ set_hibernation () {
 
   #
   # Maj:min device number
-  local DEVPATH=$(lsblk -o PATH,UUID | grep "$V_DEV_SWAP" | awk '{print $1}')
+  local DEVPATH=$(basename $(lsblk -o PATH,UUID | grep "$V_DEV_SWAP" | awk '{print $1}'))
   MAJMIN_DEV_NUM=$(lsblk | grep -w $DEVPATH | awk '{print $2}')
   # Apply immediately
-  sudo bash -c "echo $MAJMIN_DEV_NUM > /sys/power/resume"
-  sudo bash -c "echo $SWAPFILE_OFFSET > /sys/power/resume_offset"
+  if [ -n "$MAJMIN_DEV_NUM" ]; then
+    sudo bash -c "echo $MAJMIN_DEV_NUM > /sys/power/resume"
+    sudo bash -c "echo $SWAPFILE_OFFSET > /sys/power/resume_offset"
+  fi
 }
 
 #
