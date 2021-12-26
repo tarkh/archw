@@ -277,8 +277,8 @@ set_hibernation () {
   # Maj:min device number
   MAJMIN_DEV_NUM=$(lsblk | grep -w ${S_DISK}${S_DISK_SYSTEM} | awk '{print $2}')
   # Apply immediately
-  echo $MAJMIN_DEV_NUM > /sys/power/resume
-  echo $SWAPFILE_OFFSET > /sys/power/resume_offset
+  sudo bash -c "echo $MAJMIN_DEV_NUM > /sys/power/resume"
+  sudo bash -c "echo $SWAPFILE_OFFSET > /sys/power/resume_offset"
 }
 
 #
