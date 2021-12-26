@@ -24,6 +24,7 @@ if [ "$1" == 'help' ]; then
   audiosleep [on|off]     ;Show audio sleep status, optionally turn it [on|off]
   rsa [<name>]            ;Generate RSA key with optional [<name>] and copy it to clipboard
   gpg                     ;Generate GnuPG key
+  enable-hib [force]      ;Enable system hibernation support. Re-enable with optional [force] parameter
 "
 #
 # System api:
@@ -269,6 +270,44 @@ sys () {
     else
       echo "Audio sleep status: $AUDSLPSTAT"
       return 0
+    fi
+  elif [ "$2" == "enable-hib" ]; then
+    #
+    # Enable hibernation
+    # Check if already enabled
+    if [ -f "$S_ARCHW_FOLDER/HIB" ] && [ "$3" != "force" ]; then
+      echo "Hibernation already enabled on your system"
+      return 0
+    fi
+    #
+    # Check sys memory and swap
+    local MEMSIZE=$(free | grep "Mem:" | awk '{print $2}')
+    local SWAPSIZE=$(free | grep "Swap:" | awk '{print $2}')
+    if [ -z "$SWAPSIZE" ]; then
+      echo "Error: your system has no swap. Please, enable it first."
+      exit 1
+    elif (( $MEMSIZE > $SWAPSIZE )); then
+      echo "Attention: your swap size is less then RAM size."
+      echo "For system hibernation it is advised to set up"
+      echo "swap size larger then RAM size."
+      read -p "Continue hibernation setup anyway? (y/n) " -r
+      if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 0; fi
+    fi
+    #
+    # Load functions library
+    load_functions
+    # Load local archw config
+    load_archw_local_conf
+    # Load devices config
+    load_devices_config
+    # Enable hibernation
+    set_hibernation
+    if [[ $? -eq 0 ]]; then
+      echo "System hibernation setup has been completed."
+      echo "Check \"archw --help pm\" for configuration help"
+      return 0
+    else
+      exit 1
     fi
   elif [ "$2" == "rsa" ]; then
     #

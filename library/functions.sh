@@ -261,9 +261,18 @@ set_hibernation () {
   add_system_hook "resume" "" "filesystems"
 
   #
+  # Check for required var
+  if [ -z "$S_SWAP_FILE" ]; then
+    echo "Error: can't get swapfile name"
+    exit 1
+  fi
+
+  #
   # Get swapfile UUID
-  SWAPFILE_UUID=$(findmnt -no UUID -T ${S_SWAP_FILE})
-  SWAPFILE_UUID_PARAM="resume=UUID=${SWAPFILE_UUID}"
+  if [ -z "$V_DEV_SWAP" ]; then
+    V_DEV_SWAP=$(findmnt -no UUID -T ${S_SWAP_FILE})
+  fi
+  local SWAPFILE_UUID_PARAM="resume=UUID=${V_DEV_SWAP}"
   SWAPFILE_OFFSET=$(sudo filefrag -v ${S_SWAP_FILE} | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
   SWAPFILE_OFFSET_PARAM="resume_offset=${SWAPFILE_OFFSET}"
   # patch grub config
@@ -273,9 +282,11 @@ set_hibernation () {
 
   # Apply
   install_grub
+
   #
   # Maj:min device number
-  MAJMIN_DEV_NUM=$(lsblk | grep -w ${S_DISK}${S_DISK_SYSTEM} | awk '{print $2}')
+  local DEVPATH=$(lsblk -o PATH,UUID | grep "$V_DEV_SWAP" | awk '{print $1}')
+  MAJMIN_DEV_NUM=$(lsblk | grep -w $DEVPATH | awk '{print $2}')
   # Apply immediately
   sudo bash -c "echo $MAJMIN_DEV_NUM > /sys/power/resume"
   sudo bash -c "echo $SWAPFILE_OFFSET > /sys/power/resume_offset"
@@ -552,12 +563,11 @@ install_grub () {
     #
     sudo mkinitcpio -p $S_LINUX
     sudo grub-mkconfig -o /boot/grub/grub.cfg
-    sudo rm -rf /boot/EFI/System
-    sudo touch /boot/EFI/mach_kernel
-    sudo mkdir -p /boot/EFI/System/Library/CoreServices/
-    sudo grub-mkstandalone -o /boot/EFI/System/Library/CoreServices/boot.efi \
-    -d /usr/lib/grub/x86_64-efi -O x86_64-efi --compress=xz /boot/grub/grub.cfg
-    sudo bash -c "cat > /boot/EFI/System/Library/CoreServices/SystemVersion.plist" << EOL
+    if [ -n "$GRUB_CONTENT_REBUILD" ]; then
+      sudo rm -rf /boot/EFI/System
+      sudo touch /boot/EFI/mach_kernel
+      sudo mkdir -p /boot/EFI/System/Library/CoreServices/
+      sudo bash -c "cat > /boot/EFI/System/Library/CoreServices/SystemVersion.plist" << EOL
 <?xml version="1.0" encoding="UTF-8"?>
  <plist version="1.0">
  <dict>
@@ -570,11 +580,15 @@ install_grub () {
  </dict>
  </plist>
 EOL
-    # Copy blessed ArchW partition label
-    sudo cp -a $S_PKG/package/common-scripts/blessed/. /boot/EFI/System/Library/CoreServices/
-    # Install ArchW icon
-    sudo convert $S_PKG/package/wallpapers/archw-logo-src.png -resize "128x128" /tmp/VolumeIcon.png
-    sudo png2icns /boot/EFI/.VolumeIcon.icns /tmp/VolumeIcon.png
+      # Copy blessed ArchW partition label
+      sudo cp -a $S_PKG/package/common-scripts/blessed/. /boot/EFI/System/Library/CoreServices/
+      # Install ArchW icon
+      sudo convert $S_PKG/package/wallpapers/archw-logo-src.png -resize "128x128" /tmp/VolumeIcon.png
+      sudo png2icns /boot/EFI/.VolumeIcon.icns /tmp/VolumeIcon.png
+    fi
+    # Copy standalone grub
+    sudo grub-mkstandalone -o /boot/EFI/System/Library/CoreServices/boot.efi \
+    -d /usr/lib/grub/x86_64-efi -O x86_64-efi --compress=xz /boot/grub/grub.cfg
   fi
 }
 

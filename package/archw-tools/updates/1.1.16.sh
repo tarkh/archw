@@ -25,5 +25,10 @@ fi
 
 #
 # Set hibernation
+if ! cat $S_ARCHW_FOLDER/config/config | grep "S_SWAP_FILE=" > /dev/null; then
+  sudo sed -i -E \
+  "s:(S_CREATE_SWAP=.*):\1\n# Swap file location\nS_SWAP_FILE=/swapfile:" \
+  /usr/share/archw/config/config
+fi
 set_hibernation
 touch ${S_ARCHW_FOLDER}/HIB

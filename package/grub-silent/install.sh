@@ -49,4 +49,6 @@ s:^[#\s]*(GRUB_BACKGROUND=).*:\1\"${SPLASH_IMG}\":" \
 
 #
 # Set grub
+GRUB_CONTENT_REBUILD=1
 install_grub
+unset $GRUB_CONTENT_REBUILD

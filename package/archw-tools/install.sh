@@ -58,6 +58,11 @@ sudo \cp -r ./package/archw-tools/VERSION ./package/archw-tools/modules $S_ARCHW
 sudo chmod +x $S_ARCHW_LIB/modules/*
 
 #
+# Add functions library
+sudo mkdir $S_ARCHW_LIB/library
+sudo \cp -a ./library/functions.sh $S_ARCHW_LIB/library
+
+#
 # Copy side modules and configs if updating
 if [ -n "$ARG_ARCHW_UPDATE" ]; then
   #

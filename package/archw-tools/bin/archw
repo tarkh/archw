@@ -112,6 +112,17 @@ wconf() {
 }
 
 #
+# Load functions library
+load_functions () {
+  if [ -f "$S_ARCHW_LIB/library/functions.sh" ]; then
+    . $S_ARCHW_LIB/library/functions.sh
+  else
+    echo "Error loading functions library"
+    exit 1
+  fi
+}
+
+#
 # Common error
 error() {
 	echo "Error in method or parameter, please use --help for avaliable options"
