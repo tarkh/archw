@@ -20,7 +20,7 @@ SCREEN_RES=""
 SPLASH_IMG="/usr/share/wallpapers/splash.png"
 LASTDISP=$(basename -- "$(compgen -G "/usr/share/archw/LDISP_*")")
 if [ -n "$LASTDISP" ]; then
-  SCREEN_RES="$(echo $LASTDISP | cut -d '_' -f3),"
+  SCREEN_RES="$(echo $LASTDISP | cut -d '_' -f3)"
 fi
 
 GRUBCFG_TIMEOUT=1

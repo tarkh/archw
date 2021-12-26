@@ -16,7 +16,7 @@ SCREEN_RES=""
 SPLASH_IMG="/usr/share/wallpapers/splash.png"
 LASTDISP=$(basename -- "$(compgen -G "/usr/share/archw/LDISP_*")")
 if [ -n "$LASTDISP" ]; then
-  SCREEN_RES="$(echo $LASTDISP | cut -d '_' -f3),"
+  SCREEN_RES="$(echo $LASTDISP | cut -d '_' -f3)"
 fi
 
 GRUBCFG_CMDLINE="quiet splash rd.systemd.show_status=auto loglevel=3 rd.udev.log_priority=3 vt.global_cursor_default=0"
