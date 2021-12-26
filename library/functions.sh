@@ -31,8 +31,8 @@ add_kernel_param () {
 # Remove kernel parameters
 remove_kernel_param () {
   echo "Removing kernel parameters: $1"
-  sudo sed -E \
-  -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=.*/"'s:'$1'(=[^ \"]+|[=]*[ ]+|[=]*([\"]+)):\2:' \
+  sudo sed -i -E \
+  -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=.*/"'s:'$1'(=[^ \"]+|[=]*[ ]+|[=]*([\"]+)):\2:g' \
   -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=.*/"'s:\"\s+:\":' \
   -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=.*/"'s:\s+\":\":' \
   -e "/^\s*GRUB_CMDLINE_LINUX_DEFAULT=.*/"'s:\s+: :g' \
@@ -223,7 +223,6 @@ load_devices_config () {
 #
 # Load local confs
 load_archw_local_conf () {
-  echo "S_ARCHW_FOLDER: $S_ARCHW_FOLDER"
   if [ -n "$S_ARCHW_FOLDER" ] && [ -f "${S_ARCHW_FOLDER}/config/config" ] && [ -f "${S_ARCHW_FOLDER}/config/patch/config" ] && [ -f "$S_ARCHW_FOLDER/config/software" ]; then
     . $S_ARCHW_FOLDER/config/config
     . $S_ARCHW_FOLDER/config/patch/config
