@@ -69,7 +69,11 @@ lock () {
   else
     #
     # Pixelate values: X times to scale down and back up
-    LOCK_PIXELATE=8
+    LOCK_PIXELATE=6
+    # If hidpi gui, multiply by 2
+    if [[ "$(archw --gui preset)" =~ x2$ ]]; then
+      LOCK_PIXELATE=$(( LOCK_PIXELATE * 2 ))
+    fi
     # Optional blur, comment out to disable
     # Values: (https://legacy.imagemagick.org/Usage/blur/#blur_args)
     LOCK_BLUR="1x8"
