@@ -18,6 +18,7 @@ fi
 #
 # Set QT platform theme
 export QT_QPA_PLATFORMTHEME="qt5ct"
+export XDG_CURRENT_DESKTOP="GNOME"
 
 #
 # Enable one-to-one trackpad scrolling

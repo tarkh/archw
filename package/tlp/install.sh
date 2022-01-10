@@ -8,7 +8,7 @@ sudo systemctl disable tlp.service > /dev/null 2>&1
 #
 # Install package
 sudo pacman --noconfirm -S tlp
-yay --noconfirm -S tlpui
+yay --noconfirm -S tlpui-git
 
 #
 # Set conf to be editable by wheel

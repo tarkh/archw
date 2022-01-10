@@ -115,38 +115,99 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
 	sleep 1
 	partprobe /dev/${S_DISK}
 	sleep 1
+
+  #
+  # Make swap
+  makesysswap () {
+    if [ -n "$S_CREATE_SWAP" ]; then
+      local MNT=/dev/"${S_DISK}${S_DISK_SYSTEM}"
+      if [ "$S_MAKEFS_SYS_FS" == "ext4" ]; then
+        dd if=/dev/zero of=/mnt${S_SWAP_FILE} bs=$S_SWAP_BS count=$S_SWAP_COUNT status=progress
+      	chmod 600 /mnt${S_SWAP_FILE}
+      	mkswap /mnt${S_SWAP_FILE}
+      	swapon /mnt${S_SWAP_FILE}
+      elif [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
+        truncate -s 0 /mnt/.swap/${S_SWAP_FILE}
+        chattr +C /mnt/.swap/${S_SWAP_FILE}
+        btrfs property set /mnt/.swap/${S_SWAP_FILE} compression none
+        # Convert swap size
+        local SWAPSIZE="$(( $(sed -E "s:[a-z]+::ig" <<< "$S_SWAP_BS") * $S_SWAP_COUNT ))$(sed -E "s:[0-9]+::g" <<< "$S_SWAP_BS")"
+        fallocate -l $SWAPSIZE /mnt/.swap/${S_SWAP_FILE}
+        chmod 600 /mnt/.swap/${S_SWAP_FILE}
+        mkswap /mnt/.swap/${S_SWAP_FILE}
+        swapon /mnt/.swap/${S_SWAP_FILE}
+      fi
+    fi
+  }
+
 	#
 	# Make proper file system
+  makesysfs () {
+    local MNT=/dev/"${S_DISK}${S_DISK_SYSTEM}"
+    if [ "$S_MAKEFS_SYS_FS" == "ext4" ]; then
+      #
+      # FS ext4
+      mkfs.ext4 -L "$S_BOOTLOADER_ID" -F /dev/"${S_DISK}${S_DISK_SYSTEM}"
+      # Mount system partition
+      mount $MNT /mnt
+    elif [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
+      #
+      # FS btrfs
+      mkfs.btrfs -L "$S_BOOTLOADER_ID" -F -n $S_BTRFS_BS /dev/"${S_DISK}${S_DISK_SYSTEM}"
+      # Mount system partition
+      mount $MNT /mnt
+      # Create btrfs subvolumes
+      btrfs su cr /mnt/@
+      btrfs su cr /mnt/@btrfs
+      btrfs su cr /mnt/@home
+      btrfs su cr /mnt/@opt
+      btrfs su cr /mnt/@srv
+      btrfs su cr /mnt/@abs
+      btrfs su cr /mnt/@pkg
+      btrfs su cr /mnt/@tmp
+      btrfs su cr /mnt/@snapshots
+      btrfs su cr /mnt/@swap
+      umount /mnt
+      sleep 1
+      # Mount partitions
+      mount -o ${S_BTRFS_OPTS},subvol=@ $MNT /mnt
+      # Create dirs
+      mkdir -p /mnt/{boot,btrfs,home,opt,var,.snapshots,.swap}
+      mkdir -p /mnt/var/{abs,cache/pacman/pkg,tmp}
+      # Mount subvolumes
+      mount -o ${S_BTRFS_OPTS},subvol=@home $MNT /mnt/home
+      mount -o ${S_BTRFS_OPTS},subvol=@opt $MNT /mnt/opt
+      mount -o ${S_BTRFS_OPTS},subvol=@srv $MNT /mnt/srv
+      mount -o ${S_BTRFS_OPTS},subvol=@abs $MNT /mnt/var/abs
+      mount -o ${S_BTRFS_OPTS},subvol=@pkg $MNT /mnt/var/cache/pacman/pkg
+      mount -o ${S_BTRFS_OPTS},subvol=@tmp $MNT /mnt/var/tmp
+      mount -o ${S_BTRFS_OPTS},subvol=@snapshots $MNT /mnt/.snapshots
+      mount -o ${S_BTRFS_OPTS_SWAP},subvol=@swap $MNT /mnt/.swap
+      mount -o ${S_BTRFS_OPTS},subvol=5 $MNT /mnt/btrfs
+    else
+      echo "Option S_MAKEFS_SYS_FS is empty! Please, correct your config"
+      exit 1
+    fi
+    #
+    # Make swap
+    makesysswap
+  }
+
 	if [ $S_BOOT == "bios" ]; then
-		mkfs.ext4 -L "$S_BOOTLOADER_ID" -F /dev/"${S_DISK}${S_DISK_SYSTEM}"
+		makesysfs
 	elif [ $S_BOOT == "uefi" ]; then
 		mkfs.fat -F32 /dev/"${S_DISK}${S_DISK_EFI}"
-		mkfs.ext4 -L "$S_BOOTLOADER_ID" -F /dev/"${S_DISK}${S_DISK_SYSTEM}"
+		makesysfs
 	elif [ $S_BOOT == "hfs" ]; then
 		# FS for S_DISK_EFI will be made later in
 		# chroot env with hfsplus tools installed
-		mkfs.ext4 -L "$S_BOOTLOADER_ID" -F /dev/"${S_DISK}${S_DISK_SYSTEM}"
+		makesysfs
 	fi
 fi
 
 #
-# Mount system partition
-ProgressBar
-mount /dev/"${S_DISK}${S_DISK_SYSTEM}" /mnt
-
-#
 # Remove old pacman sync if exist
 rm -R /mnt/var/lib/pacman/sync/ > /dev/null 2>&1
-
-#
-# Create swap file
-ProgressBar
-if [ -n "$S_CREATE_SWAP" ]; then
-	dd if=/dev/zero of=/mnt${S_SWAP_FILE} bs=$S_SWAP_BS count=$S_SWAP_COUNT status=progress
-	chmod 600 /mnt${S_SWAP_FILE}
-	mkswap /mnt${S_SWAP_FILE}
-	swapon /mnt${S_SWAP_FILE}
-fi
 
 #
 # Install linux

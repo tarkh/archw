@@ -82,6 +82,7 @@ ProgressBar
 ProgressBar
 bash -c "cat >> $V_HOME/.profile" << EOL
 export QT_QPA_PLATFORMTHEME="qt5ct"
+export XDG_CURRENT_DESKTOP="GNOME"
 EOL
 
 #

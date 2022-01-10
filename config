@@ -80,10 +80,26 @@ S_DISK_SYSTEM=2
 # Will wipe partition and set proper FS
 # ==============================================
 #S_MAKEFS_PARTITIONS=true
+# Partition encryption
+#S_ENCRYPT_PARTITION=true
+# System partition File System options:
+# 1. ext4
+# 2. btrfs
+S_MAKEFS_SYS_FS=ext4
+#
+# Additional options for btrfs
+# Block size
+S_BTRFS_BS=32k
+# Mount options
+# If system drive is not SSD/NVMe, remove "ssd,discard=async"
+S_BTRFS_OPTS="noatime,nodiratime,commit=120,compress=zstd,space_cache,ssd,discard=async,autodefrag"
+S_BTRFS_OPTS_SWAP="compress=no,space_cache,ssd,discard=async"
 
 # Create and activate swap file
 S_CREATE_SWAP=true
 # Swap file location
+# If btrfs selected, swapfile will be
+# created in @swap subvolume
 S_SWAP_FILE=/swapfile
 # Swap block size
 S_SWAP_BS=1G
