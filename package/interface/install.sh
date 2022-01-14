@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#
+# Install packages
 sudo pacman --noconfirm -S gucharmap ttf-roboto noto-fonts-emoji
 yay --noconfirm -S nerd-fonts-roboto-mono
 
@@ -21,16 +23,22 @@ mkdir DraculaQT
 cd DraculaQT
 curl -L -O https://github.com/dracula/qt5/archive/master.tar.gz
 tar -xvf master.tar.gz
-mkdir -p $V_HOME/.config/qt5ct/colors/
-cp ./qt5-master/Dracula.conf $V_HOME/.config/qt5ct/colors/
+QT_VER=(5 6)
+for qtv in "${QT_VER[@]}"; do
+  sudo pacman --noconfirm -S qt${qtv}-base qt${qtv}ct qt${qtv}-svg
+  mkdir -p $V_HOME/.config/qt${qtv}ct/colors/
+  cp ./qt5-master/Dracula.conf $V_HOME/.config/qt${qtv}ct/colors/
+done
 cd $S_PKG
-\cp -r ./package/interface/qt5ct.conf $V_HOME/.config/qt5ct/
-\cp -r ./package/interface/qss $V_HOME/.config/qt5ct/
-# Patch with user path
-sudo sed -i -E \
-"s:^\s*(color_scheme_path=)(.*):\1${V_HOME}/\2:; \
-s:^\s*(stylesheets=)(.*):\1${V_HOME}/\2:" \
-$V_HOME/.config/qt5ct/qt5ct.conf
+for qtv in "${QT_VER[@]}"; do
+  \cp -r ./package/interface/qt${qtv}ct.conf $V_HOME/.config/qt${qtv}ct/
+  \cp -r ./package/interface/qss $V_HOME/.config/qt${qtv}ct/
+  # Patch with user path
+  sudo sed -i -E \
+  "s:^\s*(color_scheme_path=)(.*):\1${V_HOME}/\2:; \
+  s:^\s*(stylesheets=)(.*):\1${V_HOME}/\2:" \
+  $V_HOME/.config/qt${qtv}ct/qt${qtv}ct.conf
+done
 
 # PAPIRUS
 # icons

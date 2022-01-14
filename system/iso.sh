@@ -219,7 +219,7 @@ if ! pacstrap /mnt base $S_LINUX linux-firmware \
 base-devel parted grub openssh curl wget ntp unzip nano vim git \
 cpupower lm_sensors \
 feh imagemagick scrot libicns \
-xorg-server xorg-apps xorg-xinit xclip qt5-base qt5ct qt5-svg arandr \
+xorg-server xorg-apps xorg-xinit xclip arandr \
 gnome-keyring libsecret seahorse \
 networkmanager nm-connection-editor network-manager-applet \
 bluez bluez-utils blueman \
