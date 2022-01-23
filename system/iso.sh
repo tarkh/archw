@@ -215,9 +215,16 @@ ProgressBar
 pacman --noconfirm -Syy
 echo "Waiting for devices before system install..."
 sleep 1
-if ! pacstrap /mnt base $S_LINUX linux-firmware \
+# Set CPU related packages
+if [ "$CPUM" == "intel" ]; then
+  CPURELP="intel-ucode"
+elif [ "" == "" ]; then
+  CPURELP="amd-ucode"
+fi
+# Pacstrap init
+if ! pacstrap /mnt base $S_LINUX linux-firmware $CPURELP \
 base-devel parted grub openssh curl wget ntp unzip nano vim git \
-cpupower lm_sensors \
+acpi cpupower lm_sensors \
 feh imagemagick scrot libicns \
 xorg-server xorg-apps xorg-xinit xclip arandr \
 gnome-keyring libsecret seahorse \

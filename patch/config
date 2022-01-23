@@ -26,6 +26,9 @@
 #
 #
 
+# Various additional system tune
+S_SYS_ADDITIONALTUNE=true
+
 # Run display manager no specific tty
 S_SYS_TTY=7
 

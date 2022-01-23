@@ -779,3 +779,32 @@ mergeconf () {
     done
   fi
 }
+
+#
+# System tweaks
+install_system_tweaks () {
+  # If btrfs
+  if [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
+    # - Preventing snapshot slowdowns
+    echo 'PRUNENAMES = ".snapshots"' >> /etc/updatedb.conf
+  fi
+  # Additional tune
+  if [ -n "$S_SYS_ADDITIONALTUNE" ]; then
+    # Makepkg
+    sed -i -E 's:^[\s]*#(BUILDDIR=).*:\1/tmp/makepkg:' /etc/makepkg.conf
+    # Pacman
+    sed -i -E 's:^[\s]*#(Color|UseSyslog):\1:' /etc/pacman.conf
+  fi
+}
+
+#
+# Laptop tweaks
+install_laptop_tweaks () {
+  echo "vm.dirty_writeback_centisecs = 6000" > /etc/sysctl.d/dirty.conf
+  echo "load-module module-suspend-on-idle" >> /etc/pulse/default.pa
+  if [ $(( $(lspci -k | grep snd_ac97_codec | wc -l) + 1 )) -gt 1 ]; then echo "options snd_ac97_codec power_save=1" > /etc/modprobe.d/audio_powersave.conf; fi
+  if [ $(( $(lspci -k | grep snd_hda_intel | wc -l) + 1 )) -gt 1 ]; then echo "options snd_hda_intel power_save=1" > /etc/modprobe.d/audio_powersave.conf; fi
+  if [ $(lsmod | grep '^iwl.vm' | awk '{print $1}') == "iwlmvm" ]; then echo "options iwlwifi power_save=1" > /etc/modprobe.d/iwlwifi.conf; echo "options iwlmvm power_scheme=3" >> /etc/modprobe.d/iwlwifi.conf; fi
+  if [ $(lsmod | grep '^iwl.vm' | awk '{print $1}') == "iwldvm" ]; then echo "options iwldvm force_cam=0" >> /etc/modprobe.d/iwlwifi.conf; fi
+  echo 'ACTION=="add", SUBSYSTEM=="scsi_host", KERNEL=="host*", ATTR{link_power_management_policy}="med_power_with_dipm"' > /etc/udev/rules.d/hd_power_save.rules
+}

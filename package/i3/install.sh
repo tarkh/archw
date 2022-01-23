@@ -107,6 +107,16 @@ SCR_LOCK_HIB_SUS_PROC="
 "
 
 #
+# If hibernate on
+if [ -n "$S_HIBERNATION" ]; then
+  SCR_LOCK_HIB_SUS_MENU=" (s) suspend, (h) hibernate,"
+  SCR_LOCK_HIB_SUS_PROC="
+    bindsym s exec --no-startup-id systemctl suspend-then-hibernate, mode \"default\"
+    bindsym h exec --no-startup-id systemctl hibernate, mode \"default\"
+  "
+fi
+
+#
 # If wmware, add copy/paste util launcher
 if [ "$S_VM_TOOLS" == "vmware" ]; then
   SCR_LOCK_HIB_SUS_MENU=""
@@ -125,7 +135,7 @@ SCR_SYSTEM_STOP="archw --sys stopsystem"
 
 #
 # Set HIB string
-SCR_LOCK_HIB_SUS="System (l) lock, (e) logout,$SCR_LOCK_HIB_SUS_MENU (r) reboot, (CTRL+s) shutdown"
+SCR_LOCK_HIB_SUS="System (l) lock, (e) logout,$SCR_LOCK_HIB_SUS_MENU (r) reboot, (Ctrl+s) shutdown"
 
 #
 # i3 config alt

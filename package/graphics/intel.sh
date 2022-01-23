@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pacman --noconfirm -S intel-ucode mesa xf86-video-intel libva-intel-driver \
+pacman --noconfirm -S mesa xf86-video-intel libva-intel-driver \
 libva-utils libva-vdpau-driver libvdpau-va-gl
 
 # Config

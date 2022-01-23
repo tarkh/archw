@@ -94,14 +94,12 @@ ProgressBar pause
 passwd $S_MAINUSER
 ProgressBar
 
-usermod -a -G wheel $S_MAINUSER
-usermod -a -G video $S_MAINUSER
+usermod -a -G wheel,video,storage,power $S_MAINUSER
 sed -i -E "s/[#]*\s*(%wheel ALL=\(ALL\) NOPASSWD)/\1/"  /etc/sudoers
 
 #
-# Update system
-#ProgressBar
-#pacman --noconfirm -Syu
+# System tweaks
+install_system_tweaks
 
 #
 # Install yay

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pacman --noconfirm -S intel-ucode mesa xf86-video-amdgpu vulkan-radeon libva-mesa-driver \
+pacman --noconfirm -S mesa xf86-video-amdgpu vulkan-radeon libva-mesa-driver \
 mesa-vdpau libva-vdpau-driver libvdpau-va-gl radeontop
 
 # Config

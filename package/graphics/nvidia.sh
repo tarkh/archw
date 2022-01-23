@@ -8,7 +8,7 @@ sed -i -E \
 pacman -Syyu
 
 # Install drivers
-pacman --noconfirm -S intel-ucode mesa nvidia nvidia-utils lib32-nvidia-utils \
+pacman --noconfirm -S mesa nvidia nvidia-utils lib32-nvidia-utils \
 nvidia-settings libva-vdpau-driver libvdpau-va-gl
 # OC/Fan GUI control
 yay --noconfirm -S gwe
