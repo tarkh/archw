@@ -222,6 +222,12 @@ ProgressBar
 sudo rm -rf /etc/systemd/system/getty@tty1.service/autologin.conf
 
 #
+# Create skel template from home directory
+ProgressBar
+sudo mkdir $S_ARCHW_FOLDER/homeskel
+cp -R $V_HOME/. $S_ARCHW_FOLDER/homeskel
+
+#
 # Run reboot with timeout
 # Set sudo mode to normal with password
 turn_off_no_passwd () {

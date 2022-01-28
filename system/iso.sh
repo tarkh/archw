@@ -223,7 +223,7 @@ elif [ "" == "" ]; then
 fi
 # Pacstrap init
 if ! pacstrap /mnt base $S_LINUX linux-firmware $CPURELP \
-base-devel parted grub openssh curl wget ntp unzip nano vim git \
+base-devel parted grub openssh curl wget ntp zip unzip nano vim git \
 acpi cpupower lm_sensors \
 feh imagemagick scrot libicns \
 xorg-server xorg-apps xorg-xinit xclip arandr \
