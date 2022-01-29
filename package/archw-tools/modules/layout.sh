@@ -78,8 +78,8 @@ layout () {
   #
   if [ "$2" == "save" ]; then
     #
-    # Check if i3.target active
-    if ! sa "i3.target"; then
+    # Check if aw-i3.target active
+    if ! sa "aw-i3.target"; then
       exit 0
     fi
 

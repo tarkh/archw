@@ -1,7 +1,7 @@
 [Unit]
 Description=Xeventbind auto start
-PartOf=i3.target
-After=i3.target
+PartOf=aw-i3.target
+After=aw-i3.target
 
 [Service]
 Environment=DISPLAY=:0
@@ -10,4 +10,4 @@ ExecStop=/usr/bin/pkill xeventbind
 Restart=always
 
 [Install]
-WantedBy=i3.target
+WantedBy=aw-i3.target

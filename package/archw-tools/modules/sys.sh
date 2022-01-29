@@ -409,7 +409,7 @@ sys () {
     #
     # Gently stop system before logout/restart/shutdown
     systemctl --user stop aw-autolayoutloader.target
-    systemctl --user stop i3.target
+    systemctl --user stop aw-i3.target
     i3-msg workspace "Shutting down windows manager..."
     #
     # Wait

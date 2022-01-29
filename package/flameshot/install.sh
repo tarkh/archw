@@ -2,7 +2,7 @@
 
 #
 # Off if exist
-service_ctl user off flameshot-autostart.service
+service_ctl user off aw-flameshot-autostart.service
 
 #
 # Install package
@@ -29,8 +29,8 @@ EOL
 
 #
 # Autorun with i3
-service_ctl user install-on ./package/flameshot/systemd/flameshot-autostart.service
+service_ctl user install-on ./package/flameshot/systemd/aw-flameshot-autostart.service
 
 #
 # On
-service_ctl user on flameshot-autostart.service
+service_ctl user on aw-flameshot-autostart.service

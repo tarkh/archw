@@ -19,10 +19,10 @@ pacman --noconfirm -S broadcom-wl
 # Sleep mode and lid
 # Helper script
 ProgressBar
-\cp -r ./patch/MacBookPro11x/bin/mac-pre-suspend /usr/local/bin/
-chmod +x /usr/local/bin/mac-pre-suspend
+\cp -r ./patch/MacBookPro11x/bin/aw-mac-pre-suspend /usr/local/bin/
+chmod +x /usr/local/bin/aw-mac-pre-suspend
 
 #
 # Service
-\cp -r ./patch/MacBookPro11x/systemd/mac-pre-suspend.service /etc/systemd/system/
-systemctl enable mac-pre-suspend.service
+\cp -r ./patch/MacBookPro11x/systemd/aw-mac-pre-suspend.service /etc/systemd/system/
+systemctl enable aw-mac-pre-suspend.service

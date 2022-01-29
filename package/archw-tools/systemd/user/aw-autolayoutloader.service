@@ -1,6 +1,6 @@
 [Unit]
 Description=i3 auto layout loader
-After=i3.target
+After=aw-i3.target
 
 [Service]
 KillMode=process
@@ -8,4 +8,4 @@ Environment=DISPLAY=:0
 ExecStart=bash -c "sleep 2 && /usr/local/bin/archw --layout load && sleep 30" &
 
 [Install]
-WantedBy=i3.target
+WantedBy=aw-i3.target

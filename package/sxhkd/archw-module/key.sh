@@ -35,11 +35,11 @@ then return to this terminal and press Ctrl+C for exit."
       if [[ ! $REPLY =~ ^[Yy]$ ]]; then echo "" && exit 0; fi
       echo ""
       echo ""
-      systemctl --user stop sxhkd-autostart.service > /dev/null 2>&1
+      systemctl --user stop aw-sxhkd-autostart.service > /dev/null 2>&1
       trap : INT
       xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf "%-3s %s\n", $5, $8 }'
       echo ""
-      systemctl --user start sxhkd-autostart.service > /dev/null 2>&1
+      systemctl --user start aw-sxhkd-autostart.service > /dev/null 2>&1
       return 0
     fi
 
@@ -52,7 +52,7 @@ then return to this terminal and press Ctrl+C for exit."
           exit 1
         fi
         nano -Sabq -Y SH ~/.config/sxhkd/${3}.conf
-        #systemctl --user restart sxhkd-autostart.service > /dev/null 2>&1
+        #systemctl --user restart aw-sxhkd-autostart.service > /dev/null 2>&1
         pkill -USR1 -x sxhkd
         notify-send -a $S_ARCHW_BIN/archw "Hot keys server" "reconfigured"
         return 0
@@ -67,10 +67,10 @@ then return to this terminal and press Ctrl+C for exit."
     #
     # Restart
     if [ $2 == "restart" ]; then
-      systemctl --user stop sxhkd-autostart.service > /dev/null 2>&1
+      systemctl --user stop aw-sxhkd-autostart.service > /dev/null 2>&1
       killall sxhkd > /dev/null 2>&1
-      killall sxhkdrun > /dev/null 2>&1
-      systemctl --user start sxhkd-autostart.service > /dev/null 2>&1
+      killall aw-sxhkdrun > /dev/null 2>&1
+      systemctl --user start aw-sxhkd-autostart.service > /dev/null 2>&1
       notify-send -a $S_ARCHW_BIN/archw "Hot keys server" "restarted"
       return 0
     fi

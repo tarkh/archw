@@ -7,7 +7,7 @@ ConditionVirtualization=vmware
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/local/bin/vmwareautomount
+ExecStart=/usr/local/bin/aw-vmwareautomount
 
 [Install]
 WantedBy=multi-user.target

@@ -4,7 +4,7 @@ After=sleep.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/mac-pre-suspend
+ExecStart=/usr/local/bin/aw-mac-pre-suspend
 
 [Install]
 WantedBy=sleep.target

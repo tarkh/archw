@@ -2,7 +2,7 @@
 
 #
 # Off if exist
-service_ctl user off redshift-autostart.service
+service_ctl user off aw-redshift-autostart.service
 
 #
 # Install package
@@ -69,12 +69,12 @@ EOL
 
 #
 # Install redshift complex start script
-sudo \cp -r ./package/redshift/bin/redshift-start /usr/local/bin/
-sudo chmod +x /usr/local/bin/redshift-start
+sudo \cp -r ./package/redshift/bin/aw-redshift-start /usr/local/bin/
+sudo chmod +x /usr/local/bin/aw-redshift-start
 
 #
 # Autorun with i3
-service_ctl user install-on ./package/redshift/systemd/redshift-autostart.service
+service_ctl user install-on ./package/redshift/systemd/aw-redshift-autostart.service
 
 #
 # Geoclue
@@ -106,4 +106,4 @@ EOL
 
 #
 # On
-service_ctl user on redshift-autostart.service
+service_ctl user on aw-redshift-autostart.service

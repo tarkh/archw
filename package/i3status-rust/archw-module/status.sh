@@ -56,18 +56,18 @@ status () {
     elif [ $2 == "updautocheck" ]; then
       if [ -n "$3" ]; then
         if [ "$3" == "on" ]; then
-          systemctl --user enable update-checker.timer > /dev/null 2>&1
-          systemctl --user start update-checker.timer > /dev/null 2>&1
+          systemctl --user enable aw-update-checker.timer > /dev/null 2>&1
+          systemctl --user start aw-update-checker.timer > /dev/null 2>&1
           echo "Auto updates checker enabled"
           return 0
         elif [ "$3" == "off" ]; then
-          systemctl --user disable update-checker.timer > /dev/null 2>&1
-          systemctl --user stop update-checker.timer > /dev/null 2>&1
+          systemctl --user disable aw-update-checker.timer > /dev/null 2>&1
+          systemctl --user stop aw-update-checker.timer > /dev/null 2>&1
           echo "Auto updates checker disabled"
           return 0
         fi
       else
-        echo "Auto updates checker status: $(systemctl --user show -p UnitFileState --value update-checker.timer)"
+        echo "Auto updates checker status: $(systemctl --user show -p UnitFileState --value aw-update-checker.timer)"
         return 0
       fi
     elif [ $2 == "json" ]; then

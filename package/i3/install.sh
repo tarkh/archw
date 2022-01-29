@@ -21,7 +21,7 @@ $V_HOME/.config/picom/picom.conf
 
 #
 # Create i3 systemd target
-sudo \cp -r ./package/i3/systemd/i3.target /usr/lib/systemd/user/
+sudo \cp -r ./package/i3/systemd/aw-i3.target /usr/lib/systemd/user/
 
 #
 # Start Xorg and generate i3 config
@@ -211,8 +211,8 @@ for_window [window_type="menu"]                         floating enable
 # archw_plugins_injection
 
 #
-# Run i3 target and all binded services
-exec --no-startup-id systemctl --user start i3.target &
+# Run aw-i3.target and all binded services
+exec --no-startup-id systemctl --user start aw-i3.target &
 
 EOL
 
@@ -233,13 +233,13 @@ sed -i -E "s:^\s*(# archw_plugins_injection)\s*:\1\n${I3_PLUGIN}:" $V_HOME/.conf
 if [ -n "$S_SYS_IGNORE_PWR" ]; then
   sudo sed -i -E \
   "s:power_menu_string:'mode \"$SCR_LOCK_HIB_SUS\"':" \
-  /usr/local/bin/poweraction
+  /usr/local/bin/aw-poweraction
   # key config
   mkdir -p $V_HOME/.config/sxhkd
   bash -c "cat > $V_HOME/.config/sxhkd/power.conf" << EOL
 # Toggle power menu
 XF86PowerOff
-  poweraction off
+  aw-poweraction off
 
 EOL
 fi

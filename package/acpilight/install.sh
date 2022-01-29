@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo pacman --noconfirm -R xorg-xbacklight
-sudo pacman --noconfirm -S acpilight
+sudo pacman --noconfirm -S aw-acpilight
 sudo pacman --noconfirm -S brightnessctl
 
 sudo bash -c "cat > /etc/udev/rules.d/90-backlight.rules" << EOL
@@ -15,5 +15,5 @@ EOL
 
 #
 # Install suspend brightness save
-sudo \cp -r ./package/acpilight/systemd/acpilight /usr/lib/systemd/system-sleep/
-sudo chmod +x /usr/lib/systemd/system-sleep/acpilight
+sudo \cp -r ./package/acpilight/systemd/aw-acpilight /usr/lib/systemd/system-sleep/
+sudo chmod +x /usr/lib/systemd/system-sleep/aw-acpilight

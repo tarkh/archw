@@ -2,7 +2,7 @@
 
 #
 # Off if exist
-service_ctl user off imwheel-autostart.service
+service_ctl user off aw-imwheel-autostart.service
 
 #
 # Install package
@@ -10,7 +10,7 @@ sudo pacman --noconfirm -S imwheel
 
 #
 # Autorun with i3
-service_ctl user install-on ./package/imwheel/systemd/imwheel-autostart.service
+service_ctl user install-on ./package/imwheel/systemd/aw-imwheel-autostart.service
 
 #
 # Copy preconfigs
@@ -18,4 +18,4 @@ service_ctl user install-on ./package/imwheel/systemd/imwheel-autostart.service
 
 #
 # On
-service_ctl user on imwheel-autostart.service
+service_ctl user on aw-imwheel-autostart.service

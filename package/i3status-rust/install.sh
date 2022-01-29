@@ -2,7 +2,7 @@
 
 #
 # Off if exist
-service_ctl user off update-checker.timer update-checker.service
+service_ctl user off aw-update-checker.timer aw-update-checker.service
 
 S_ARCHW_FOLDER=/usr/share/archw
 S_ARCHW_CONFIG=$HOME/.config/archw
@@ -33,8 +33,8 @@ fi
 
 #
 # Autorun with i3
-service_ctl user install ./package/i3status-rust/systemd/update-checker.service
-service_ctl user install-on ./package/i3status-rust/systemd/update-checker.timer
+service_ctl user install ./package/i3status-rust/systemd/aw-update-checker.service
+service_ctl user install-on ./package/i3status-rust/systemd/aw-update-checker.timer
 
 #
 # Patch i3 config source/local config
@@ -44,4 +44,4 @@ ${V_HOME}/.config/i3/config
 
 #
 # On
-service_ctl user on update-checker.timer update-checker.service
+service_ctl user on aw-update-checker.timer aw-update-checker.service

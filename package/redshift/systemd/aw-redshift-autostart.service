@@ -1,12 +1,12 @@
 [Unit]
 Description=Redshift daemon auto start
-PartOf=i3.target
-After=i3.target
+PartOf=aw-i3.target
+After=aw-i3.target
 
 [Service]
-ExecStart=/usr/local/bin/redshift-start
+ExecStart=/usr/local/bin/aw-redshift-start
 ExecStop=/usr/bin/killall redshift
 Restart=always
 
 [Install]
-WantedBy=i3.target
+WantedBy=aw-i3.target

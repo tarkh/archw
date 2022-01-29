@@ -2,7 +2,7 @@
 
 #
 # Off if exist
-service_ctl user off sxhkd-autostart.service
+service_ctl user off aw-sxhkd-autostart.service
 
 #
 # Install package
@@ -10,7 +10,7 @@ sudo pacman --noconfirm -S sxhkd
 
 #
 # Autorun with i3
-service_ctl user install-on ./package/sxhkd/systemd/sxhkd-autostart.service
+service_ctl user install-on ./package/sxhkd/systemd/aw-sxhkd-autostart.service
 
 #
 # Install bin
@@ -72,4 +72,4 @@ EOL
 
 #
 # On
-service_ctl user on sxhkd-autostart.service
+service_ctl user on aw-sxhkd-autostart.service

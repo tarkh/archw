@@ -2,9 +2,9 @@
 
 sudo systemctl disable vmtoolsd.service > /dev/null 2>&1
 sudo systemctl disable vmware-vmblock-fuse.service > /dev/null 2>&1
-sudo systemctl stop archw-vmware-automount.service > /dev/null 2>&1
+sudo systemctl stop aw-archw-vmware-automount.service > /dev/null 2>&1
 
-service_ctl sys off archw-vmware-automount.service
+service_ctl sys off aw-archw-vmware-automount.service
 
 sudo pacman --noconfirm -S open-vm-tools gtkmm3 xf86-input-vmmouse xf86-video-vmware
 
@@ -29,15 +29,15 @@ sudo vmware-toolbox-cmd timesync enable
 
 #
 # ArchW
-sudo \cp -r ./package/vmware/vmwareautomount /usr/local/bin
+sudo \cp -r ./package/vmware/aw-vmwareautomount /usr/local/bin
 sudo mkdir -p /usr/share/archw/automount
 sudo chmod -R 0777 /usr/share/archw/automount
 
 #
 # Automount service
-service_ctl sys install-on ./package/vmware/systemd/archw-vmware-automount.service
-service_ctl sys on archw-vmware-automount.service
-sudo systemctl enable archw-vmware-automount.service
+service_ctl sys install-on ./package/vmware/systemd/aw-archw-vmware-automount.service
+service_ctl sys on aw-archw-vmware-automount.service
+sudo systemctl enable aw-archw-vmware-automount.service
 #
 # Add archw module
 sudo \cp -r ./package/vmware/archw-module/* /usr/local/lib/archw/modules

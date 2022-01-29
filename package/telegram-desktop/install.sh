@@ -2,7 +2,7 @@
 
 #
 # Off if exist
-service_ctl user off telegram-desktop-autostart.service
+service_ctl user off aw-telegram-desktop-autostart.service
 
 #
 # Install package
@@ -10,7 +10,7 @@ sudo pacman --noconfirm -S telegram-desktop
 
 #
 # Autorun with i3
-service_ctl user install-on ./package/telegram-desktop/systemd/telegram-desktop-autostart.service
+service_ctl user install-on ./package/telegram-desktop/systemd/aw-telegram-desktop-autostart.service
 
 #
 # Add ArchW appearance
@@ -25,4 +25,4 @@ xdg-mime default telegramdesktop.desktop x-scheme-handler/tg
 
 #
 # On
-service_ctl user on telegram-desktop-autostart.service
+service_ctl user on aw-telegram-desktop-autostart.service
