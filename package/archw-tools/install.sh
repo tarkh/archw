@@ -12,7 +12,7 @@ S_ARCHW_CONF=$V_HOME/.config/archw
 sst () {
   #
   # Sys
-  service_ctl sys "$1" "suspendlock@${S_MAINUSER}"
+  service_ctl sys "$1" "aw-suspendlock@${S_MAINUSER}"
 
   #
   # User
@@ -145,13 +145,14 @@ if [ -n "$ARG_ARCHW_UPDATE" ]; then
 else
   #
   # Set default state while install
-  sudo systemctl enable suspendlock@${S_MAINUSER}
-  systemctl --user enable autosuspend.service
-  systemctl --user enable ondcscreenpm.service
-  systemctl --user enable ondci3status.service
-  systemctl --user enable pslistener.service
-  systemctl --user enable screen-state-off-lock.service
-  systemctl --user enable xeventbind-autostart.service
-  systemctl --user enable autolanguageloader.service
-  systemctl --user enable initiateaudio.service
+  sudo systemctl enable aw-suspendlock@${S_MAINUSER}
+  systemctl --user enable aw-autosuspend.service
+  systemctl --user enable aw-ondcscreenpm.service
+  systemctl --user enable aw-ondci3status.service
+  systemctl --user enable aw-pslistener.service
+  systemctl --user enable aw-screen-state-off-lock.service
+  systemctl --user enable aw-xeventbind-autostart.service
+  systemctl --user enable aw-autolanguageloader.service
+  systemctl --user enable aw-initiateaudio.service
+  systemctl --user enable aw-screenoni3.service
 fi

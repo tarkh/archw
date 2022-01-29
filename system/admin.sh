@@ -96,7 +96,7 @@ fi
 ProgressBar
 if [ "$S_GS" == "xorg" ]; then
   # Set Xprof wrapper path
-  V_XPROF="xprof"
+  V_XPROF=aw-xprof
 	# Install i3
 	. ./package/i3/install.sh
 fi

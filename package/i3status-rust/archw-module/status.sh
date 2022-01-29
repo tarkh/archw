@@ -145,7 +145,7 @@ status () {
           #
           # Run update
           if [[ $UPDATES_PENDING -gt 0 ]]; then
-            xprof i3-sensible-terminal -e "archw --status json sysupd runprompt"
+           aw-xprofi3-sensible-terminal -e "archw --status json sysupd runprompt"
           else
             archw --status json sysupd check
           fi

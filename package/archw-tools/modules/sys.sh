@@ -246,7 +246,7 @@ sys () {
           /etc/pulse/daemon.conf
         fi
         systemctl --user restart pulseaudio
-        #bash -c "archw --sys initiateaudio > /dev/null 2>&1" &
+        #bash -c "archw --sys aw-initiateaudio > /dev/null 2>&1" &
         echo "Audio sleep mode on"
         return 0
       elif [ "$3" == "off" ]; then
@@ -263,7 +263,7 @@ sys () {
           /etc/pulse/daemon.conf
         fi
         systemctl --user restart pulseaudio
-        bash -c "archw --sys initiateaudio > /dev/null 2>&1" &
+        bash -c "archw --sys aw-initiateaudio > /dev/null 2>&1" &
         echo "Audio sleep mode off"
         return 0
       fi
@@ -330,6 +330,12 @@ sys () {
     #
     # Restart i3status
     pgrep i3status | xargs --no-run-if-empty kill -s USR1
+    return 0
+  elif [ "$2" == "i3-restart" ]; then
+    #
+    # Restart i3
+    #i3-msg reload
+    i3-msg restart
     return 0
   elif [ "$2" == "waitconn" ] && [[ $3 =~ ^[0-9]+$ ]] && [[ $4 =~ ^[0-9]+$ ]]; then
     #
@@ -402,14 +408,14 @@ sys () {
   elif [ $2 == "stopsystem" ]; then
     #
     # Gently stop system before logout/restart/shutdown
-    systemctl --user stop autolayoutloader.target
+    systemctl --user stop aw-autolayoutloader.target
     systemctl --user stop i3.target
     i3-msg workspace "Shutting down windows manager..."
     #
     # Wait
     sleep 1
     return 0
-  elif [ $2 == "initiateaudio" ]; then
+  elif [ $2 == "aw-initiateaudio" ]; then
     #
     # Fix some sound cards by initiating audio
     bash -c "aplay -f S16_LE /dev/zero" &

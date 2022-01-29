@@ -33,7 +33,7 @@ INC=0
 while true; do
   #
   # Set timeout
-  if sa "dc-state-on.target"; then
+  if sa "aw-dc-state-on.target"; then
     # Suspend timeout
     TIMEOUT=$SUSPEND_AC
     # Hibernation
@@ -64,7 +64,7 @@ while true; do
   if (( $INC > $TIMEOUT )); then
     #
     # Check if display is still off
-    if sa "screen-state-off.target"; then
+    if sa "aw-screen-state-off.target"; then
       archw --pm applynow
       systemctl $COMMAND
     fi

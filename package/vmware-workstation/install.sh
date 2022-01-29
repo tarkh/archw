@@ -10,7 +10,7 @@ if [ -n "$S_ADD_VMWARE_WORKSTATION_KEY" ]; then
 fi
 
 #
-# Install VM autosuspend on system sleep
+# Install VM aw-autosuspend on system sleep
 #sudo chmod +x ./package/vmware-workstation/system-sleep/*
 #sudo \cp -r ./package/vmware-workstation/system-sleep/* /usr/lib/systemd/system-sleep/
 

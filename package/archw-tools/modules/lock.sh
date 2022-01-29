@@ -34,7 +34,7 @@ lock () {
       local USER=$(ls /usr/share/archw/ | grep USER | cut -d "_" -f2)
       if [ -n "$3" ]; then
         if [ "$3" == "on" ]; then
-          if sudo systemctl enable suspendlock@${USER} > /dev/null; then
+          if sudo systemctl enable aw-suspendlock@${USER} > /dev/null; then
             echo "Sleep screen lock: enabled"
             return 0
           else
@@ -42,7 +42,7 @@ lock () {
             return 1
           fi
         elif [ "$3" == "off" ]; then
-          if sudo systemctl disable suspendlock@${USER} > /dev/null; then
+          if sudo systemctl disable aw-suspendlock@${USER} > /dev/null; then
             echo "Sleep screen lock: disabled"
             return 0
           else
@@ -51,7 +51,7 @@ lock () {
           fi
         fi
       else
-        echo "Sleep screen lock status: $(systemctl show -p UnitFileState --value suspendlock@${USER})"
+        echo "Sleep screen lock status: $(systemctl show -p UnitFileState --value aw-suspendlock@${USER})"
         return 0
       fi
     elif [ $2 == "monsleep" ]; then

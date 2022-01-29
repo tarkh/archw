@@ -43,7 +43,7 @@ pm () {
   #
   # dpms set
   dpms() {
-    if sa "dc-state-on.target"; then
+    if sa "aw-dc-state-on.target"; then
       TIMEOUT=$SCREEN_OFF_AC
     else
       TIMEOUT=$SCREEN_OFF_BAT
@@ -89,7 +89,7 @@ pm () {
       return 0
     elif [ $2 == "applynow" ]; then
       dpms
-      pmhibmod
+      aw-pmhibmod
       return 0
     fi
     error

@@ -5,7 +5,7 @@ After=i3.target
 
 [Service]
 Type=oneshot
-ExecStart=archw --sys initiateaudio
+ExecStart=archw --sys aw-initiateaudio
 
 [Install]
 WantedBy=i3.target

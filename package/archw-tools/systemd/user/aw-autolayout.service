@@ -4,8 +4,8 @@ PartOf=i3.target
 After=i3.target
 
 [Service]
-ExecStart=/usr/local/bin/i3layoutwatcher
-ExecStop=/usr/bin/pkill i3layoutwatcher
+ExecStart=/usr/local/bin/aw-i3layoutwatcher
+ExecStop=/usr/bin/pkill aw-i3layoutwatcher
 Restart=always
 
 [Install]

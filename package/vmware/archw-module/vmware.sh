@@ -75,7 +75,7 @@ vmware () {
 			fi
       return 1
 		elif [ $2 == "suspend-lock" ]; then
-			SL_ON_FILE="${S_ARCHW_FOLDER}/suspendlock"
+			SL_ON_FILE="${S_ARCHW_FOLDER}/aw-suspendlock"
 			if [ -n "$3" ] && [ $3 == "on" ]; then
 				touch "$SL_ON_FILE"
 			elif [ -n "$3" ] && [ $3 == "off" ]; then

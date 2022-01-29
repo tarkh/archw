@@ -1,0 +1,10 @@
+[Unit]
+Description=Restart i3status-rs on DC state change
+After=aw-dc-state-on.target aw-dc-state-off.target
+
+[Service]
+Type=oneshot
+ExecStart=archw --sys i3status-restart
+
+[Install]
+WantedBy=aw-dc-state-on.target aw-dc-state-off.target

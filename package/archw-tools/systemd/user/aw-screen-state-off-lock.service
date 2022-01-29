@@ -1,0 +1,12 @@
+[Unit]
+Description=Lock system on screen state OFF
+After=aw-screen-state-off.target
+
+[Service]
+Type=forking
+Environment=DISPLAY=:0
+ExecStartPre=-/usr/bin/pkill aw-screenofflock
+ExecStart=/usr/local/bin/aw-screenofflock
+
+[Install]
+WantedBy=aw-screen-state-off.target

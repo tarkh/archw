@@ -38,20 +38,20 @@ while true; do
   #
   # Check Monitor Status
   if [ "$(ms)" == "On" ] && [ -z "$MONITOR_ON" ]; then
-    if sa "screen-state-off.target"; then
-      systemctl --user stop screen-state-off.target
+    if sa "aw-screen-state-off.target"; then
+      systemctl --user stop aw-screen-state-off.target
     fi
-    if ! sa "screen-state-on.target"; then
-      systemctl --user start screen-state-on.target
+    if ! sa "aw-screen-state-on.target"; then
+      systemctl --user start aw-screen-state-on.target
     fi
     MONITOR_ON=1
     unset MONITOR_OFF
   elif [ "$(ms)" == "Off" ] && [ -z "$MONITOR_OFF" ]; then
-    if sa "screen-state-on.target"; then
-      systemctl --user stop screen-state-on.target
+    if sa "aw-screen-state-on.target"; then
+      systemctl --user stop aw-screen-state-on.target
     fi
-    if ! sa "screen-state-off.target"; then
-      systemctl --user start screen-state-off.target
+    if ! sa "aw-screen-state-off.target"; then
+      systemctl --user start aw-screen-state-off.target
     fi
     MONITOR_OFF=1
     unset MONITOR_ON
@@ -60,20 +60,20 @@ while true; do
   #
   # Check AC status
   if acs && [ -z "$AC_ON" ]; then
-    if sa "dc-state-off.target"; then
-      systemctl --user stop dc-state-off.target
+    if sa "aw-dc-state-off.target"; then
+      systemctl --user stop aw-dc-state-off.target
     fi
-    if ! sa "dc-state-on.target"; then
-      systemctl --user start dc-state-on.target
+    if ! sa "aw-dc-state-on.target"; then
+      systemctl --user start aw-dc-state-on.target
     fi
     AC_ON=1
     unset AC_OFF
   elif ! acs && [ -z "$AC_OFF" ]; then
-    if sa "dc-state-on.target"; then
-      systemctl --user stop dc-state-on.target
+    if sa "aw-dc-state-on.target"; then
+      systemctl --user stop aw-dc-state-on.target
     fi
-    if ! sa "dc-state-off.target"; then
-      systemctl --user start dc-state-off.target
+    if ! sa "aw-dc-state-off.target"; then
+      systemctl --user start aw-dc-state-off.target
     fi
     AC_OFF=1
     unset AC_ON

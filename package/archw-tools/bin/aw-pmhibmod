@@ -23,8 +23,8 @@ fi
 
 #
 # Set path for system configs
-PM_LOGIN=/usr/lib/systemd/logind.conf.d/pm-login.conf
-PM_SLEEP=/usr/lib/systemd/sleep.conf.d/pm-sleep.conf
+PM_LOGIN=/usr/lib/systemd/logind.conf.d/aw-pm-login.conf
+PM_SLEEP=/usr/lib/systemd/sleep.conf.d/aw-pm-sleep.conf
 
 #
 # Conf updater function
@@ -68,7 +68,7 @@ sa() {
 
 #
 # Check current DC state
-if sa "dc-state-on.target"; then
+if sa "aw-dc-state-on.target"; then
   SET_VALUE=$HIBERNATE_AC
 else
   SET_VALUE=$HIBERNATE_BAT
@@ -78,14 +78,14 @@ fi
 # Set configs
 HIB_DELAY_VALUE=$(cat $PM_SLEEP | grep -w "HibernateDelaySec" | cut -d "=" -f 2)
 if [ "$HIB_DELAY_VALUE" != "$SET_VALUE" ]; then
-  sudo pmhibmod "UPDATE" "$SET_VALUE"
+  sudo aw-pmhibmod "UPDATE" "$SET_VALUE"
 fi
 
 #
 # Check conditions to alter config settings
 HIB_STATUS=$(cat $PM_SLEEP | grep -w "AllowHibernation" | cut -d "=" -f 2)
 if [ "$SET_VALUE" -gt "0" ] && [ "$HIB_STATUS" == "no" ]; then
-  sudo pmhibmod "ENABLE"
+  sudo aw-pmhibmod "ENABLE"
 elif [ "$SET_VALUE" -le "0" ] && [ "$HIB_STATUS" == "yes" ]; then
-  sudo pmhibmod "DISABLE"
+  sudo aw-pmhibmod "DISABLE"
 fi

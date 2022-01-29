@@ -5,7 +5,7 @@ After=i3.target
 
 [Service]
 Environment=DISPLAY=:0
-ExecStart=/usr/local/bin/xeventbind resolution /usr/local/bin/resetwallpaper
+ExecStart=/usr/local/bin/xeventbind resolution /usr/local/bin/aw-resetwallpaper
 ExecStop=/usr/bin/pkill xeventbind
 Restart=always
 

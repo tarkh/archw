@@ -349,7 +349,7 @@ $(cat $LOPATH/$SCRNAME)" > $LOPATH/$SCRNAME
 
     #
     # Open apps
-    nohup bash -c "xprof $LOPATH/$SCRNAME" > /dev/null 2>&1 &
+    nohup bash -c aw-xprof$LOPATH/$SCRNAME" > /dev/null 2>&1 &
 
     #
     #
@@ -396,20 +396,20 @@ $(cat $LOPATH/$SCRNAME)" > $LOPATH/$SCRNAME
   elif [ "$2" == "auto" ]; then
     if [ -n "$3" ]; then
       if [ "$3" == "on" ]; then
-        systemctl --user enable autolayoutloader.service > /dev/null 2>&1
-        systemctl --user enable autolayout.service > /dev/null 2>&1
-        systemctl --user start autolayout.service > /dev/null 2>&1
+        systemctl --user enable aw-autolayoutloader.service > /dev/null 2>&1
+        systemctl --user enable aw-autolayout.service > /dev/null 2>&1
+        systemctl --user start aw-autolayout.service > /dev/null 2>&1
         echo "Auto layout manager enabled"
         return 0
       elif [ "$3" == "off" ]; then
-        systemctl --user disable autolayoutloader.service > /dev/null 2>&1
-        systemctl --user disable autolayout.service > /dev/null 2>&1
-        systemctl --user stop autolayout.service > /dev/null 2>&1
+        systemctl --user disable aw-autolayoutloader.service > /dev/null 2>&1
+        systemctl --user disable aw-autolayout.service > /dev/null 2>&1
+        systemctl --user stop aw-autolayout.service > /dev/null 2>&1
         echo "Auto layout manager disabled"
         return 0
       fi
     else
-      echo "Auto layout manager status: $(systemctl --user show -p UnitFileState --value autolayout.service)"
+      echo "Auto layout manager status: $(systemctl --user show -p UnitFileState --value aw-autolayout.service)"
       return 0
     fi
   #

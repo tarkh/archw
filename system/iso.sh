@@ -127,15 +127,16 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       	mkswap /mnt${S_SWAP_FILE}
       	swapon /mnt${S_SWAP_FILE}
       elif [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
-        truncate -s 0 /mnt/.swap/${S_SWAP_FILE}
-        chattr +C /mnt/.swap/${S_SWAP_FILE}
-        btrfs property set /mnt/.swap/${S_SWAP_FILE} compression none
+        S_SWAP_FILE="/.swap/${S_SWAP_FILE}"
+        truncate -s 0 /mnt${S_SWAP_FILE}
+        chattr +C /mnt${S_SWAP_FILE}
+        btrfs property set /mnt${S_SWAP_FILE} compression none
         # Convert swap size
         local SWAPSIZE="$(( $(sed -E "s:[a-z]+::ig" <<< "$S_SWAP_BS") * $S_SWAP_COUNT ))$(sed -E "s:[0-9]+::g" <<< "$S_SWAP_BS")"
-        fallocate -l $SWAPSIZE /mnt/.swap/${S_SWAP_FILE}
-        chmod 600 /mnt/.swap/${S_SWAP_FILE}
-        mkswap /mnt/.swap/${S_SWAP_FILE}
-        swapon /mnt/.swap/${S_SWAP_FILE}
+        fallocate -l $SWAPSIZE /mnt${S_SWAP_FILE}
+        chmod 600 /mnt${S_SWAP_FILE}
+        mkswap /mnt${S_SWAP_FILE}
+        swapon /mnt${S_SWAP_FILE}
       fi
     fi
   }

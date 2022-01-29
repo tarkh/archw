@@ -4,7 +4,7 @@ PartOf=i3.target
 After=i3.target
 
 [Service]
-ExecStart=/usr/local/bin/xprof /usr/bin/flameshot
+ExecStart=/usr/local/binaw-xprof/usr/bin/flameshot
 ExecStop=/usr/bin/killall flameshot
 Restart=always
 

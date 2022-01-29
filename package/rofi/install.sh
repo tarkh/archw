@@ -34,10 +34,10 @@ if [ -n "$S_ADD_SXHKD" ]; then
   bash -c "cat > $V_HOME/.config/sxhkd/rofi.conf" << EOL
 # Menu
 {super + d, XF86LaunchB}
-  xprof $ROFICMD
+ aw-xprof$ROFICMD
 
 alt + Tab
-  xprof rofi -show window
+ aw-xprofrofi -show window
 
 # Layout selector menu
 super + control + l
@@ -54,7 +54,7 @@ if [ -z "$S_ADD_DMENU" ]; then
   ${V_HOME}/.config/i3/config
 fi
 sed -i -E \
-"s:^\s*[#]*\s*(bindsym|bindcode)\s*(.*mod\+)(\w+)(.*)\s\"rofi.*:${I3ROFIDISABLE}bindsym \2d\4 \"xprof ${ROFICMD}\":" \
+"s:^\s*[#]*\s*(bindsym|bindcode)\s*(.*mod\+)(\w+)(.*)\s\"rofi.*:${I3ROFIDISABLE}bindsym \2d\4 \aw-xprof${ROFICMD}\":" \
 ${V_HOME}/.config/i3/config
 
 #
