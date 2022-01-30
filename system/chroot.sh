@@ -112,6 +112,12 @@ su $S_MAINUSER -c "makepkg -si --noconfirm"
 cd $S_PKG
 
 #
+# Add btrfs module
+if [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
+  add_system_module "btrfs"
+fi
+
+#
 # Set grub
 ProgressBar
 install_grub packageInstall
