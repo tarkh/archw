@@ -222,9 +222,13 @@ if [ "$CPUM" == "intel" ]; then
 elif [ "" == "" ]; then
   CPURELP="amd-ucode"
 fi
+# Set btrfs related packages
+if [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
+  $BTRFSRELP="btrfs-progs"
+fi
 # Pacstrap init
 if ! pacstrap /mnt base $S_LINUX linux-firmware $CPURELP \
-base-devel parted grub openssh curl wget ntp zip unzip nano vim git \
+base-devel parted grub openssh curl wget ntp zip unzip nano vim git $BTRFSRELP \
 acpi cpupower lm_sensors \
 feh imagemagick scrot libicns \
 xorg-server xorg-apps xorg-xinit xclip arandr \
