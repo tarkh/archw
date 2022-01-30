@@ -154,12 +154,12 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
     elif [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
       #
       # FS btrfs
-      mkfs.btrfs -L "$S_BOOTLOADER_ID" -F -n $S_BTRFS_BS /dev/"${S_DISK}${S_DISK_SYSTEM}"
+      mkfs.btrfs -L "$S_BOOTLOADER_ID" -n $S_BTRFS_BS /dev/"${S_DISK}${S_DISK_SYSTEM}"
       # Mount system partition
       mount $MNT /mnt
       # Create btrfs subvolumes
       btrfs su cr /mnt/@
-      btrfs su cr /mnt/@btrfs
+      #btrfs su cr /mnt/@btrfs
       btrfs su cr /mnt/@home
       btrfs su cr /mnt/@opt
       btrfs su cr /mnt/@srv
@@ -173,7 +173,7 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       # Mount partitions
       mount -o ${S_BTRFS_OPTS},subvol=@ $MNT /mnt
       # Create dirs
-      mkdir -p /mnt/{boot,btrfs,home,opt,var,.snapshots,.swap}
+      mkdir -p /mnt/{boot,home,opt,srv,var,.snapshots,.swap}
       mkdir -p /mnt/var/{abs,cache/pacman/pkg,tmp}
       # Mount subvolumes
       mount -o ${S_BTRFS_OPTS},subvol=@home $MNT /mnt/home
@@ -184,7 +184,7 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       mount -o ${S_BTRFS_OPTS},subvol=@tmp $MNT /mnt/var/tmp
       mount -o ${S_BTRFS_OPTS},subvol=@snapshots $MNT /mnt/.snapshots
       mount -o ${S_BTRFS_OPTS_SWAP},subvol=@swap $MNT /mnt/.swap
-      mount -o ${S_BTRFS_OPTS},subvol=5 $MNT /mnt/btrfs
+      #mount -o ${S_BTRFS_OPTS},subvol=5 $MNT /mnt/btrfs
     else
       echo "Option S_MAKEFS_SYS_FS is empty! Please, correct your config"
       exit 1

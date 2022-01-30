@@ -98,8 +98,8 @@ S_MAKEFS_SYS_FS=ext4
 S_BTRFS_BS=32k
 # Mount options
 # If system drive is not SSD/NVMe, remove "ssd,discard=async"
-S_BTRFS_OPTS="noatime,nodiratime,commit=120,compress=zstd,space_cache,ssd,discard=async,autodefrag"
-S_BTRFS_OPTS_SWAP="compress=no,space_cache,ssd,discard=async"
+S_BTRFS_OPTS="noatime,nodiratime,commit=120,compress=zstd,space_cache=v2,ssd,discard=async,autodefrag"
+S_BTRFS_OPTS_SWAP="compress=no,space_cache=v2,ssd,discard=async"
 
 # Create and activate swap file
 S_CREATE_SWAP=true
