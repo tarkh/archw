@@ -216,7 +216,7 @@ rm -R /mnt/var/lib/pacman/sync/ > /dev/null 2>&1
 #
 # Install linux
 ProgressBar
-pacman --noconfirm -Syyu
+pacman --noconfirm -Syy
 echo "Waiting for devices before system install..."
 sleep 1
 # Set CPU related packages
