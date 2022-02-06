@@ -60,7 +60,7 @@ if [ -n "$S_FORMAT_DISK" ]; then
     sfdisk -f --delete /dev/$S_DISK
 		echo "label: gpt" | sfdisk /dev/$S_DISK
 		sfdisk /dev/$S_DISK <<EOF
-,256M,U
+,350M,U
 ,,L
 EOF
 	elif [ $S_BOOT == "hfs" ]; then
@@ -71,7 +71,7 @@ EOF
     sfdisk -f --delete /dev/$S_DISK
 		echo "label: gpt" | sfdisk /dev/$S_DISK
 		sfdisk /dev/$S_DISK <<EOF
-,256M,U
+,350M,U
 ,,L
 EOF
 	fi
@@ -173,7 +173,7 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       # Mount partitions
       mount -o ${S_BTRFS_OPTS},subvol=@ $MNT /mnt
       # Create dirs
-      mkdir -p /mnt/{boot,home,opt,srv,var,.snapshots,.swap}
+      mkdir -p /mnt/{boot,btrfs,home,opt,srv,var,.snapshots,.swap}
       mkdir -p /mnt/var/{abs,cache/pacman/pkg,tmp}
       # Mount subvolumes
       mount -o ${S_BTRFS_OPTS},subvol=@home $MNT /mnt/home
@@ -184,7 +184,7 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       mount -o ${S_BTRFS_OPTS},subvol=@tmp $MNT /mnt/var/tmp
       mount -o ${S_BTRFS_OPTS},subvol=@snapshots $MNT /mnt/.snapshots
       mount -o ${S_BTRFS_OPTS_SWAP},subvol=@swap $MNT /mnt/.swap
-      #mount -o ${S_BTRFS_OPTS},subvol=5 $MNT /mnt/btrfs
+      mount -o ${S_BTRFS_OPTS},subvolid=5 $MNT /mnt/btrfs
     else
       echo "Option S_MAKEFS_SYS_FS is empty! Please, correct your config"
       exit 1
@@ -227,8 +227,8 @@ if [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
   $BTRFSRELP="btrfs-progs"
 fi
 # Pacstrap init
-if ! pacstrap /mnt base $S_LINUX linux-firmware $CPURELP \
-base-devel parted grub openssh curl wget ntp zip unzip nano vim git $BTRFSRELP \
+if ! pacstrap /mnt base $S_LINUX linux-firmware $CPURELP $BTRFSRELP \
+base-devel parted grub openssh curl wget ntp zip unzip nano vim git \
 acpi cpupower lm_sensors \
 feh imagemagick scrot libicns \
 xorg-server xorg-apps xorg-xinit xclip arandr \
@@ -271,6 +271,13 @@ arch-chroot /mnt sh -c "cd ${S_PKG};./install.sh --chroot${ARG_MANUAL}"
 
 #
 # Reboot
+if [ -n "$S_REBOOT_PROMPT" ]; then
+  echo ""; read -p "ISO install stage has been completed! Reboot to continue installation? (y/n) " -r
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    clear
+    exit 0
+  fi
+fi
 echo "ArchW installer: stage 1 completed!"
 if [ -z "$ARG_MANUAL" ]; then
 	umount -a

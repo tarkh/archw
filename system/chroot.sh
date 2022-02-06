@@ -174,7 +174,7 @@ fi
 #
 # Exit section
 if [ -n "$S_REBOOT_PROMPT" ]; then
-  echo ""; read -p "ISO and CHROOT install stages has been completed! Reboot to continue installation ? (y/n) " -r
+  echo ""; read -p "CHROOT install stage has been completed! Exit to ISO? (y/n) " -r
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     clear
     exit 0
