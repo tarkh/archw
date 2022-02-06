@@ -145,6 +145,7 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
 	# Make proper file system
   makesysfs () {
     local MNT=/dev/"${S_DISK}${S_DISK_SYSTEM}"
+    umount /mnt
     if [ "$S_MAKEFS_SYS_FS" == "ext4" ]; then
       #
       # FS ext4
@@ -173,7 +174,7 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       # Mount partitions
       mount -o ${S_BTRFS_OPTS},subvol=@ $MNT /mnt
       # Create dirs
-      mkdir -p /mnt/{boot,btrfs,home,opt,srv,var,.snapshots,.swap}
+      mkdir -p /mnt/{boot,btrfs,home,opt,srv,tmp,var,.snapshots,.swap}
       mkdir -p /mnt/var/{abs,cache/pacman/pkg,tmp}
       # Mount subvolumes
       mount -o ${S_BTRFS_OPTS},subvol=@home $MNT /mnt/home
@@ -185,6 +186,8 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       mount -o ${S_BTRFS_OPTS},subvol=@snapshots $MNT /mnt/.snapshots
       mount -o ${S_BTRFS_OPTS_SWAP},subvol=@swap $MNT /mnt/.swap
       mount -o ${S_BTRFS_OPTS},subvolid=5 $MNT /mnt/btrfs
+      # fix tmp
+      chmod 1777 /mnt/tmp
     else
       echo "Option S_MAKEFS_SYS_FS is empty! Please, correct your config"
       exit 1
@@ -213,7 +216,7 @@ rm -R /mnt/var/lib/pacman/sync/ > /dev/null 2>&1
 #
 # Install linux
 ProgressBar
-pacman --noconfirm -Syy
+pacman --noconfirm -Syyu
 echo "Waiting for devices before system install..."
 sleep 1
 # Set CPU related packages
@@ -224,7 +227,7 @@ elif [ "" == "" ]; then
 fi
 # Set btrfs related packages
 if [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
-  $BTRFSRELP="btrfs-progs"
+  BTRFSRELP="btrfs-progs"
 fi
 # Pacstrap init
 if ! pacstrap /mnt base $S_LINUX linux-firmware $CPURELP $BTRFSRELP \
