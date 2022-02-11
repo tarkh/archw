@@ -64,3 +64,10 @@ sed -i -E \
 "/^\s*block\s*=\s*\"temperature\"\s*$/,\@^[#\s]*\[@ s/^(\s*info\s*=).*$/\1 75/; \
 /^\s*block\s*=\s*\"temperature\"\s*$/,\@^[#\s]*\[@ s/^(\s*warning\s*=).*$/\1 92/" \
 $V_HOME/.config/i3status-rust/config.toml
+
+#
+# Update i3status-rust
+sudo pacman --noconfirm -S upower
+sed -i -E \
+"s:^[#\s]*(driver =) \"sysfs\"\s*$:\1 \"upower\":" \
+$V_HOME/.config/i3status-rust/config.toml
