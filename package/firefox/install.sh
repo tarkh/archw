@@ -52,6 +52,7 @@ defaultPref("media.ffmpeg.vaapi.enabled", true);
 defaultPref("media.ffvpx.enabled", false);
 // disable the remote data decoder process for VP8/VP9
 defaultPref("media.rdd-vpx.enabled", false);
+defaultPref("media.rdd-process.enabled", false);
 // enable hardware VA-API decoding for WebRTC
 defaultPref("media.navigator.mediadatadecoder_vpx_enabled", true);
 // run Firefox with the following environment variable
