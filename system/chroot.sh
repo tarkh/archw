@@ -96,10 +96,11 @@ ProgressBar
 
 usermod -a -G wheel,video,storage,power $S_MAINUSER
 #sed -i -E "s/[#]*\s*(%wheel ALL=\(ALL\) NOPASSWD)/\1/"  /etc/sudoers
+sed -i -E "s/[#]*\s*(%wheel ALL=\(ALL\:ALL\) NOPASSWD\: ALL)/\1/"  /etc/sudoers
 # Add no pass mode for wheel
-bash -c "cat >> /etc/sudoers.d/wheelnopwd" << EOL
-%wheel ALL=(ALL:ALL) NOPASSWD: ALL
-EOL
+#bash -c "cat >> /etc/sudoers.d/wheelnopwd" << EOL
+#%wheel ALL=(ALL:ALL) NOPASSWD: ALL
+#EOL
 
 #
 # System tweaks

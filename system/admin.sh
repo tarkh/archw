@@ -231,14 +231,14 @@ cp -R $V_HOME/. $S_ARCHW_FOLDER/homeskel
 # Run reboot with timeout
 # Set sudo mode to normal with password
 turn_off_no_passwd () {
-  #sudo sed -i -E "s/[#]*\s*(%wheel ALL=\(ALL\) ALL)/\1/"  /etc/sudoers
-  #sudo sed -i -E "s/^\s*(%wheel ALL=\(ALL\) NOPASSWD)/#\s\1/"  /etc/sudoers
+  sudo sed -i -E "s/[#]*\s*(%wheel ALL=\(ALL\:ALL\) ALL)/\1/"  /etc/sudoers
+  sudo sed -i -E "s/[#]*\s*(%wheel ALL=\(ALL\:ALL\) NOPASSWD\: ALL)/#\s\1/"  /etc/sudoers
   # Add sudo mode for whwwl
-  sudo bash -c "cat >> /etc/sudoers.d/wheelsudo" << EOL
-%wheel ALL=(ALL:ALL) ALL
-EOL
+#  sudo bash -c "cat >> /etc/sudoers.d/wheelsudo" << EOL
+#%wheel ALL=(ALL:ALL) ALL
+#EOL
   # Remove no pass mode from wheel
-  sudo rm -rf /etc/sudoers.d/wheelnopwd
+  #sudo rm -rf /etc/sudoers.d/wheelnopwd
 }
 
 ProgressBar remove
