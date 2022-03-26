@@ -152,8 +152,10 @@ if [ -z "$ARG_MANUAL" ]; then
   mkdir -p /etc/systemd/system/getty@tty1.service.d
   bash -c "cat >> /etc/systemd/system/getty@tty1.service.d/autologin.conf" << EOL
 [Service]
+ExecStart=
 ExecStart=-/sbin/agetty --autologin $S_MAINUSER --noclear %I 38400 linux
 EOL
+  systemctl daemon-reload
 fi
 
 #
