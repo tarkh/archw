@@ -289,9 +289,7 @@ set_hibernation () {
     . ./package/btrfs-tools/install.sh
     #
     BTRFS_SWAP_FILE="/.swap${S_SWAP_FILE}"
-    if [ -z "$V_DEV_SWAP" ]; then
-      V_DEV_SWAP=$(findmnt -no UUID -T ${S_SWAP_FILE})
-    fi
+    V_DEV_SWAP=$(findmnt -no UUID -T ${BTRFS_SWAP_FILE})
     local SWAPFILE_UUID_PARAM="resume=UUID=${V_DEV_SWAP}"
     SWAPFILE_OFFSET=$(awk "BEGIN {print $(sudo btrfs_map_physical $BTRFS_SWAP_FILE | grep ^0 | awk '{print $9}') / $(getconf PAGESIZE)}")
     SWAPFILE_OFFSET_PARAM="resume_offset=${SWAPFILE_OFFSET}"
@@ -468,7 +466,7 @@ iwctl_try_connect () {
   # Show networks
   iwctl station $INAME scan
   echo "Scaning networks on ${INAME}..."
-  sleep 1
+  sleep 5
   iwctl station $INAME get-networks
   echo "";
   # Prompt for network name
