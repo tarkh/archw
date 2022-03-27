@@ -128,13 +128,6 @@ ProgressBar
 install_grub packageInstall
 
 #
-# Enable hibernation
-ProgressBar
-if [ -n "$S_CREATE_SWAP" ] && [ -n "$S_HIBERNATION" ]; then
-  set_hibernation
-fi
-
-#
 # Set .bashrc
 ProgressBar
 touch "/home/${S_MAINUSER}/.bashrc"

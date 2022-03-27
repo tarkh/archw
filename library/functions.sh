@@ -269,16 +269,37 @@ set_hibernation () {
 
   #
   # Get swapfile UUID
-  if [ -z "$V_DEV_SWAP" ]; then
-    V_DEV_SWAP=$(findmnt -no UUID -T ${S_SWAP_FILE})
+  if [ "$S_MAKEFS_SYS_FS" == "ext4" ]; then
+    #
+    # Ext4
+    if [ -z "$V_DEV_SWAP" ]; then
+      V_DEV_SWAP=$(findmnt -no UUID -T ${S_SWAP_FILE})
+    fi
+    local SWAPFILE_UUID_PARAM="resume=UUID=${V_DEV_SWAP}"
+    SWAPFILE_OFFSET=$(sudo filefrag -v ${S_SWAP_FILE} | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
+    SWAPFILE_OFFSET_PARAM="resume_offset=${SWAPFILE_OFFSET}"
+    # patch grub config
+    remove_kernel_param "resume"
+    remove_kernel_param "resume_offset"
+    add_kernel_param "${SWAPFILE_UUID_PARAM} ${SWAPFILE_OFFSET_PARAM}"
+  elif [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
+    #
+    # Btrfs
+    # Install btrfs_map_physical
+    . ./package/btrfs-tools/install.sh
+    #
+    BTRFS_SWAP_FILE="/.swap${S_SWAP_FILE}"
+    if [ -z "$V_DEV_SWAP" ]; then
+      V_DEV_SWAP=$(findmnt -no UUID -T ${S_SWAP_FILE})
+    fi
+    local SWAPFILE_UUID_PARAM="resume=UUID=${V_DEV_SWAP}"
+    SWAPFILE_OFFSET=$(awk "BEGIN {print $(sudo btrfs_map_physical $BTRFS_SWAP_FILE | grep ^0 | awk '{print $9}') / $(getconf PAGESIZE)}")
+    SWAPFILE_OFFSET_PARAM="resume_offset=${SWAPFILE_OFFSET}"
+    # patch grub config
+    remove_kernel_param "resume"
+    remove_kernel_param "resume_offset"
+    add_kernel_param "${SWAPFILE_UUID_PARAM} ${SWAPFILE_OFFSET_PARAM}"
   fi
-  local SWAPFILE_UUID_PARAM="resume=UUID=${V_DEV_SWAP}"
-  SWAPFILE_OFFSET=$(sudo filefrag -v ${S_SWAP_FILE} | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
-  SWAPFILE_OFFSET_PARAM="resume_offset=${SWAPFILE_OFFSET}"
-  # patch grub config
-  remove_kernel_param "resume"
-  remove_kernel_param "resume_offset"
-  add_kernel_param "${SWAPFILE_UUID_PARAM} ${SWAPFILE_OFFSET_PARAM}"
 
   # Apply
   install_grub

@@ -115,6 +115,13 @@ elif [ -n "$S_ADD_GRUBCFG" ]; then
 fi
 
 #
+# Enable hibernation
+ProgressBar
+if [ -n "$S_CREATE_SWAP" ] && [ -n "$S_HIBERNATION" ]; then
+  set_hibernation
+fi
+
+#
 # Libinput general config
 if [ -n "$S_ADD_LIBINPUT" ]; then
   sudo cp ./package/common-scripts/40-aw-libinput.conf /etc/X11/xorg.conf.d/
