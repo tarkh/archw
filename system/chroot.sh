@@ -64,12 +64,6 @@ EOL
 # Enable system services
 ProgressBar
 if [ -n "$S_SYSTEMCTL_NETWORKMANAGER" ]; then
-  # Enable iwd backend
-#  bash -c "cat >> /etc/NetworkManager/conf.d/wifi_backend.conf" << EOL
-#[device]
-#wifi.backend=iwd
-#EOL
-  # Start service
   systemctl enable NetworkManager
 fi
 if [ -n "$S_SYSTEMCTL_SSHD" ]; then
