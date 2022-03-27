@@ -236,7 +236,8 @@ acpi cpupower lm_sensors \
 feh imagemagick scrot libicns \
 xorg-server xorg-apps xorg-xinit xclip arandr \
 gnome-keyring libsecret seahorse \
-networkmanager iwd nm-connection-editor network-manager-applet \
+networkmanager nm-connection-editor network-manager-applet \
+broadcom-wl \
 bluez bluez-utils blueman \
 alsa-utils pulseaudio pulseaudio-alsa pulseaudio-bluetooth pavucontrol \
 playerctl; then
