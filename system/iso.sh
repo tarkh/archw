@@ -127,7 +127,7 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       	mkswap /mnt${S_SWAP_FILE}
       	swapon /mnt${S_SWAP_FILE}
       elif [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
-        S_SWAP_FILE="/.swap/${S_SWAP_FILE}"
+        S_SWAP_FILE="${S_BTRFS_SVD_SWAP}${S_SWAP_FILE}"
         truncate -s 0 /mnt${S_SWAP_FILE}
         chattr +C /mnt${S_SWAP_FILE}
         btrfs property set /mnt${S_SWAP_FILE} compression none
@@ -167,14 +167,16 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       btrfs su cr /mnt/@abs
       btrfs su cr /mnt/@pkg
       btrfs su cr /mnt/@tmp
-      btrfs su cr /mnt/@snapshots
+      # For snapper
+      #btrfs su cr /mnt/@snapshots
       btrfs su cr /mnt/@swap
       umount /mnt
       sleep 1
       # Mount partitions
       mount -o ${S_BTRFS_OPTS},subvol=@ $MNT /mnt
       # Create dirs
-      mkdir -p /mnt/{boot,btrfs,home,opt,srv,tmp,var,.snapshots,.swap}
+      #mkdir -p /mnt/{boot,btrfs,home,opt,srv,tmp,var,.snapshots,${S_BTRFS_SVD_SWAP}}
+      mkdir -p /mnt/{boot,btrfs,home,opt,srv,var,${S_BTRFS_SVD_SWAP}}
       mkdir -p /mnt/var/{abs,cache/pacman/pkg,tmp}
       # Mount subvolumes
       mount -o ${S_BTRFS_OPTS},subvol=@home $MNT /mnt/home
@@ -183,11 +185,11 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       mount -o ${S_BTRFS_OPTS},subvol=@abs $MNT /mnt/var/abs
       mount -o ${S_BTRFS_OPTS},subvol=@pkg $MNT /mnt/var/cache/pacman/pkg
       mount -o ${S_BTRFS_OPTS},subvol=@tmp $MNT /mnt/var/tmp
-      mount -o ${S_BTRFS_OPTS},subvol=@snapshots $MNT /mnt/.snapshots
-      mount -o ${S_BTRFS_OPTS_SWAP},subvol=@swap $MNT /mnt/.swap
+      #mount -o ${S_BTRFS_OPTS},subvol=@snapshots $MNT /mnt/.snapshots
+      mount -o ${S_BTRFS_OPTS_SWAP},subvol=@swap $MNT /mnt${S_BTRFS_SVD_SWAP}
       mount -o ${S_BTRFS_OPTS},subvolid=5 $MNT /mnt/btrfs
       # fix tmp
-      chmod 1777 /mnt/tmp
+      #chmod 1777 /mnt/tmp
     else
       echo "Option S_MAKEFS_SYS_FS is empty! Please, correct your config"
       exit 1

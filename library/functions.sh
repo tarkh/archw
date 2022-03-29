@@ -288,7 +288,7 @@ set_hibernation () {
     # Install btrfs_map_physical
     . ./package/btrfs-tools/install.sh
     #
-    BTRFS_SWAP_FILE="/.swap${S_SWAP_FILE}"
+    BTRFS_SWAP_FILE="${S_BTRFS_SVD_SWAP}${S_SWAP_FILE}"
     V_DEV_SWAP=$(findmnt -no UUID -T ${BTRFS_SWAP_FILE})
     local SWAPFILE_UUID_PARAM="resume=UUID=${V_DEV_SWAP}"
     SWAPFILE_OFFSET=$(awk "BEGIN {print $(sudo btrfs_map_physical $BTRFS_SWAP_FILE | grep ^0 | awk '{print $9}') / $(getconf PAGESIZE)}")
