@@ -6,11 +6,6 @@
 # CHROOT STAGE
 
 #
-# Packagrs
-ProgressBar
-pacman --noconfirm -S broadcom-wl
-
-#
 # Tweaks
 . ./tweaks/intel_iommu.sh
 . ./tweaks/intel_video_tune.sh

@@ -349,7 +349,7 @@ $(cat $LOPATH/$SCRNAME)" > $LOPATH/$SCRNAME
 
     #
     # Open apps
-    nohup bash -c aw-xprof$LOPATH/$SCRNAME" > /dev/null 2>&1 &
+    nohup bash -c "aw-xprof $LOPATH/$SCRNAME" > /dev/null 2>&1 &
 
     #
     #
