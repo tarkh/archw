@@ -6,7 +6,7 @@ service_ctl user off aw-polkit-gnome-autostart.service
 
 #
 # Install packages
-sudo pacman -S polkit polkit-gnome
+sudo pacman --noconfirm -S polkit polkit-gnome
 
 #
 # Add polkit config
