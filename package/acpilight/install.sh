@@ -1,8 +1,7 @@
 #!/bin/bash
 
 sudo pacman --noconfirm -R xorg-xbacklight
-sudo pacman --noconfirm -S aw-acpilight
-sudo pacman --noconfirm -S brightnessctl
+sudo pacman --noconfirm -S acpilight brightnessctl
 
 sudo bash -c "cat > /etc/udev/rules.d/90-backlight.rules" << EOL
 SUBSYSTEM=="backlight", ACTION=="add", \
