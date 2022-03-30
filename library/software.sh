@@ -1,6 +1,13 @@
 #!/bin/bash
 
 #
+# Install polkit
+ProgressBar
+if [ -n "$S_ADD_POLKIT" ]; then
+. ./package/polkit/install.sh
+fi
+
+#
 # Install dmenu
 ProgressBar
 if [ -n "$S_ADD_DMENU" ]; then
@@ -250,4 +257,11 @@ fi
 ProgressBar
 if [ -n "$S_ADD_SHOTWELL" ]; then
   . ./package/shotwell/install.sh
+fi
+
+#
+# Shotwell
+ProgressBar
+if [ -n "$S_ADD_TIMESHIFT" ]; then
+  . ./package/timeshift/install.sh
 fi

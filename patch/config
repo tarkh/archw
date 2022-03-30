@@ -107,6 +107,9 @@ S_AUTODISPLAY=true
 # versions linux-lts is recommended
 #S_VM_TOOLS="vmware"
 
+# Polkit (policy kit + gui prompt)
+S_ADD_POLKIT=true
+
 # Terminator
 # TERM emulator, preconfigured for ArchW.
 # Do not disable, or you will have to manually
@@ -134,6 +137,9 @@ S_ADD_GRUBSILENT=true
 
 # Power management
 #S_ADD_TLP=true
+
+# Timeshif (snapshots and backup)
+S_ADD_TIMESHIFT=true
 
 # Btop system monitor
 S_ADD_BTOP=true

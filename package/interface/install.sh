@@ -5,6 +5,9 @@
 sudo pacman --noconfirm -S gucharmap ttf-roboto noto-fonts-emoji
 yay --noconfirm -S nerd-fonts-roboto-mono
 
+# Create root .config
+sudo mkdir -p /root/.config/
+
 #
 # GTK
 cd $V_AUR
@@ -38,6 +41,8 @@ for qtv in "${QT_VER[@]}"; do
   "s:^\s*(color_scheme_path=)(.*):\1${V_HOME}/\2:; \
   s:^\s*(stylesheets=)(.*):\1${V_HOME}/\2:" \
   $V_HOME/.config/qt${qtv}ct/qt${qtv}ct.conf
+  # Copy to root
+  sudo cp -r $V_HOME/.config/qt${qtv}ct /root/.config/
 done
 
 # PAPIRUS
@@ -60,6 +65,8 @@ sudo fc-cache
 
 mkdir -p $V_HOME/.config/gtk-3.0
 \cp -r ./package/interface/settings.ini $V_HOME/.config/gtk-3.0
+# Copy to root
+sudo cp -r $V_HOME/.config/gtk-3.0 /root/.config/
 
 mkdir -p $V_HOME/.themes/Dracula/gtk-3.0
 bash -c "cat >> $V_HOME/.themes/Dracula/gtk-3.0/gtk-dark.css" << EOL
@@ -82,6 +89,9 @@ bash -c "cat >> $V_HOME/.themes/Dracula/gtk-3.0/gtk.css" << EOL
 /* Override */
 
 EOL
+
+# Copy interface settings to root
+sudo cp -r $V_HOME/.themes /root/
 
 #
 # Set up gsettings
