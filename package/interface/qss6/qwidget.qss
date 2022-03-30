@@ -1,0 +1,4 @@
+QWidget {
+  background-color: #282a36;
+  alternate-background-color: #44475a;
+}

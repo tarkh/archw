@@ -9,6 +9,16 @@ yay --noconfirm -S nerd-fonts-roboto-mono
 sudo mkdir -p /root/.config/
 
 #
+# Set profile
+ProgressBar
+bash -c "cat >> $V_HOME/.profile" << EOL
+export QT_QPA_PLATFORMTHEME="qt5ct"
+export XDG_CURRENT_DESKTOP="GNOME"
+EOL
+# Copy profile to root
+sudo cp $V_HOME/.profile /root/
+
+#
 # GTK
 cd $V_AUR
 mkdir DraculaGTK
@@ -34,8 +44,9 @@ for qtv in "${QT_VER[@]}"; do
 done
 cd $S_PKG
 for qtv in "${QT_VER[@]}"; do
+  mkdir -p $V_HOME/.config/qt${qtv}ct/qss/
   \cp -r ./package/interface/qt${qtv}ct.conf $V_HOME/.config/qt${qtv}ct/
-  \cp -r ./package/interface/qss $V_HOME/.config/qt${qtv}ct/
+  \cp -a ./package/interface/qss${qtv}/. $V_HOME/.config/qt${qtv}ct/qss/
   # Patch with user path
   sudo sed -i -E \
   "s:^\s*(color_scheme_path=)(.*):\1${V_HOME}/\2:; \

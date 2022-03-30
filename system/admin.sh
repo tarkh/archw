@@ -78,16 +78,6 @@ ProgressBar
 . ./package/common-scripts/wallpapers.sh
 
 #
-# Set profile
-ProgressBar
-bash -c "cat >> $V_HOME/.profile" << EOL
-export QT_QPA_PLATFORMTHEME="qt5ct"
-export XDG_CURRENT_DESKTOP="GNOME"
-EOL
-# Copy profile to root
-sudo cp $V_HOME/.profile /root/
-
-#
 # If Xorg
 ProgressBar
 if [ "$S_GS" == "xorg" ]; then
@@ -157,7 +147,7 @@ ProgressBar
 . ./package/lightdm-mini-greeter/install.sh
 
 #
-# Install Dracula dark theme
+# Install interface and theme
 ProgressBar
 . ./package/interface/install.sh
 
