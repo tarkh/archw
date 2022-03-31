@@ -238,7 +238,7 @@ acpi cpupower lm_sensors \
 feh imagemagick scrot libicns \
 xorg-server xorg-apps xorg-xinit xclip arandr \
 gnome-keyring libsecret seahorse \
-networkmanager nm-connection-editor network-manager-applet \
+iwd iw nm-connection-editor \
 broadcom-wl \
 bluez bluez-utils blueman \
 alsa-utils pulseaudio pulseaudio-alsa pulseaudio-bluetooth pavucontrol \

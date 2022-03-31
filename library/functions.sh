@@ -421,19 +421,7 @@ connected () {
   return 1
 }
 #
-nm_try_connect () {
-  cd $S_PKG
-  if [ -f "${S_PKG}/autonetworkwifi" ]; then
-    . ./autonetworkwifi
-    echo "Connecting to wifi network ${AN_SSID}... This might take up to 60 seconds..."
-    sleep 5
-    nmcli device wifi connect "${AN_SSID}" password $AN_PASS
-    sleep 5
-    ip address show
-  fi
-}
-#
-iwctl_try_connect () {
+try_connect () {
   #
   # IP checker
   local CHECKCOUNTER=0
@@ -467,23 +455,30 @@ iwctl_try_connect () {
   iwctl station $INAME scan
   echo "Scaning networks on ${INAME}..."
   sleep 5
-  iwctl station $INAME get-networks
-  echo "";
-  # Prompt for network name
-  read -p "Enter your network name: " SSID
-  # Prompt for network pass
-  read -p "Enter your network password: " PASSWD
+  #
+  if [ -f "${S_PKG}/autonetworkwifi" ]; then
+    . ${S_PKG}/autonetworkwifi
+  else
+    iwctl station $INAME get-networks
+    echo "";
+    # Prompt for network name
+    read -p "Enter your network name: " AN_SSID
+    # Prompt for network pass
+    read -p "Enter your network password: " AN_PASS
+  fi
   # connect
-  iwctl --passphrase="${PASSWD}" station $INAME connect "${SSID}"
-  echo "Connecting to wifi network ${SSID}... This might take up to 60 seconds..."
+  iwctl --passphrase="${AN_PASS}" station $INAME connect "${AN_SSID}"
+  echo "Connecting to wifi network ${AN_SSID}... This might take up to 60 seconds..."
   sleep 1
   # Check connection
   ping_connection
   # Save connection
-  bash -c "cat > ./autonetworkwifi" << EOL
-AN_SSID="${SSID}"
-AN_PASS="${PASSWD}"
+  if ! [ -f "${S_PKG}/autonetworkwifi" ]; then
+    bash -c "cat > ./autonetworkwifi" << EOL
+AN_SSID="${AN_SSID}"
+AN_PASS="${AN_PASS}"
 EOL
+  fi
 }
 
 #

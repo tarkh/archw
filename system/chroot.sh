@@ -62,10 +62,6 @@ EOL
 
 #
 # Enable system services
-ProgressBar
-if [ -n "$S_SYSTEMCTL_NETWORKMANAGER" ]; then
-  systemctl enable NetworkManager
-fi
 if [ -n "$S_SYSTEMCTL_SSHD" ]; then
   systemctl enable sshd
 fi

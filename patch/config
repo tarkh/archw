@@ -110,6 +110,9 @@ S_AUTODISPLAY=true
 # Polkit (policy kit + gui prompt)
 S_ADD_POLKIT=true
 
+# NetworkManager
+S_ADD_NETWORKMANAGER=true
+
 # Terminator
 # TERM emulator, preconfigured for ArchW.
 # Do not disable, or you will have to manually

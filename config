@@ -144,8 +144,6 @@ S_KEYMAP_SW="us ru"
 S_HOSTNAME=ArchW
 
 # Enable services
-# Enable network manager
-S_SYSTEMCTL_NETWORKMANAGER=true
 # Enable sshd
 S_SYSTEMCTL_SSHD=true
 # Enable bluetooth

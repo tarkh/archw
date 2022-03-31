@@ -216,15 +216,22 @@ ProgressBar
 . ./package/common-scripts/cleanup.sh
 
 #
+# Enable NetworkManager
+ProgressBar
+if [ -n "$S_ADD_NETWORKMANAGER" ]; then
+  . ./package/networkmanager/install.sh
+fi
+
+#
 # Disable admin autologin
 ProgressBar
-sudo rm -rf /etc/systemd/system/getty@tty1.service/autologin.conf
+sudo rm -rf "/etc/systemd/system/getty@tty1.service/autologin.conf"
 
 #
 # Create skel template from home directory
 ProgressBar
 sudo mkdir $S_ARCHW_FOLDER/homeskel
-cp -R $V_HOME/. $S_ARCHW_FOLDER/homeskel
+cp -a $V_HOME/. $S_ARCHW_FOLDER/homeskel
 
 #
 # Run reboot with timeout

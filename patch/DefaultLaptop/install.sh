@@ -18,18 +18,14 @@ if [ -n "$STAGE_BOOTSTRAP" ]; then
   # BOOTSTRAP stage
   if [ -n "$ARG_CHROOT" ]; then
     :
-  elif [ -n "$ARG_ADMIN" ]; then
-    if ! connected; then
-      nm_try_connect
-    fi
   else
     if ! connected; then
       #
       # If no wired connection, try wireless
-      echo "Initializing network device..."
+      echo "Initializing WiFi network device..."
       sleep 2
       # Try to connect
-      iwctl_try_connect
+      try_connect
     fi
   fi
 elif [ -n "$ARG_CHROOT" ]; then

@@ -18,14 +18,10 @@ if [ -n "$STAGE_BOOTSTRAP" ]; then
   # BOOTSTRAP stage
   if [ -n "$ARG_CHROOT" ]; then
     :
-  elif [ -n "$ARG_ADMIN" ]; then
-    if ! connected; then
-      nm_try_connect
-    fi
   else
     if ! connected; then
       #
-      # Manual device setup for MacBook Pro BCM43xx
+      # Manual device setup for BCM43xx
       echo "Initializing network device..."
       rmmod b43
       rmmod ssb
@@ -35,7 +31,7 @@ if [ -n "$STAGE_BOOTSTRAP" ]; then
       modprobe wl
       depmod -a
       # Try to connect
-      iwctl_try_connect
+      try_connect
     fi
   fi
 elif [ -n "$ARG_CHROOT" ]; then
