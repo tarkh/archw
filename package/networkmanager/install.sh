@@ -16,7 +16,7 @@ if [ -f "${S_PKG}/autonetworkwifi" ]; then
   echo "Reconnecting WiFi with NetworkManager"
   INAME=$(iw dev | grep Interface | cut -d " " -f2)
   iwctl station $INAME disconnect
-  iwctl known-networks "${AN_SSID}" forget
+  #iwctl known-networks "${AN_SSID}" forget
   sudo systemctl stop iwd.service
   sudo systemctl disable iwd.service
   sleep 2
