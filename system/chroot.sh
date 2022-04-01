@@ -68,6 +68,20 @@ fi
 if [ -n "$S_SYSTEMCTL_BLUETOOTH" ]; then
   systemctl enable bluetooth.service
 fi
+# Resolved
+systemctl enable systemd-resolved.service
+# IWD
+bash -c "cat > /etc/iwd/main.conf" << EOL
+[General]
+EnableNetworkConfiguration=true
+[Network]
+RoutePriorityOffset=300
+[Network]
+EnableIPv6=true
+[Network]
+NameResolvingService=systemd
+EOL
+systemctl enable iwd.service
 
 #
 # Set root password

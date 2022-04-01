@@ -455,12 +455,12 @@ try_connect () {
   iwctl station $INAME scan
   echo "Scaning networks on ${INAME}..."
   sleep 5
+  iwctl station $INAME get-networks
+  echo "";
   #
   if [ -f "${S_PKG}/autonetworkwifi" ]; then
     . ${S_PKG}/autonetworkwifi
   else
-    iwctl station $INAME get-networks
-    echo "";
     # Prompt for network name
     read -p "Enter your network name: " AN_SSID
     # Prompt for network pass
