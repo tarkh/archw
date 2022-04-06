@@ -1,18 +1,18 @@
 #!/bin/bash
 
 if [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
-  service_ctl libsys off grub-btrfs.path
+  service_ctl libsys off grub-btrfs.path grub-btrfs-on-poweroff.service
 
   # Install grub-btrfs
   sudo pacman --noconfirm -S grub-btrfs
 
   #
   # Create service for Timeshift
-  service_ctl libsys install-on ./package/grub-btrfs/systemd/grub-btrfs.path
+  service_ctl libsys install-on ./package/grub-btrfs/systemd/grub-btrfs.path ./package/grub-btrfs/systemd/grub-btrfs-on-poweroff.service
 
   #
   # On
-  service_ctl libsys on grub-btrfs.path
+  service_ctl libsys on grub-btrfs.path grub-btrfs-on-poweroff.service
 else
   echo "Skipping grub-silent: btrfs not available"
 fi
