@@ -50,6 +50,12 @@ if [ -n "$S_ADD_BTOP" ]; then
 fi
 
 #
+# Grub-btrf
+if [ -n "$S_ADD_GRUBBTRFS" ]; then
+  . ./package/grub-btrfs/install.sh
+fi
+
+#
 # Acpilight
 ProgressBar
 if [ -n "$S_ADD_ACPILIGHT" ]; then

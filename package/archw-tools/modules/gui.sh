@@ -116,9 +116,17 @@ EOL
     # On/off
     local MOD=""
     if [ "$1" == "on" ]; then
-      :
+      # i3bar tray_padding
+      sed -i -E \
+      "s:^([ ]*tray_padding)[ ]{1,}[0-9]{1,}[ ]*$:\1 3:" \
+      ~/.config/i3/config
     elif [ "$1" == "off" ]; then
+      # Mod comment out
       MOD="#"
+      # i3bar tray_padding
+      sed -i -E \
+      "s:^([ ]*tray_padding)[ ]{1,}[0-9]{1,}[ ]*$:\1 4:" \
+      ~/.config/i3/config
     else
       error
     fi

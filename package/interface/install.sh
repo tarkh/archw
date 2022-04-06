@@ -11,10 +11,7 @@ sudo mkdir -p /root/.config/
 #
 # Set profile
 ProgressBar
-bash -c "cat >> $V_HOME/.profile" << EOL
-export QT_QPA_PLATFORMTHEME="qt5ct"
-export XDG_CURRENT_DESKTOP="GNOME"
-EOL
+\cp -r ./package/interface/.profile $V_HOME/
 # Copy profile to root
 sudo cp $V_HOME/.profile /root/
 
@@ -31,30 +28,37 @@ cd $S_PKG
 
 #
 # QT
-cd $V_AUR
-mkdir DraculaQT
-cd DraculaQT
-curl -L -O https://github.com/dracula/qt5/archive/master.tar.gz
-tar -xvf master.tar.gz
-QT_VER=(5 6)
-for qtv in "${QT_VER[@]}"; do
-  sudo pacman --noconfirm -S qt${qtv}-base qt${qtv}ct qt${qtv}-svg
-  mkdir -p $V_HOME/.config/qt${qtv}ct/colors/
-  cp ./qt5-master/Dracula.conf $V_HOME/.config/qt${qtv}ct/colors/
-done
-cd $S_PKG
-for qtv in "${QT_VER[@]}"; do
-  mkdir -p $V_HOME/.config/qt${qtv}ct/qss/
-  \cp -r ./package/interface/qt${qtv}ct.conf $V_HOME/.config/qt${qtv}ct/
-  \cp -a ./package/interface/qss${qtv}/. $V_HOME/.config/qt${qtv}ct/qss/
-  # Patch with user path
-  sudo sed -i -E \
-  "s:^\s*(color_scheme_path=)(.*):\1${V_HOME}/\2:; \
-  s:^\s*(stylesheets=)(.*):\1${V_HOME}/\2:" \
-  $V_HOME/.config/qt${qtv}ct/qt${qtv}ct.conf
-  # Copy to root
-  sudo cp -r $V_HOME/.config/qt${qtv}ct /root/.config/
-done
+#cd $V_AUR
+#mkdir DraculaQT
+#cd DraculaQT
+#curl -L -O https://github.com/dracula/qt5/archive/master.tar.gz
+#tar -xvf master.tar.gz
+#QT_VER=(5 6)
+#for qtv in "${QT_VER[@]}"; do
+#  sudo pacman --noconfirm -S qt${qtv}-base qt${qtv}ct qt${qtv}-svg
+#  mkdir -p $V_HOME/.config/qt${qtv}ct/colors/
+#  cp ./qt5-master/Dracula.conf $V_HOME/.config/qt${qtv}ct/colors/
+#done
+#cd $S_PKG
+#for qtv in "${QT_VER[@]}"; do
+#  mkdir -p $V_HOME/.config/qt${qtv}ct/qss/
+#  \cp -r ./package/interface/qt${qtv}ct.conf $V_HOME/.config/qt${qtv}ct/
+#  \cp -a ./package/interface/qss${qtv}/. $V_HOME/.config/qt${qtv}ct/qss/
+#  # Patch with user path
+#  sudo sed -i -E \
+#  "s:^\s*(color_scheme_path=)(.*):\1${V_HOME}/\2:; \
+#  s:^\s*(stylesheets=)(.*):\1${V_HOME}/\2:" \
+#  $V_HOME/.config/qt${qtv}ct/qt${qtv}ct.conf
+#  # Copy to root
+#  sudo cp -r $V_HOME/.config/qt${qtv}ct /root/.config/
+#done
+
+#
+# LXQT + Kvantum
+sudo pacman --noconfirm kvantum lxqt-qtplugin lxqt-config
+\cp -r ./package/interface/Kvantum $V_HOME/.config/
+\cp -r ./package/interface/lxqt $V_HOME/.config/
+
 
 # PAPIRUS
 # icons
@@ -74,34 +78,22 @@ papirus-folders -C violet
 sudo cp ./package/interface/fonts/archw-selected-icons.ttf /usr/share/fonts/TTF/
 sudo fc-cache
 
+#
+# Gtk 2
+\cp -r ./package/interface/.gtkrc-2.0 $V_HOME/
+# Copy profile to root
+sudo cp $V_HOME/.gtkrc-2.0 /root/
+
+#
+# Gtk 3
 mkdir -p $V_HOME/.config/gtk-3.0
 \cp -r ./package/interface/settings.ini $V_HOME/.config/gtk-3.0
 # Copy to root
 sudo cp -r $V_HOME/.config/gtk-3.0 /root/.config/
-
+#
 mkdir -p $V_HOME/.themes/Dracula/gtk-3.0
-bash -c "cat >> $V_HOME/.themes/Dracula/gtk-3.0/gtk-dark.css" << EOL
-/* Load the original theme */
-@import url("/usr/share/themes/Dracula/gtk-3.20/gtk-dark.css");
-
-/* Override */
-scrollbar slider {
-        background-color: #615B63;
-}
-scrollbar slider:hover {
-        background-color: #7F7F7F;
-}
-EOL
-
-bash -c "cat >> $V_HOME/.themes/Dracula/gtk-3.0/gtk.css" << EOL
-/* Load the original theme */
-@import url("/usr/share/themes/Dracula/gtk-3.20/gtk.css");
-
-/* Override */
-
-EOL
-
-# Copy interface settings to root
+\cp -r ./package/interface/gtk.css ./package/interface/gtk-dark.css $V_HOME/.themes/Dracula/gtk-3.0
+# Copy to root
 sudo cp -r $V_HOME/.themes /root/
 
 #

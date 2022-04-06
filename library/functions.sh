@@ -621,6 +621,9 @@ service_ctl () {
   if [ "$1" == "sys" ]; then
     local OPT="sudo "
     local SRVSPATH="/etc/systemd/system"
+  elif [ "$1" == "libsys" ]; then
+    local OPT="sudo "
+    local SRVSPATH="/usr/lib/systemd/system"
   elif [ "$1" == "user" ]; then
     local OPT2=" --user"
     local SRVSPATH="/usr/lib/systemd/user"
@@ -686,7 +689,7 @@ service_ctl () {
     elif [ "$CMD" == "install" ]; then
       #
       # Just install service
-      sudo \cp $s $SRVSPATH
+      sudo \cp -r $s $SRVSPATH
     elif [ "$CMD" == "install-on" ]; then
       #
       # Install and add to enabler list if new
@@ -698,7 +701,7 @@ service_ctl () {
           SCTL_SYS_ENABLED+=( $BN )
         fi
       fi
-      sudo \cp $s $SRVSPATH
+      sudo \cp -r $s $SRVSPATH
     elif [ "$CMD" == "enable" ]; then
       #
       # If enable

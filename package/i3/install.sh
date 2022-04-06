@@ -77,6 +77,7 @@ I3_STATUS_BAR_STYLE="\n
 \n  separator_symbol \" \"
 \n  #position top
 \n  #tray_output primary
+\n  tray_padding 4
 \n  colors {
 \n    background #140B19
 \n    #background #140B1900

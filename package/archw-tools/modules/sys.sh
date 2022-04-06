@@ -20,6 +20,9 @@ if [ "$1" == 'help' ]; then
                           ;aur   - update only from aur repository
                           ;archw - update only archw packages
                           ;check - check for available updates and list them
+  autosnap [<num>]        ;if Timeshift installed, show status of automatic snapshots creation before system upgrade.
+                          ;Optionally set [<num>] of autosnapshots to keep in recovery. Set [<num>] to 0 to disable.
+                          ;Only works when updating with \"archw --upd\" command, or through menu bar button.
   install [<package> ...] ;List avaliable ArchW integrated packages, optionally set [<package> ...] to install
   audiosleep [on|off]     ;Show audio sleep status, optionally turn it [on|off]
   rsa [<name>]            ;Generate RSA key with optional [<name>] and copy it to clipboard
@@ -98,6 +101,37 @@ sys () {
   }
 
   #
+  # Autosnap
+  autosnap () {
+    #
+    # Load config
+    wconf load "sys.conf"
+    #
+    # Check if snap needed
+    if [ -n "$AUTOSNAP" ] && [ "$AUTOSNAP" != "0" ] && which timeshift > /dev/null 2>&1; then
+      local SNAPNAME="{autosnap} {created before upgrade}"
+      #
+      # Create snapshot
+      echo "Creating new snapshot..."
+      if ! timeshift --create --comments "$SNAPNAME" > /dev/null 2>&1; then
+        echo "Unable to run autosnap! Please close Timeshift and try again."
+        echo ""; read -p "Press any key to exit..." -r
+        exit 1
+      fi
+      #
+      # Delete overlimit snapshots
+      local TODELETE=($(sudo timeshift --list | sed -n "/$SNAPNAME/p" | awk '{print $3}'))
+      if (( ${#TODELETE[@]} > $AUTOSNAP )); then
+        local COUNTER=$(( ${#TODELETE[@]} - $AUTOSNAP - 1 ))
+        echo "Deleting $COUNTER old snapshot(s)..."
+        for (( c=0; c<=$COUNTER; c++ )); do
+          timeshift --delete --snapshot "${TODELETE[$c]}"
+        done
+      fi
+    fi
+  }
+
+  #
   # Save i3 socket
   if [ "$2" == "i3socketsave" ]; then
     echo "$I3SOCK" > "${S_ARCHW_FOLDER}/i3socket"
@@ -109,9 +143,9 @@ sys () {
     #
     # Check for updates only
     if [ "$3" == "check" ]; then
-      archw_tools_update check 2> /dev/null
-      checkupdates 2> /dev/null
-      yay -Qum 2> /dev/null
+      if RES=$(archw_tools_update check 2> /dev/null && checkupdates 2> /dev/null && yay -Qum 2> /dev/null); then
+        echo "$RES"
+      fi
       return 0
     fi
 
@@ -146,6 +180,10 @@ sys () {
     fi
 
     #
+    # Autosnapshot
+    autosnap
+
+    #
     # Update
     if [ -n "$U_CORE" ]; then
       sudo pacman -Syyu $NOCONFIRM
@@ -157,6 +195,31 @@ sys () {
       archw_tools_update $NOCONFIRM
     fi
     exit 0
+  elif [ "$2" == "autosnap" ]; then
+    #
+    # Check autosnap
+    if [ -n "$3" ]; then
+      if [[ "$3" =~ ^[0-9]+$ ]]; then
+        wconf set "sys.conf" AUTOSNAP "$3"
+        if [ "$3" == "0" ]; then
+          echo "Autosnap disabled"
+        else
+          echo "Autosnap enabled with $3 latest snapshot(s) in recovery"
+        fi
+        return 0
+      else
+        error
+      fi
+    fi
+    #
+    # Print info
+    wconf load "sys.conf"
+    if [ -n "$AUTOSNAP" ] && [ "$AUTOSNAP" == "0" ]; then
+      echo "Autosnap disabled"
+    else
+      echo "Autosnap enabled with $AUTOSNAP latest snapshot(s) in recovery"
+    fi
+    return 0
   elif [ "$2" == "install" ]; then
     #
     # Install archw packages

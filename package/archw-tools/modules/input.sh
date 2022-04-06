@@ -81,7 +81,7 @@ input () {
   #
   # Write settings
   write_settings () {
-
+    :
   }
 
   #
@@ -115,7 +115,7 @@ input () {
             exit 1
           fi
         elif [ "${OPT[3]}" == "FLO" ]; then
-          if [[ "$3" =~ ^[-]?[0-9]+\.[0-9]*$ ]] && (( $(echo "$3 >= ${OPT[4]}" | bc -l) )) && (( $(echo "$3 <= ${OPT[5]}" | bc -l) )); then
+          if [[ "$3" =~ ^[-]?[0-9]+(?:\.[0-9])*$ ]] && (( $(echo "$3 >= ${OPT[4]}" | bc -l) )) && (( $(echo "$3 <= ${OPT[5]}" | bc -l) )); then
             :
           fi
         elif [ "${OPT[3]}" == "DEC" ]; then
@@ -128,7 +128,7 @@ input () {
         exit 1
       fi
     elif [ "$1" == "mouse" ]; then
-
+      :
     fi
   }
 

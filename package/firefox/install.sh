@@ -12,8 +12,8 @@ sed -i -E \
 "s:^\s*(shadow-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'utility'\",:g; \
 s:^\s*(shadow-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'tooltip'\",:g; \
 s:^\s*(shadow-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'menu'\",:g; \
-s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g = 'firefox' \&\& focused\",:g; \
-s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g = 'firefoxdeveloperedition' \&\& focused\",:g" \
+s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g ~= 'firefox' \&\& focused\",:g; \
+s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g ~= 'firefox' \&\& \!focused\",:g" \
 $V_HOME/.config/picom/picom.conf
 
 #
