@@ -1,9 +1,12 @@
 #!/bin/bash
 
+sudo systemctl disable NetworkManager > /dev/null 2>&1
+
 sudo pacman --noconfirm -S networkmanager network-manager-applet
 
 #
 # Config
+#sudo mkdir -p /etc/NetworkManager/conf.d
 #sudo bash -c "cat >> /etc/NetworkManager/conf.d/dhcp-client.conf" << EOL
 #[main]
 #dhcp=dhclient
@@ -27,4 +30,6 @@ if [ -f "${S_PKG}/autonetworkwifi" ]; then
   nmcli device wifi connect "${AN_SSID}" password $AN_PASS
   sleep 5
   ip address show
+else
+  sudo systemctl enable NetworkManager
 fi

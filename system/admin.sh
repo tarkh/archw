@@ -206,16 +206,6 @@ if [ -n "$S_PATCH" ]; then
 fi
 
 #
-# Copy install log to home dir
-ProgressBar
-cp ./ARCHW_INSTALL.log ~/
-
-#
-# Cleanup system
-ProgressBar
-. ./package/common-scripts/cleanup.sh
-
-#
 # Enable NetworkManager
 ProgressBar
 if [ -n "$S_ADD_NETWORKMANAGER" ]; then
@@ -223,15 +213,25 @@ if [ -n "$S_ADD_NETWORKMANAGER" ]; then
 fi
 
 #
-# Disable admin autologin
+# Copy install log to home dir
 ProgressBar
-sudo rm -rf "/etc/systemd/system/getty@tty1.service/autologin.conf"
+cp ./ARCHW_INSTALL.log ~/
 
 #
 # Create skel template from home directory
 ProgressBar
-sudo mkdir $S_ARCHW_FOLDER/homeskel
-cp -a $V_HOME/. $S_ARCHW_FOLDER/homeskel
+mkdir $S_ARCHW_FOLDER/homeskel
+cp -a $V_HOME/. $S_ARCHW_FOLDER/homeskel/
+
+#
+# Cleanup system
+ProgressBar
+. ./package/common-scripts/cleanup.sh
+
+#
+# Disable admin autologin
+ProgressBar
+sudo rm -rf "/etc/systemd/system/getty@tty1.service/autologin.conf"
 
 #
 # Run reboot with timeout

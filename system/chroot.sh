@@ -71,14 +71,14 @@ fi
 # Resolved
 systemctl enable systemd-resolved.service
 # IWD
-bash -c "cat > /etc/iwd/main.conf" << EOL
+mkdir -p /etc/iwd
+touch /etc/iwd/main.conf
+bash -c "cat >> /etc/iwd/main.conf" << EOL
 [General]
 EnableNetworkConfiguration=true
 [Network]
 RoutePriorityOffset=300
-[Network]
 EnableIPv6=true
-[Network]
 NameResolvingService=systemd
 EOL
 systemctl enable iwd.service
