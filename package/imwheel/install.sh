@@ -18,6 +18,4 @@ service_ctl user install-on ./package/imwheel/systemd/aw-imwheel-autostart.servi
 
 #
 # On
-if [ -n "$ARCHW_PKG_INST" ]; then
-  service_ctl user on aw-imwheel-autostart.service
-fi
+service_ctl user on aw-imwheel-autostart.service

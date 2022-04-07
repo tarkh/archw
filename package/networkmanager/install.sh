@@ -23,8 +23,8 @@ if [ -f "${S_PKG}/autonetworkwifi" ]; then
   sudo systemctl stop iwd.service
   sudo systemctl disable iwd.service
   sleep 2
-  sudo systemctl enable NetworkManager
-  sudo systemctl start NetworkManager
+  sudo systemctl enable NetworkManager.service
+  sudo systemctl start NetworkManager.service
   echo "Connecting to wifi network ${AN_SSID}... This might take up to 60 seconds..."
   sleep 2
   nmcli device wifi connect "${AN_SSID}" password $AN_PASS

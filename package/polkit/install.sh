@@ -22,6 +22,4 @@ service_ctl user install-on ./package/polkit/systemd/aw-polkit-gnome-autostart.s
 
 #
 # On
-if [ -n "$ARCHW_PKG_INST" ]; then
-  service_ctl user on aw-polkit-gnome-autostart.service
-fi
+service_ctl user on aw-polkit-gnome-autostart.service

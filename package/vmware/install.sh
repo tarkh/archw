@@ -36,9 +36,7 @@ sudo chmod -R 0777 /usr/share/archw/automount
 #
 # Automount service
 service_ctl sys install-on ./package/vmware/systemd/aw-archw-vmware-automount.service
-if [ -n "$ARCHW_PKG_INST" ]; then
-  service_ctl sys on aw-archw-vmware-automount.service
-fi
+service_ctl sys on aw-archw-vmware-automount.service
 sudo systemctl enable aw-archw-vmware-automount.service
 #
 # Add archw module

@@ -1,15 +1,17 @@
 #!/bin/bash
 
-#sudo pacman --noconfirm -S libnotify dunst
 #sudo pacman --noconfirm -R dunst > /dev/null 2>&1
+#sudo pacman --noconfirm -S libnotify
+#yay --noconfirm -S pod2man dunst-git
 
-sudo pacman --noconfirm -S libnotify
-yay --noconfirm -S pod2man dunst
+sudo pacman --noconfirm -S libnotify dunst
+yay --noconfirm -S pod2man
 
 #
 # Copy config
 mkdir -p $V_HOME/.config/dunst
-\cp -r /usr/etc/xdg/dunst/dunstrc $V_HOME/.config/dunst/
+#\cp -r /usr/etc/xdg/dunst/dunstrc $V_HOME/.config/dunst/
+\cp -r /etc/dunst/dunstrc $V_HOME/.config/dunst/
 
 #
 # Patch config

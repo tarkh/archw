@@ -12,6 +12,4 @@ service_ctl user install-on ./package/nm-applet/systemd/aw-nm-applet-autostart.s
 
 #
 # On
-if [[ -n "$S_SYSTEMCTL_NETWORKMANAGER" || -n "$ARCHW_PKG_INST" ]]; then
-  service_ctl user on aw-nm-applet-autostart.service
-fi
+service_ctl user on aw-nm-applet-autostart.service

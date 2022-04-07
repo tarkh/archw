@@ -12,9 +12,7 @@ if [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
 
   #
   # On
-  if [ -n "$ARCHW_PKG_INST" ]; then
-    service_ctl libsys on grub-btrfs.path grub-btrfs-on-poweroff.service
-  fi
+  service_ctl libsys on grub-btrfs.path grub-btrfs-on-poweroff.service
 else
   echo "Skipping grub-silent: btrfs not available"
 fi

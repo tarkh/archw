@@ -106,6 +106,4 @@ EOL
 
 #
 # On
-if [ -n "$ARCHW_PKG_INST" ]; then
-  service_ctl user on aw-redshift-autostart.service
-fi
+service_ctl user on aw-redshift-autostart.service
