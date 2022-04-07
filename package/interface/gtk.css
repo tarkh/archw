@@ -6,7 +6,7 @@ tooltip {
   padding: 0 3px 0 3px;
   border-radius: 0;
   box-shadow: 0 0 6px #000;
-  text-shadow: 0;
+  text-shadow: none;
 }
 tooltip.background {
   background-color: #0C0E15;

@@ -72,4 +72,6 @@ EOL
 
 #
 # On
-service_ctl user on aw-sxhkd-autostart.service
+if [ -n "$ARCHW_PKG_INST" ]; then
+  service_ctl user on aw-sxhkd-autostart.service
+fi

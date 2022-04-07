@@ -2,7 +2,7 @@
 
 sudo systemctl disable NetworkManager > /dev/null 2>&1
 
-sudo pacman --noconfirm -S networkmanager network-manager-applet
+sudo pacman --noconfirm -S networkmanager
 
 #
 # Config

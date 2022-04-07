@@ -55,10 +55,11 @@ cd $S_PKG
 
 #
 # LXQT + Kvantum
-sudo pacman --noconfirm kvantum lxqt-qtplugin lxqt-config
+sudo pacman --noconfirm -S kvantum lxqt-qtplugin lxqt-config
 \cp -r ./package/interface/Kvantum $V_HOME/.config/
 \cp -r ./package/interface/lxqt $V_HOME/.config/
-
+\cp -r ./package/interface/.Xdefaults $V_HOME/
+\cp -r ./package/interface/.icons $V_HOME/
 
 # PAPIRUS
 # icons

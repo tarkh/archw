@@ -25,4 +25,6 @@ xdg-mime default telegramdesktop.desktop x-scheme-handler/tg
 
 #
 # On
-service_ctl user on aw-telegram-desktop-autostart.service
+if [ -n "$ARCHW_PKG_INST" ]; then
+  service_ctl user on aw-telegram-desktop-autostart.service
+fi

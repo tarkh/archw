@@ -113,7 +113,7 @@ sys () {
       #
       # Create snapshot
       echo "Creating new snapshot..."
-      if ! timeshift --create --comments "$SNAPNAME" > /dev/null 2>&1; then
+      if ! sudo timeshift --create --comments "$SNAPNAME" > /dev/null 2>&1; then
         echo "Unable to run autosnap! Please close Timeshift and try again."
         echo ""; read -p "Press any key to exit..." -r
         exit 1
@@ -123,9 +123,10 @@ sys () {
       local TODELETE=($(sudo timeshift --list | sed -n "/$SNAPNAME/p" | awk '{print $3}'))
       if (( ${#TODELETE[@]} > $AUTOSNAP )); then
         local COUNTER=$(( ${#TODELETE[@]} - $AUTOSNAP - 1 ))
-        echo "Deleting $COUNTER old snapshot(s)..."
+        echo "Deleting $(( $COUNTER + 1 )) old snapshot(s)..."
         for (( c=0; c<=$COUNTER; c++ )); do
-          timeshift --delete --snapshot "${TODELETE[$c]}"
+          sudo timeshift --delete --snapshot "${TODELETE[$c]}"
+          echo "Snapshot ${TODELETE[$c]} deleted"
         done
       fi
     fi

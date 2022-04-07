@@ -33,4 +33,6 @@ service_ctl user install-on ./package/flameshot/systemd/aw-flameshot-autostart.s
 
 #
 # On
-service_ctl user on aw-flameshot-autostart.service
+if [ -n "$ARCHW_PKG_INST" ]; then
+  service_ctl user on aw-flameshot-autostart.service
+fi

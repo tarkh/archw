@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #sudo pacman --noconfirm -S libnotify dunst
-sudo pacman --noconfirm -R dunst > /dev/null 2>&1
+#sudo pacman --noconfirm -R dunst > /dev/null 2>&1
 
 sudo pacman --noconfirm -S libnotify
-yay --noconfirm -S pod2man dunst-git
+yay --noconfirm -S pod2man dunst
 
 #
 # Copy config

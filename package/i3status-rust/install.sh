@@ -44,4 +44,6 @@ ${V_HOME}/.config/i3/config
 
 #
 # On
-service_ctl user on aw-update-checker.timer aw-update-checker.service
+if [ -n "$ARCHW_PKG_INST" ]; then
+  service_ctl user on aw-update-checker.timer aw-update-checker.service
+fi

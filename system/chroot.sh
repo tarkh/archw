@@ -182,6 +182,13 @@ if [ -n "$S_PATCH" ]; then
 fi
 
 #
+# Enable NetworkManager
+ProgressBar
+if [ -n "$S_ADD_NETWORKMANAGER" ]; then
+  . ./package/networkmanager/install.sh
+fi
+
+#
 # Exit section
 if [ -n "$S_REBOOT_PROMPT" ]; then
   echo ""; read -p "CHROOT install stage has been completed! Exit to ISO? (y/n) " -r

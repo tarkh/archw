@@ -206,13 +206,6 @@ if [ -n "$S_PATCH" ]; then
 fi
 
 #
-# Enable NetworkManager
-ProgressBar
-if [ -n "$S_ADD_NETWORKMANAGER" ]; then
-  . ./package/networkmanager/install.sh
-fi
-
-#
 # Copy install log to home dir
 ProgressBar
 cp ./ARCHW_INSTALL.log ~/

@@ -110,6 +110,7 @@ input () {
               write_settings "$FILE" "$2" "$3"
             done
           elif [ "$3" == "false" ]]; then
+            :
           else
             echo "Invalid argument for boolean option"
             exit 1
