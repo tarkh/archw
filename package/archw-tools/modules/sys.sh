@@ -365,7 +365,9 @@ sys () {
     # Load devices config
     load_devices_config
     # Enable hibernation
+    HIB_ENABLE_FROM_ARCHW=true
     set_hibernation
+    touch ${S_ARCHW_FOLDER}/HIB
     if [[ $? -eq 0 ]]; then
       echo "System hibernation setup has been completed."
       echo "Check \"archw --help pm\" for configuration help"

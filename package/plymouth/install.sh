@@ -47,4 +47,6 @@ sudo systemctl enable lightdm-plymouth.service
 
 #
 # Rebuild GRUB and kernel
-install_grub
+if [ -n "$ARCHW_PKG_INST" ]; then
+  install_grub
+fi

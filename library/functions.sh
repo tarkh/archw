@@ -421,6 +421,7 @@ connected () {
   return 1
 }
 #
+# WiFi
 try_connect () {
   #
   # IP checker
@@ -590,7 +591,7 @@ install_grub () {
         <key>ProductBuildVersion</key>
         <string></string>
         <key>ProductName</key>
-        <string>Linux</string>
+        <string>ArchW</string>
         <key>ProductVersion</key>
         <string>ArchW</string>
  </dict>

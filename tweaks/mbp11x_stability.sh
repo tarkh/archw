@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Add kernel flags
-add_kernel_param "intel_iommu=on iommu=pt"
+add_kernel_param "libata.force=1:noncq"
 
 #
 # Set grub

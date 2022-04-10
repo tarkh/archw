@@ -7,4 +7,6 @@ sudo sed -i -E \
 
 #
 # Set grub
-install_grub
+if [ -n "$ARCHW_PKG_INST" ]; then
+  install_grub
+fi

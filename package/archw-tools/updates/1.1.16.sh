@@ -30,5 +30,6 @@ if ! cat $S_ARCHW_FOLDER/config/config | grep "S_SWAP_FILE=" > /dev/null; then
   "s:(S_CREATE_SWAP=.*):\1\n# Swap file location\nS_SWAP_FILE=/swapfile:" \
   /usr/share/archw/config/config
 fi
+HIB_ENABLE_FROM_ARCHW=true
 set_hibernation
 touch ${S_ARCHW_FOLDER}/HIB

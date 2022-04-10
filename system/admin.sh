@@ -120,11 +120,6 @@ if [ -n "$S_ADD_LIBINPUT" ]; then
 fi
 
 #
-# If Network Manager autorun enabled
-ProgressBar
-. ./package/nm-applet/install.sh
-
-#
 # If bluetooth autorun is enabled
 ProgressBar
 . ./package/blueman/install.sh
@@ -206,6 +201,14 @@ if [ -n "$S_PATCH" ]; then
 fi
 
 #
+# Enable NetworkManager
+ProgressBar
+if [ -n "$S_ADD_NETWORKMANAGER" ]; then
+  . ./package/networkmanager/install.sh
+  . ./package/nm-applet/install.sh
+fi
+
+#
 # Copy install log to home dir
 ProgressBar
 cp ./ARCHW_INSTALL.log ~/
@@ -215,6 +218,12 @@ cp ./ARCHW_INSTALL.log ~/
 ProgressBar
 mkdir $S_ARCHW_FOLDER/homeskel
 cp -a $V_HOME/. $S_ARCHW_FOLDER/homeskel/
+
+#
+# Regenerate GRUB bootloader
+GRUB_CONTENT_REBUILD=1
+install_grub
+unset $GRUB_CONTENT_REBUILD
 
 #
 # Cleanup system
