@@ -135,7 +135,9 @@ fi
 #
 # Set grub
 ProgressBar
+GRUB_CONTENT_REBUILD=1
 install_grub packageInstall
+unset $GRUB_CONTENT_REBUILD
 
 #
 # Set .bashrc

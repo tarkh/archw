@@ -603,9 +603,21 @@ EOL
       sudo convert $S_PKG/package/wallpapers/archw-logo-src.png -resize "128x128" /tmp/VolumeIcon.png
       sudo png2icns /boot/EFI/.VolumeIcon.icns /tmp/VolumeIcon.png
     fi
-    # Copy standalone grub
-    sudo grub-mkstandalone -o /boot/EFI/System/Library/CoreServices/boot.efi \
-    -d /usr/lib/grub/x86_64-efi -O x86_64-efi --compress=xz /boot/grub/grub.cfg
+    if [ -n "$S_BOOT_GRUBSTANALONE" ]; then
+      #
+      # Install standalone grub
+      sudo grub-mkstandalone -o /boot/EFI/System/Library/CoreServices/boot.efi \
+      -d /usr/lib/grub/x86_64-efi -O x86_64-efi --compress=xz /boot/grub/grub.cfg
+    else
+      #
+      # Install grub
+      sudo grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=$S_BOOTLOADER_ID --recheck
+      # Copy efi file to proper location
+      if ! sudo \cp -r /boot/EFI/EFI/ArchW/grubx64.efi /boot/EFI/System/Library/CoreServices/boot.efi; then
+        sudo \cp -r /boot/EFI/EFI/ArchW/boot.efi /boot/EFI/System/Library/CoreServices/
+      fi
+      sudo rm -rf /boot/EFI/EFI
+    fi
   fi
 }
 

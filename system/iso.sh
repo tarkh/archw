@@ -231,6 +231,8 @@ fi
 if [ "$S_MAKEFS_SYS_FS" == "btrfs" ]; then
   BTRFSRELP="btrfs-progs"
 fi
+
+#
 # Pacstrap init
 if ! pacstrap /mnt base $S_LINUX linux-firmware $CPURELP $BTRFSRELP \
 base-devel parted grub openssh curl wget ntp zip unzip nano vim git \
@@ -239,7 +241,7 @@ feh imagemagick scrot libicns \
 xorg-server xorg-apps xorg-xinit xclip arandr \
 gnome-keyring libsecret seahorse \
 iwd iw nm-connection-editor \
-broadcom-wl \
+broadcom-wl-dkms \
 bluez bluez-utils blueman \
 alsa-utils pulseaudio pulseaudio-alsa pulseaudio-bluetooth pavucontrol \
 playerctl; then

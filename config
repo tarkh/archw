@@ -55,6 +55,9 @@ S_GUIDPI=20
 # partitions and properly set S_DISK, S_DISK_EFI (1)
 # and S_DISK_SYSTEM (2)
 S_BOOT=uefi
+# Install GRUB as standalone unit
+# only if hfs selected
+#S_BOOT_GRUBSTANALONE=true
 # Bootloader ID
 S_BOOTLOADER_ID=ArchW
 

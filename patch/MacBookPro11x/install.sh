@@ -23,13 +23,16 @@ if [ -n "$STAGE_BOOTSTRAP" ]; then
       #
       # Manual device setup for BCM43xx
       echo "Initializing network device..."
-      rmmod b43
-      rmmod ssb
-      rmmod bcma
-      rmmod wl
+      sudo rmmod b43
+      sudo rmmod ssb
+      sudo rmmod bcma
+      sudo rmmod wl
       sleep 2
-      modprobe wl
-      depmod -a
+      if ! sudo modprobe wl; then
+        echo "Can't load kernel module: wl"
+        exit 1
+      fi
+      sudo depmod -a
       # Try to connect
       try_connect
     fi
