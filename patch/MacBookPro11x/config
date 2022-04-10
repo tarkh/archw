@@ -12,6 +12,10 @@
 # ==========================================
 
 #
+# CPU model
+S_CPUM=intel
+
+#
 # Graphics driver
 S_GRAPHICS=intel
 

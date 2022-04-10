@@ -613,8 +613,8 @@ EOL
       # Install grub
       sudo grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=$S_BOOTLOADER_ID --recheck
       # Copy efi file to proper location
-      if ! sudo \cp -r /boot/EFI/EFI/ArchW/grubx64.efi /boot/EFI/System/Library/CoreServices/boot.efi; then
-        sudo \cp -r /boot/EFI/EFI/ArchW/boot.efi /boot/EFI/System/Library/CoreServices/
+      if ! sudo \cp -r /boot/EFI/EFI/${S_BOOTLOADER_ID}/System/Library/CoreServices/boot.efi /boot/EFI/System/Library/CoreServices/; then
+        >&2 echo "Error while creating GRUB efi for HFS!"
       fi
       sudo rm -rf /boot/EFI/EFI
     fi

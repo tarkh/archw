@@ -188,8 +188,8 @@ if [ -n "$S_MAKEFS_PARTITIONS" ]; then
       #mount -o ${S_BTRFS_OPTS},subvol=@snapshots $MNT /mnt/.snapshots
       mount -o ${S_BTRFS_OPTS_SWAP},subvol=@swap $MNT /mnt${S_BTRFS_SVD_SWAP}
       mount -o ${S_BTRFS_OPTS},subvolid=5 $MNT /mnt/btrfs
-      # fix tmp
-      #chmod 1777 /mnt/tmp
+      # fix var/tmp
+      chmod 1777 /mnt/var/tmp
     else
       echo "Option S_MAKEFS_SYS_FS is empty! Please, correct your config"
       exit 1
@@ -222,7 +222,7 @@ pacman --noconfirm -Syy
 echo "Waiting for devices before system install..."
 sleep 1
 # Set CPU related packages
-if [ "$CPUM" == "intel" ]; then
+if [ "$S_CPUM" == "intel" ]; then
   CPURELP="intel-ucode"
 elif [ "" == "" ]; then
   CPURELP="amd-ucode"
@@ -241,7 +241,6 @@ feh imagemagick scrot libicns \
 xorg-server xorg-apps xorg-xinit xclip arandr \
 gnome-keyring libsecret seahorse \
 iwd iw nm-connection-editor \
-broadcom-wl-dkms \
 bluez bluez-utils blueman \
 alsa-utils pulseaudio pulseaudio-alsa pulseaudio-bluetooth pavucontrol \
 playerctl; then

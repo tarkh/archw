@@ -21,7 +21,7 @@ S_PATCH=DefaultDesktop
 # Available options:
 # 1. intel
 # 2. amd
-CPUM=intel
+S_CPUM=intel
 
 # Graphics driver
 # Could be overridden by S_PATCH config

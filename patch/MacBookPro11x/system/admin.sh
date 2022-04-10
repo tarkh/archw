@@ -53,7 +53,6 @@ archw --fan normal
 #
 # Camera
 ProgressBar
-sudo pacman --noconfirm -S ${S_LINUX}-headers
 yay --noconfirm -S facetimehd-firmware bcwc-pcie-git
 sudo depmod
 sudo modprobe facetimehd

@@ -6,6 +6,20 @@
 # CHROOT STAGE
 
 #
+# Kernel headers
+ProgressBar
+pacman --noconfirm -S ${S_LINUX}-headers
+
+#
+# Packages
+ProgressBar
+if [ "$S_LINUX" == "linux" ]; then
+  pacman --noconfirm -S broadcom-wl
+else
+  pacman --noconfirm -S dkms broadcom-wl-dkms
+fi
+
+#
 # Tweaks
 . ./tweaks/intel_iommu.sh
 . ./tweaks/intel_video_tune.sh
