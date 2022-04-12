@@ -4,17 +4,17 @@ if [ -n "$S_GRAPHICS" ]; then
   if [ "$S_GRAPHICS" == "intel" ]; then
     #
     # Intel
-    . ./package/graphics/intel.sh
+    . ./package/set-graphics/intel.sh
     #
   elif [ "$S_GRAPHICS" == "amd" ]; then
     #
     # AMD
-    . ./package/graphics/amd.sh
+    . ./package/set-graphics/amd.sh
     #
   elif [ "$S_GRAPHICS" == "nvidia" ]; then
     #
     # Nvidia
-    . ./package/graphics/nvidia.sh
+    . ./package/set-graphics/nvidia.sh
     #
   fi
 fi

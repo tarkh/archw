@@ -286,7 +286,7 @@ set_hibernation () {
     #
     # Btrfs
     # Install btrfs_map_physical
-    . ./package/btrfs-tools/install.sh
+    . ./package/set-btrfs-tools/install.sh
     #
     BTRFS_SWAP_FILE="${S_BTRFS_SVD_SWAP}${S_SWAP_FILE}"
     V_DEV_SWAP=$(findmnt -no UUID -T ${BTRFS_SWAP_FILE})
@@ -598,9 +598,9 @@ install_grub () {
  </plist>
 EOL
       # Copy blessed ArchW partition label
-      sudo cp -a $S_PKG/package/common-scripts/blessed/. /boot/EFI/System/Library/CoreServices/
+      sudo cp -a $S_PKG/package/set-common-scripts/blessed/. /boot/EFI/System/Library/CoreServices/
       # Install ArchW icon
-      sudo convert $S_PKG/package/wallpapers/archw-logo-src.png -resize "128x128" /tmp/VolumeIcon.png
+      sudo convert $S_PKG/package/set-wallpapers/archw-logo-src.png -resize "128x128" /tmp/VolumeIcon.png
       sudo png2icns /boot/EFI/.VolumeIcon.icns /tmp/VolumeIcon.png
     fi
     if [ -n "$S_BOOT_GRUBSTANALONE" ]; then

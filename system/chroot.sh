@@ -166,7 +166,7 @@ fi
 #
 # Graphics
 ProgressBar
-. ./package/graphics/install.sh
+. ./package/set-graphics/install.sh
 
 #
 # Ignore power button

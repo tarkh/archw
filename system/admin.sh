@@ -75,7 +75,7 @@ yay --noconfirm -S xkblayout-state-git
 #
 # Add wallpapers
 ProgressBar
-. ./package/common-scripts/wallpapers.sh
+. ./package/set-common-scripts/wallpapers.sh
 
 #
 # If Xorg
@@ -116,7 +116,7 @@ fi
 #
 # Libinput general config
 if [ -n "$S_ADD_LIBINPUT" ]; then
-  sudo cp ./package/common-scripts/40-aw-libinput.conf /etc/X11/xorg.conf.d/
+  sudo cp ./package/set-common-scripts/40-aw-libinput.conf /etc/X11/xorg.conf.d/
 fi
 
 #
@@ -144,13 +144,13 @@ ProgressBar
 #
 # Install interface and theme
 ProgressBar
-. ./package/interface/install.sh
+. ./package/set-interface/install.sh
 
 #
 # Enable autologin
 ProgressBar
 if [ -n "$S_AUTOLOGIN" ]; then
-. ./package/common-scripts/autologin.sh
+. ./package/set-common-scripts/autologin.sh
 fi
 
 #to assign
@@ -205,7 +205,6 @@ fi
 ProgressBar
 if [ -n "$S_ADD_NETWORKMANAGER" ]; then
   . ./package/networkmanager/install.sh
-  . ./package/nm-applet/install.sh
 fi
 
 #
@@ -228,7 +227,7 @@ unset $GRUB_CONTENT_REBUILD
 #
 # Cleanup system
 ProgressBar
-. ./package/common-scripts/cleanup.sh
+. ./package/set-common-scripts/cleanup.sh
 
 #
 # Disable admin autologin

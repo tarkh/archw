@@ -136,7 +136,7 @@ fi
 # Install firefox
 ProgressBar
 if [ -n "$S_ADD_FF" ]; then
-. ./package/firefox/install.sh
+. ./package/firefox-developer-edition/install.sh
 fi
 
 #
@@ -157,7 +157,7 @@ fi
 # Install bluetooth extra codecs
 ProgressBar
 if [ -n "$S_ADD_BTEXTRA" ]; then
-. ./package/bluetooth-extra/install.sh
+. ./package/set-bluetooth-extra/install.sh
 fi
 
 #
@@ -255,7 +255,7 @@ fi
 # GuiDpi
 ProgressBar
 if [ -n "$S_GUIDPI" ]; then
-  . ./package/guidpi/install.sh
+  . ./package/set-guidpi/install.sh
 fi
 
 #

@@ -3,7 +3,7 @@
 sudo rm /etc/i3/config > /dev/null 2>&1
 sudo pacman --noconfirm -S i3-gaps perl-anyevent-i3 ttf-dejavu i3lock i3status
 
-\cp ./package/common-scripts/.xinitrc $V_HOME
+\cp ./package/set-common-scripts/.xinitrc $V_HOME
 sudo chmod +x ./package/i3/bin/*
 sudo \cp -r ./package/i3/bin/* /usr/local/bin
 mkdir -p $V_HOME/.config/i3

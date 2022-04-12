@@ -284,7 +284,7 @@ sys () {
     #
     # List avaliable software
     echo "Avaliable packages:"
-    ls /tmp/$S_ARCHW_GITPKG_NAME/package | sed -E "/(archw-tools|common-scripts|wallpapers)/d"
+    ls /tmp/$S_ARCHW_GITPKG_NAME/package | sed -E "/(archw-tools|set-common-scripts|set-wallpapers)/d"
     return 0
   elif [ "$2" == "audiosleep" ]; then
     #

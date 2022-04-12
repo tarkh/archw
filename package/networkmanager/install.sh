@@ -1,8 +1,9 @@
 #!/bin/bash
 
-sudo systemctl disable NetworkManager > /dev/null 2>&1
+sudo systemctl stop NetworkManager.service > /dev/null 2>&1
+service_ctl user off aw-nm-applet-autostart.service
 
-sudo pacman --noconfirm -S networkmanager
+sudo pacman --noconfirm -S networkmanager network-manager-applet
 
 #
 # Config
@@ -25,11 +26,23 @@ if [ -f "${S_PKG}/autonetworkwifi" ]; then
   sleep 2
   sudo systemctl enable NetworkManager.service
   sudo systemctl start NetworkManager.service
+  sleep 2
+  sudo nmcli dev wifi
   echo "Connecting to wifi network ${AN_SSID}... This might take up to 60 seconds..."
   sleep 2
-  nmcli device wifi connect "${AN_SSID}" password $AN_PASS
-  sleep 5
+  nmcli device wifi connect "${AN_SSID}" password "$AN_PASS"
+  sleep 2
   ip address show
 else
-  sudo systemctl enable NetworkManager
+  sudo systemctl disable iwd.service
+  sleep 2
+  sudo systemctl enable NetworkManager.service
 fi
+
+#
+# Autorun with i3
+service_ctl user install-on ./package/networkmanager/systemd/aw-nm-applet-autostart.service
+
+#
+# On
+service_ctl user on aw-nm-applet-autostart.service

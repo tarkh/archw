@@ -61,5 +61,5 @@ ${V_HOME}/.config/i3/config
 # Re-apply current gui dpi profile
 if [ -n "$ARCHW_PKG_INST" ]; then
   S_GUIDPI=$(archw --gui preset | cut -d ":" -f2 | sed -E "s:\s+::")
-  . ./package/guidpi/install.sh
+  . ./package/set-guidpi/install.sh
 fi

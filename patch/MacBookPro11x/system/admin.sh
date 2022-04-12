@@ -44,7 +44,15 @@ s:^(\s*Option \"ScrollDistance\").*:\1 \"700\":" \
 #
 # Install fan control (mbfan)
 ProgressBar
-yay --noconfirm -S mbpfan-git
+#yay --noconfirm -S mbpfan-git
+cd $V_AUR
+git clone https://github.com/linux-on-mac/mbpfan
+cd mbpfan
+make
+sudo install -Dm755 "bin/mbpfan" "/usr/bin/mbpfan"
+sudo install -Dm644 "mbpfan.conf" "/etc/mbpfan.conf"
+sudo install -Dm644 "mbpfan.service" "/usr/lib/systemd/system/mbpfan.service"
+cd $S_PKG
 sudo systemctl enable mbpfan.service
 sudo systemctl start mbpfan.service
 sleep 1

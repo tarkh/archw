@@ -17,7 +17,7 @@ add_system_hook "sd-plymouth" "" "systemd"
 # Add theme
 sudo cp -r ./package/plymouth/theme/archw /usr/share/plymouth/themes/
 # Add archw logo
-sudo convert ./package/wallpapers/archw-logo-src.png -resize "128x128" /usr/share/plymouth/themes/archw/watermark.png
+sudo convert ./package/set-wallpapers/archw-logo-src.png -resize "128x128" /usr/share/plymouth/themes/archw/watermark.png
 # Set theme
 sudo sed -i -E \
 "s:\s*(Theme=).*:\1archw:" \

@@ -11,7 +11,7 @@ sudo mkdir -p /root/.config/
 #
 # Set profile
 ProgressBar
-\cp -r ./package/interface/.profile $V_HOME/
+\cp -r ./package/set-interface/.profile $V_HOME/
 # Copy profile to root
 sudo cp $V_HOME/.profile /root/
 
@@ -42,8 +42,8 @@ cd $S_PKG
 #cd $S_PKG
 #for qtv in "${QT_VER[@]}"; do
 #  mkdir -p $V_HOME/.config/qt${qtv}ct/qss/
-#  \cp -r ./package/interface/qt${qtv}ct.conf $V_HOME/.config/qt${qtv}ct/
-#  \cp -a ./package/interface/qss${qtv}/. $V_HOME/.config/qt${qtv}ct/qss/
+#  \cp -r ./package/set-interface/qt${qtv}ct.conf $V_HOME/.config/qt${qtv}ct/
+#  \cp -a ./package/set-interface/qss${qtv}/. $V_HOME/.config/qt${qtv}ct/qss/
 #  # Patch with user path
 #  sudo sed -i -E \
 #  "s:^\s*(color_scheme_path=)(.*):\1${V_HOME}/\2:; \
@@ -56,11 +56,11 @@ cd $S_PKG
 #
 # LXQT + Kvantum
 sudo pacman --noconfirm -S kvantum lxqt-qtplugin lxqt-config
-\cp -r ./package/interface/Kvantum $V_HOME/.config/
-\cp -r ./package/interface/lxqt $V_HOME/.config/
-\cp -r ./package/interface/dconf $V_HOME/.config/
-\cp -r ./package/interface/.Xdefaults $V_HOME/
-\cp -r ./package/interface/.icons $V_HOME/
+\cp -r ./package/set-interface/Kvantum $V_HOME/.config/
+\cp -r ./package/set-interface/lxqt $V_HOME/.config/
+\cp -r ./package/set-interface/dconf $V_HOME/.config/
+\cp -r ./package/set-interface/.Xdefaults $V_HOME/
+\cp -r ./package/set-interface/.icons $V_HOME/
 
 # PAPIRUS
 # icons
@@ -77,24 +77,24 @@ papirus-folders -C violet
 
 #
 # Custom icons font
-sudo cp ./package/interface/fonts/archw-selected-icons.ttf /usr/share/fonts/TTF/
+sudo cp ./package/set-interface/fonts/archw-selected-icons.ttf /usr/share/fonts/TTF/
 sudo fc-cache
 
 #
 # Gtk 2
-\cp -r ./package/interface/.gtkrc-2.0 $V_HOME/
+\cp -r ./package/set-interface/.gtkrc-2.0 $V_HOME/
 # Copy profile to root
 sudo cp $V_HOME/.gtkrc-2.0 /root/
 
 #
 # Gtk 3
 mkdir -p $V_HOME/.config/gtk-3.0
-\cp -r ./package/interface/settings.ini $V_HOME/.config/gtk-3.0
+\cp -r ./package/set-interface/settings.ini $V_HOME/.config/gtk-3.0
 # Copy to root
 sudo cp -r $V_HOME/.config/gtk-3.0 /root/.config/
 #
 mkdir -p $V_HOME/.themes/Dracula/gtk-3.0
-\cp -r ./package/interface/gtk.css ./package/interface/gtk-dark.css $V_HOME/.themes/Dracula/gtk-3.0
+\cp -r ./package/set-interface/gtk.css ./package/set-interface/gtk-dark.css $V_HOME/.themes/Dracula/gtk-3.0
 # Copy to root
 sudo cp -r $V_HOME/.themes /root/
 
