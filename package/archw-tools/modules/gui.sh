@@ -152,7 +152,7 @@ gui () {
     if [ "$2" == "auto" ]; then
       local PPI=$(archw --disp info | grep PPI | cut -d ':' -f2 | awk '{print $1}')
       # Check if we have PPI
-      if ! [[ $3 =~ ^[0-9]+$ ]]; then
+      if ! [[ $PPI =~ ^[0-9]+$ ]]; then
         echo "Can't set GUI profile automatically: wrong PPI detected"
         exit 1
       fi
