@@ -20,7 +20,7 @@ if [ "$1" == 'help' ]; then
                  ;150 - scale GUI up to 150%
                  ;200, 250, 300
   dpi [num]      ;Get current DPI value or set custom one with optional [num]
-  hidpi [on|off] ;Get current HIDPI status or set it with optional [on|off]
+  hidpi [on|off] ;Get current HiDPI status or set it with optional [on|off]
 "
 fi
 
@@ -153,15 +153,15 @@ gui () {
       # Set screen presets
       if [ -n "$3" ]; then
         if [ "$3" == "100" ]; then
-          set_xprof $3 $DPISTART off 2
+          set_xprof $3 $DPISTART off 6
         elif [ "$3" == "150" ]; then
-          set_xprof $3 144 on 3
+          set_xprof $3 144 on 4
         elif [ "$3" == "200" ]; then
-          set_xprof $3 192 on 4
+          set_xprof $3 192 on 3
         elif [ "$3" == "250" ]; then
-          set_xprof $3 240 on 5
+          set_xprof $3 240 on 3
         elif [ "$3" == "300" ]; then
-          set_xprof $3 288 on 6
+          set_xprof $3 288 on 3
         else
           error
         fi
@@ -190,24 +190,25 @@ gui () {
       echo "Current DPI: $XPROF_DPI"
       return 0
     elif [ $2 == "hidpi" ]; then
-      if [ -n "$3" ] && [[ $3 =~ ^(on|off)$ ]]; then
-        set_hidpi $3
-      else
-        error
+      if [ -n "$3" ]; then
+        if [[ $3 =~ ^(on|off)$ ]]; then
+          set_hidpi $3
+        else
+          error
+        fi
       fi
       local HIDPI_STAT=off
       if [ "$QT_SCALE_FACTOR" -gt "1" ]; then
         HIDPI_STAT=on
       fi
-      echo "Current HIDPI scaling: $HIDPI_STAT"
+      echo "HiDPI scaling: $HIDPI_STAT"
       return 0
     elif [ $2 == "set-env-vars" ]; then
-      export GDK_SCALE=$GDK_SCALE
-      export GDK_DPI_SCALE=$GDK_DPI_SCALE
-      export QT_AUTO_SCREEN_SCALE_FACTOR=$QT_AUTO_SCREEN_SCALE_FACTOR
-      export QT_SCALE_FACTOR=$QT_SCALE_FACTOR
-      export QT_FONT_DPI=$QT_FONT_DPI
-      echo "GUI env vars loaded"
+      echo export GDK_SCALE=$GDK_SCALE
+      echo export GDK_DPI_SCALE=$GDK_DPI_SCALE
+      echo export QT_AUTO_SCREEN_SCALE_FACTOR=$QT_AUTO_SCREEN_SCALE_FACTOR
+      echo export QT_SCALE_FACTOR=$QT_SCALE_FACTOR
+      echo export QT_FONT_DPI=$QT_FONT_DPI
       exit 0
     fi
   fi

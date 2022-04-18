@@ -1,8 +1,6 @@
 #
-# Load ArchW xprof
-if XPROFPATH=$(archw --sys pathconf "xprof.conf"); then
-  source $XPROFPATH
-fi
+# Evaluate ArchW GUI env vars
+eval "$(archw --gui set-env-vars)"
 
 #
 # Global GUI settings

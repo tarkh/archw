@@ -31,19 +31,11 @@ S_CPUM=intel
 # 3. nvidia
 #S_GRAPHICS=intel
 
-# Main monitor size and interface scaling
-# Select approx value matching your setup:
-# <~screen_size_inches><scaling_factor>
-# x2 modes for hidpi scaling
+# GUI scaling preset
+# Presets representing GUI scaling in percents
 # Could be overridden by S_PATCH config
-# Available options:
-# 1. 20
-# 2. 20x2
-# 3. 30
-# 4. 30x2
-# 5. 40
-# 6. 40x2
-S_GUIDPI=20
+# Available options: 100, 150, 200, 250, 300
+S_GUISCALE=100
 
 # Boot type (bios|uefi|hfs)
 # Use hfs mode to enable dualboot with

@@ -58,9 +58,9 @@ sed -i -E \
 ${V_HOME}/.config/i3/config
 
 #
-# Re-apply current gui dpi profile
+# Re-apply current gui scale profile
 if [ -n "$ARCHW_PKG_INST" ]; then
-  S_GUIDPI=$(archw --gui preset | cut -d ":" -f2 | sed -E "s:\s+::")
+  S_GUISCALE=$(archw --gui preset | cut -d ":" -f2 | awk '{print $1}')
   . ./package/set-guidpi/install.sh
 fi
 

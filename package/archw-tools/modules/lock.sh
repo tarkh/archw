@@ -71,7 +71,7 @@ lock () {
     # Pixelate values: X times to scale down and back up
     LOCK_PIXELATE=6
     # If hidpi gui, multiply by 2
-    if [[ "$(archw --gui preset)" =~ x2$ ]]; then
+    if [[ "$(archw --gui hidpi | cut -d ':' -f2 | awk '{print $1}')" =~ x2$ ]]; then
       LOCK_PIXELATE=$(( LOCK_PIXELATE * 2 ))
     fi
     # Optional blur, comment out to disable

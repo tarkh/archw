@@ -278,6 +278,15 @@ disp () {
         #xrandr --output $DISP_NAME --auto
       fi
       return 0
+    elif [ $2 == "info" ]; then
+      local RES=$(xrandr | grep primary | awk '{print $4}' | cut -d '+' -f1)
+      local SIZE_MM=$(xrandr | grep primary | sed -E "s:.*[ ]+([0-9]+)mm[ ]+x[ ]+([0-9]+)mm:\1x\2:")
+      local DIAG_INCH=$(echo "sqrt($(echo $SIZE_MM | cut -d 'x' -f1)^2+$(echo $SIZE_MM | cut -d 'x' -f2)^2) / 25.4" | bc)
+      local PPI=$(echo "sqrt($(echo $RES | cut -d 'x' -f1)^2+$(echo $RES | cut -d 'x' -f2)^2) / $DIAG_INCH" | bc)
+      echo "Resolution: $RES"
+      echo "Screen size (mm): $SIZE_MM"
+      echo "Screen diagonal (in): $DIAG_INCH"
+      echo "PPI: $PPI"
 		fi
 	fi
   error

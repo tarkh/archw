@@ -21,7 +21,7 @@ S_GRAPHICS=intel
 
 #
 # Main monitor size and interface scaling
-S_GUIDPI=20x2
+S_GUISCALE=200
 
 #
 # Plymouth

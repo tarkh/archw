@@ -254,7 +254,7 @@ fi
 #
 # GuiDpi
 ProgressBar
-if [ -n "$S_GUIDPI" ]; then
+if [ -n "$S_GUISCALE" ]; then
   . ./package/set-guidpi/install.sh
 fi
 
