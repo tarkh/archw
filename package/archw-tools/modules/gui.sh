@@ -193,6 +193,8 @@ gui () {
       if [ -n "$3" ]; then
         if [[ $3 =~ ^(on|off)$ ]]; then
           set_hidpi $3
+          echo "HiDPI scaling: $3"
+          return 0
         else
           error
         fi
