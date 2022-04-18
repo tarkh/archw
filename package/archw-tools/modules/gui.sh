@@ -14,8 +14,9 @@ if [ "$1" == 'help_draft' ]; then
 fi
 if [ "$1" == 'help' ]; then
   echo "
---gui <mode>     ;Tune graphics interface for Retina/Large displays with <mode>s:
-  profile [name] ;Get current profile name or set one with oprional [name] value:
+--gui <mode>     ;Tune graphics interface with <mode>s:
+  auto           ;Automatically set preset based on screen PPI
+  preset [name]  ;Get current preset name or set one with oprional [name] value:
                  ;100 - no interface scale, 100%
                  ;150 - scale GUI up to 150%
                  ;200, 250, 300
@@ -148,7 +149,26 @@ gui () {
   }
 
   if [ -n "$2" ]; then
-    if [ "$2" == "preset" ]; then
+    if [ "$2" == "auto" ]; then
+      local PPI=$(archw --disp info | grep PPI | cut -d ':' -f2 | awk '{print $1}')
+      # Check if we have PPI
+      if ! [[ $3 =~ ^[0-9]+$ ]]; then
+        echo "Can't set GUI profile automatically: wrong PPI detected"
+        exit 1
+      fi
+      # Select preset
+      if [ "$PPI" -lt "144"]; then
+        archw --gui preset 100
+      elif [ "$PPI" -lt "192"]; then
+        archw --gui preset 150
+      elif [ "$PPI" -lt "240"]; then
+        archw --gui preset 200
+      elif [ "$PPI" -lt "288"]; then
+        archw --gui preset 250
+      elif [ "$PPI" -ge "288"]; then
+        archw --gui preset 300
+      fi
+    elif [ "$2" == "preset" ]; then
       #
       # Set screen presets
       if [ -n "$3" ]; then
