@@ -168,6 +168,7 @@ gui () {
       elif [ "$PPI" -ge "288" ]; then
         archw --gui preset 300
       fi
+      return 0
     elif [ "$2" == "preset" ]; then
       #
       # Set screen presets
