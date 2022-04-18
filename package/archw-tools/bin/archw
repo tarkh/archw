@@ -27,88 +27,88 @@ MODLIST=($(readlink -f $S_ARCHW_MODULES/*))
 #
 # Get configs
 wconf() {
-	if [[ "$1" == "load" || "$1" == "path" ]]; then
-		if [ -n "$2" ]; then
-			#
-			# Check tmpfs
-			if [ ! -f $S_ARCHW_TMPFS/$2 ]; then
-				#
-				# If tmp directory not exists
-				if [ ! -d $S_ARCHW_TMPFS ]; then
-			  	mkdir -p $S_ARCHW_TMPFS
-				fi
+  if [[ "$1" == "load" || "$1" == "path" ]]; then
+    if [ -n "$2" ]; then
+      #
+      # Check tmpfs
+      if [ ! -f $S_ARCHW_TMPFS/$2 ]; then
+        #
+        # If tmp directory not exists
+        if [ ! -d $S_ARCHW_TMPFS ]; then
+          mkdir -p $S_ARCHW_TMPFS
+        fi
 
-			  #
-			  # Check if local user config exist
-			  if [ ! -f $S_ARCHW_CONFIG/$2 ]; then
-					#
-					# If local directory not exists
-					if [ ! -d $S_ARCHW_CONFIG ]; then
-						mkdir -p $S_ARCHW_CONFIG
-					fi
+        #
+        # Check if local user config exist
+        if [ ! -f $S_ARCHW_CONFIG/$2 ]; then
+          #
+          # If local directory not exists
+          if [ ! -d $S_ARCHW_CONFIG ]; then
+            mkdir -p $S_ARCHW_CONFIG
+          fi
 
-					#
-					# Check if file exist in system directory
-					if [ -f $S_ARCHW_FOLDER/$2 ]; then
-			    	cp $S_ARCHW_FOLDER/$2 $S_ARCHW_CONFIG
-					else
-						if [ "$1" == "path" ]; then
-							exit 1
-						else
-							echo "Config can't be found: $2"
-							return 1
-						fi
-					fi
-			  fi
-			  #
-			  # Copy to tmpfs
-			  cp $S_ARCHW_CONFIG/$2 $S_ARCHW_TMPFS
-			fi
+          #
+          # Check if file exist in system directory
+          if [ -f $S_ARCHW_FOLDER/$2 ]; then
+            cp $S_ARCHW_FOLDER/$2 $S_ARCHW_CONFIG
+          else
+            if [ "$1" == "path" ]; then
+              exit 1
+            else
+              echo "Config can't be found: $2"
+              return 1
+            fi
+          fi
+        fi
+        #
+        # Copy to tmpfs
+        cp $S_ARCHW_CONFIG/$2 $S_ARCHW_TMPFS
+      fi
 
-			if [ "$1" == "path" ]; then
-				#
-				# Print config path
-				echo "$S_ARCHW_TMPFS/$2"
-			else
-				#
-				# Load config data
-				. $S_ARCHW_TMPFS/$2
-			fi
-			return 0
-		else
-			echo "No config name provided"
-			return 1
-		fi
-	elif [ "$1" == "write" ]; then
-		if [[ -n "$2" && -n "$3" ]]; then
-			echo "$3" > $2
-			if [ -f $S_ARCHW_TMPFS/$2 ]; then
-				rm $S_ARCHW_TMPFS/$2
-			fi
-			return 0
-		else
-			echo "Insufficient options provided for save command"
-			return 1
-		fi
-	elif [ "$1" == "set" ]; then
-		if [[ -n "$2" && -n "$3" && -n "$4" ]]; then
-			local KEY="$3"
-			local VAL="$4"
-			sed -i -E \
-			"s:^\s*($KEY=).*:\1$VAL:" \
-			$S_ARCHW_CONFIG/$2
-			if [ -f $S_ARCHW_TMPFS/$2 ]; then
-				rm $S_ARCHW_TMPFS/$2
-			fi
-			return 0
-		else
-			echo "Insufficient options provided for upd command"
-			return 1
-		fi
-	else
-		echo "Unknown option: $1"
-		return 1
-	fi
+      if [ "$1" == "path" ]; then
+        #
+        # Print config path
+        echo "$S_ARCHW_TMPFS/$2"
+      else
+        #
+        # Load config data
+        . $S_ARCHW_TMPFS/$2
+      fi
+      return 0
+    else
+      echo "No config name provided"
+      return 1
+    fi
+  elif [ "$1" == "write" ]; then
+    if [[ -n "$2" && -n "$3" ]]; then
+      echo "$3" > $2
+      if [ -f $S_ARCHW_TMPFS/$2 ]; then
+        rm $S_ARCHW_TMPFS/$2
+      fi
+      return 0
+    else
+      echo "Insufficient options provided for save command"
+      return 1
+    fi
+  elif [ "$1" == "set" ]; then
+    if [[ -n "$2" && -n "$3" && -n "$4" ]]; then
+      local KEY="$3"
+      local VAL="$4"
+      sed -i -E \
+      "s:^\s*($KEY=).*:\1$VAL:" \
+      $S_ARCHW_CONFIG/$2
+      if [ -f $S_ARCHW_TMPFS/$2 ]; then
+        rm $S_ARCHW_TMPFS/$2
+      fi
+      return 0
+    else
+      echo "Insufficient options provided for upd command"
+      return 1
+    fi
+  else
+    echo "Unknown option: $1"
+    return 1
+  fi
 }
 
 #
@@ -125,8 +125,8 @@ load_functions () {
 #
 # Common error
 error() {
-	echo "Error in method or parameter, please use --help for avaliable options"
-	exit 1
+  echo "Error in method or parameter, please use --help for avaliable options"
+  exit 1
 }
 
 #
@@ -142,7 +142,7 @@ is_array() {
 #
 # Match in array
 inArray () {
-	local e match="$1"
+  local e match="$1"
   shift
   for e; do [[ "$e" == "$match" ]] && return 0; done
   return 1
@@ -151,35 +151,35 @@ inArray () {
 #
 # Round numbers
 round() {
-	printf "%.${2}f" "${1}"
+  printf "%.${2}f" "${1}"
 }
 
 #
 # Prepare arg list combinations
 ARGS=()
 for arg in "$@"; do
-	pat="^-[a-zA-Z]{2,}"
-	if [[ $arg =~ $pat ]]; then
-		arg="${arg:1}"
-		for (( i=0; i<${#arg}; i++ )); do
-			ARGS+=("-${arg:$i:1}")
-		done
-	else
-		ARGS+=("$arg")
-	fi
+  pat="^-[a-zA-Z]{2,}"
+  if [[ $arg =~ $pat ]]; then
+    arg="${arg:1}"
+    for (( i=0; i<${#arg}; i++ )); do
+      ARGS+=("-${arg:$i:1}")
+    done
+  else
+    ARGS+=("$arg")
+  fi
 done
 
 #
 # Check for module and load it
 if [ -n $1 ] && [ -f $S_ARCHW_MODULES/${1/--/}.sh ]; then
-	#
-	# Source module
-	. $S_ARCHW_MODULES/${1/--/}.sh
-	#
-	# Run module
-	${1/--/} "$@"
+  #
+  # Source module
+  . $S_ARCHW_MODULES/${1/--/}.sh
+  #
+  # Run module
+  ${1/--/} "$@"
 else
-	error
+  error
 fi
 
 exit 0

@@ -14,18 +14,14 @@ if [ "$1" == 'help_draft' ]; then
 fi
 if [ "$1" == 'help' ]; then
   echo "
---gui <mode>      ;Tune graphics interface for Retina/Large displays with <mode>s:
-  preset [preset] ;Get current GUI preset or set one of optional [preset]s:
-                  ;20   - for ~20″ size monitor
-                  ;20x2 - for ~20″ size monitor x2 UI elements size for HiDPI screens
-                  ;30, 30x2, 40, 40x2
-  dpi [num]       ;Set default DPI or override it with optional <num>
+--gui <mode>     ;Tune graphics interface for Retina/Large displays with <mode>s:
+  profile [name] ;Get current profile name or set one with oprional [name] value:
+                 ;100 - no interface scale, 100%
+                 ;150 - scale GUI up to 150%
+                 ;200, 250, 300
+  dpi [num]      ;Get current DPI value or set custom one with optional [num]
+  hidpi [on|off] ;Get current HIDPI status or set it with optional [on|off]
 "
-# todo
-#scale [percent]   ;Get current scaling mode or set one with oprional [percent] value:
-#                  ;100 - no interface scale
-#                  ;125 - scale GUI to 125%
-#                  ;150, 175, 200, 225, 250, 275, 300
 fi
 
 #
@@ -35,6 +31,10 @@ gui () {
   # Default start DPI
   DPISTART=96
   DPIDEF=$DPISTART
+
+  #
+  # Load config
+  wconf load "xprof.conf"
 
   #
   # Calculate scale
@@ -58,29 +58,19 @@ gui () {
     if [ -n "$1" ]; then
       DPIDEF=$1
     fi
+
     #
-    # Check xinitrc
-    if ! cat ~/.xinitrc | grep "xrdb -merge ~/.Xresources" > /dev/null 2>&1; then
-      echo -e "xrdb -merge ~/.Xresources\n$(cat ~/.xinitrc)" > ~/.xinitrc
-    fi
+    # Set dpi
+    wconf set "xprof.conf" XPROF_DPI "$DPIDEF"
+    wconf set "xprof.conf" QT_FONT_DPI "$DPIDEF"
+
     #
-    # Remove entries if exist
-    if [ -f ~/.Xresources ]; then
-      sed -i -E \
-      "\:^\s*Xft\.(dpi|autohint|lcdfilter|lcdfilter|hintstyle|hinting|antialias|rgba).*:d" \
-      ~/.Xresources
-    fi
-    #
-    # Add entries
-    bash -c "cat >> ~/.Xresources" << EOL
-Xft.dpi: $DPIDEF
-Xft.autohint: 0
-Xft.lcdfilter: lcddefault
-Xft.hintstyle: hintslight
-Xft.hinting: true
-Xft.antialias: 1
-Xft.rgba: rgb
-EOL
+    # Alter Xresources
+    touch ~/.Xresources
+    sed -E -i \
+    "s:^(\s*Xft.dpi\:).*$:\1 $DPIDEF:" \
+    ~/.Xresources
+
     #
     # If rofi installed
     if [ -f ~/.config/rofi/config.rasi ]; then
@@ -88,7 +78,6 @@ EOL
       "s:^(\s*dpi\:).*:\1 ${DPIDEF};:" \
       ~/.config/rofi/config.rasi
     fi
-    #
 
     #
     # If lightdm-mini-greeter installed
@@ -106,137 +95,120 @@ EOL
       "s:^\s*[#]*(layout-space\s*=).*:\1 ${SCALED_LS}:" \
       /etc/lightdm/lightdm-mini-greeter.conf
     fi
+  }
+
+  #
+  # set hidpi
+  set_hidpi () {
+    local DPI=$XPROF_DPI
+    if [ -n "$2" ]; then
+      DPI=$2
+    fi
+
     #
+    # hidpi On/off
+    if [ "$1" == "on" ]; then
+      # i3bar tray_padding
+      sed -i -E \
+      "s:^([ ]*tray_padding)[ ]{1,}[0-9]{1,}[ ]*$:\1 3:" \
+      ~/.config/i3/config
+      # xprof
+      local MULTI=2
+      local SCALE=0.5
+      if [ "$DPI" -ge "240" ]; then
+        MULTI=3
+        SCALE=0.33
+      fi
+      wconf set "xprof.conf" GDK_SCALE "$MULTI"
+      wconf set "xprof.conf" GDK_DPI_SCALE "$SCALE"
+      wconf set "xprof.conf" QT_SCALE_FACTOR "$MULTI"
+      wconf set "xprof.conf" QT_FONT_DPI "$(( ($DPI + ($MULTI - 1)) / $MULTI ))"
+    elif [ "$1" == "off" ]; then
+      # i3bar tray_padding
+      sed -i -E \
+      "s:^([ ]*tray_padding)[ ]{1,}[0-9]{1,}[ ]*$:\1 4:" \
+      ~/.config/i3/config
+      # xprof
+      wconf set "xprof.conf" GDK_SCALE "1"
+      wconf set "xprof.conf" GDK_DPI_SCALE "1"
+      wconf set "xprof.conf" QT_SCALE_FACTOR "1"
+      wconf set "xprof.conf" QT_FONT_DPI "$DPI"
+    fi
   }
 
   #
   # xprofile
   set_xprof () {
     #
-    # On/off
-    local MOD=""
-    if [ "$1" == "on" ]; then
-      # i3bar tray_padding
-      sed -i -E \
-      "s:^([ ]*tray_padding)[ ]{1,}[0-9]{1,}[ ]*$:\1 3:" \
-      ~/.config/i3/config
-    elif [ "$1" == "off" ]; then
-      # Mod comment out
-      MOD="#"
-      # i3bar tray_padding
-      sed -i -E \
-      "s:^([ ]*tray_padding)[ ]{1,}[0-9]{1,}[ ]*$:\1 4:" \
-      ~/.config/i3/config
-    else
-      error
-    fi
-    #
     # Scale options
-    local GDK_SCALE=2
-    local GDK_DPI_SCALE=0.5
-    local QT_AUTO_SCREEN_SCALE_FACTOR=0
-    local QT_SCALE_FACTOR=1
-    local QT_FONT_DPI=$DPIDEF
-    if [ -n "$2" ] && [ -n "$3" ] && [ -n "$4" ] && [ -n "$5" ] && [ -n "$6" ]; then
-      GDK_SCALE=$2
-      GDK_DPI_SCALE=$3
-      QT_AUTO_SCREEN_SCALE_FACTOR=$4
-      QT_SCALE_FACTOR=$5
-      QT_FONT_DPI=$6
-    fi
-    # Scale
-    sed -i -E \
-    "s:^[\s]*(XPROF_PRESET=).*:\1${XPROF_PRESET}:; \
-    s:^[#\s]*(export GDK_SCALE=).*:${MOD}\1${GDK_SCALE}:; \
-    s:^[#\s]*(export GDK_DPI_SCALE=).*:${MOD}\1${GDK_DPI_SCALE}:; \
-    s:^[#\s]*(export QT_AUTO_SCREEN_SCALE_FACTOR=).*:${MOD}\1${QT_AUTO_SCREEN_SCALE_FACTOR}:; \
-    s:^[#\s]*(export QT_SCALE_FACTOR=).*:${MOD}\1${QT_SCALE_FACTOR}:; \
-    s:^[#\s]*(export QT_FONT_DPI=).*:${MOD}\1${QT_FONT_DPI}:" \
-    ~/.config/archw/xprof.conf
+    wconf set "xprof.conf" XPROF_PRESET "$1"
+    set_custom_dpi $2
+    set_hidpi $3 $2
+    set_i3gaps $4
   }
 
   if [ -n "$2" ]; then
     if [ "$2" == "preset" ]; then
       #
       # Set screen presets
-      XPROF_PRESET=$3
       if [ -n "$3" ]; then
-        if [ "$3" == "20" ]; then
-          set_i3gaps 3
-          set_custom_dpi
-          set_xprof off
-        elif [ "$3" == "20x2" ]; then
-          set_i3gaps 4
-          set_custom_dpi 192
-          set_xprof on
-        elif [ "$3" == "30" ]; then
-          set_i3gaps 4
-          set_custom_dpi 150
-          set_xprof off
-        elif [ "$3" == "30x2" ]; then
-          set_i3gaps 5
-          set_custom_dpi 166
-          set_xprof on
-        elif [ "$3" == "40" ]; then
-          set_i3gaps 5
-          set_custom_dpi 120
-          set_xprof off
-        elif [ "$3" == "40x2" ]; then
-          set_i3gaps 6
-          set_custom_dpi 140
-          set_xprof on
+        if [ "$3" == "100" ]; then
+          set_xprof $3 $DPISTART off 2
+        elif [ "$3" == "150" ]; then
+          set_xprof $3 144 on 3
+        elif [ "$3" == "200" ]; then
+          set_xprof $3 192 on 4
+        elif [ "$3" == "250" ]; then
+          set_xprof $3 240 on 5
+        elif [ "$3" == "300" ]; then
+          set_xprof $3 288 on 6
         else
           error
         fi
       else
-        echo "Current preset: $(cat ~/.config/archw/xprof.conf | grep XPROF_PRESET= | cut -d "=" -f2)"
-        exit 0
+        echo "Current preset: $XPROF_PRESET"
+        return 0
       fi
-      echo "GUI profile \"$3\" applied. You have to re-login for changase to take effect"
+      echo "GUI profile applied: \"$3\". You have to re-login for changase to take effect"
       return 0
-    elif [ "$2" == "scale" ] && [ -n "$3" ]; then
-      #
-      # Set screen presets
-      if [ "$3" == "100" ]; then
-        set_custom_dpi dpi
-        set_xprof off
-      elif [ "$3" == "125" ]; then
-        set_custom_dpi dpi
-        set_xprof off
-      elif [ "$3" == "150" ]; then
-        set_custom_dpi dpi
-        set_xprof off
-      elif [ "$3" == "175" ]; then
-        set_custom_dpi dpi
-        set_xprof off
-      elif [ "$3" == "200" ]; then
-        set_custom_dpi dpi
-        set_xprof off
-      elif [ "$3" == "225" ]; then
-        set_custom_dpi dpi
-        set_xprof off
-      elif [ "$3" == "250" ]; then
-        set_custom_dpi dpi
-        set_xprof off
-      elif [ "$3" == "275" ]; then
-        set_custom_dpi dpi
-        set_xprof off
-      elif [ "$3" == "300" ]; then
-        set_custom_dpi dpi
-        set_xprof off
+    elif [ $2 == "dpi" ]; then
+      if [ -n "$3" ]; then
+        local DPI=$DPIDEF
+        if [ -n "$3" ] && [[ $3 =~ ^[0-9]+$ ]]; then
+          DPI=$3
+        else
+          error
+        fi
+        wconf set "xprof.conf" XPROF_PRESET "custom"
+        set_custom_dpi $3
+        if [ "$QT_SCALE_FACTOR" -gt "1" ]; then
+          set_hidpi on $3
+        fi
+        echo "DPI set to $3"
+        return 0
+      fi
+      echo "Current DPI: $XPROF_DPI"
+      return 0
+    elif [ $2 == "hidpi" ]; then
+      if [ -n "$3" ] && [[ $3 =~ ^(on|off)$ ]]; then
+        set_hidpi $3
       else
         error
       fi
-      echo "GUI profile \"$3\" applied. You have to re-login for changase to take effect"
-      return 0
-    elif [ $2 == "dpi" ]; then
-      local DPI=$DPIDEF
-      if [ -n "$3" ] && [[ $3 =~ ^[0-9]+$ ]]; then
-        DPI=$3
+      local HIDPI_STAT=off
+      if [ "$QT_SCALE_FACTOR" -gt "1" ]; then
+        HIDPI_STAT=on
       fi
-      set_custom_dpi $3
-      echo "DPI set to $3"
+      echo "Current HIDPI scaling: $HIDPI_STAT"
       return 0
+    elif [ $2 == "set-env-vars" ]; then
+      export GDK_SCALE=$GDK_SCALE
+      export GDK_DPI_SCALE=$GDK_DPI_SCALE
+      export QT_AUTO_SCREEN_SCALE_FACTOR=$QT_AUTO_SCREEN_SCALE_FACTOR
+      export QT_SCALE_FACTOR=$QT_SCALE_FACTOR
+      export QT_FONT_DPI=$QT_FONT_DPI
+      echo "GUI env vars loaded"
+      exit 0
     fi
   fi
   error

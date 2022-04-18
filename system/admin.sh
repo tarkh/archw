@@ -153,7 +153,7 @@ if [ -n "$S_AUTOLOGIN" ]; then
 . ./package/set-common-scripts/autologin.sh
 fi
 
-#to assign
+#
 # Install terminator
 ProgressBar
 if [ -n "$S_ADD_TERMINATOR" ]; then
@@ -198,6 +198,16 @@ archw --lang cycle-set $S_KEYMAP_SW
 ProgressBar
 if [ -n "$S_PATCH" ]; then
 	. ./patch/${S_PATCH}/install.sh
+fi
+
+#
+# If hibernate supported
+# Activate autohibernate
+if [ -n "$S_CREATE_SWAP" ] && [ -n "$S_HIBERNATION" ]; then
+  # After 12 hr of sleep on AC
+  archw --pm hib 43200
+  # After 2 hr of sleep ob Battery
+  archw --pm hibbat 7200
 fi
 
 #

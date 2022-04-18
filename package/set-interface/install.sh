@@ -99,6 +99,20 @@ mkdir -p $V_HOME/.themes/Dracula/gtk-3.0
 sudo cp -r $V_HOME/.themes /root/
 
 #
+# Allow GUI env in sudo
+sudo \cp -r ./package/set-interface/sudoers/aw-guienv /etc/sudoers.d/
+sudo chmod 600 /etc/sudoers.d/aw-guienv
+
+#
+# Install Xresources
+\cp -r ./package/set-interface/.Xresources $V_HOME/
+# Check xinitrc
+if ! cat $V_HOME/.xinitrc | grep "xrdb -merge ~/.Xresources" > /dev/null 2>&1; then
+  touch $V_HOME/.xinitrc
+  echo -e "xrdb -merge ~/.Xresources\n$(cat $V_HOME/.xinitrc)" > $V_HOME/.xinitrc
+fi
+
+#
 # Set up gsettings
 gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
 gsettings set org.gnome.desktop.wm.preferences theme "Dracula"

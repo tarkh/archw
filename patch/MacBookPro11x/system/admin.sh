@@ -39,7 +39,7 @@ fi
 sed -i -E \
 "s:^(\s*Option \"Sensitivity\").*:\1 \"0.15\":; \
 s:^(\s*Option \"ScrollDistance\").*:\1 \"700\":" \
-/etc/X11/xorg.conf.d/00-mtrack.conf
+/etc/X11/xorg.conf.d/00-aw-mtrack-touchpad.conf
 
 #
 # Install fan control (mbfan)

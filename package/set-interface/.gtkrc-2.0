@@ -6,5 +6,3 @@ gtk-font-name = "Roboto 10"
 gtk-button-images = 1
 gtk-menu-images = 1
 gtk-toolbar-style = GTK_TOOLBAR_BOTH_HORIZ
-gtk-cursor-theme-name = Adwaita
-gtk-cursor-theme-size = 21

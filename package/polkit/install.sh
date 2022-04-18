@@ -17,6 +17,11 @@ polkit.addAdminRule(function(action, subject) {
 EOL
 
 #
+# Install local pkexec wrapper
+sudo \cp -r ./package/polkit/bin/pkexec /usr/local/bin/
+sudo chmod +x /usr/local/bin/pkexec
+
+#
 # Autorun with i3
 service_ctl user install-on ./package/polkit/systemd/aw-polkit-gnome-autostart.service
 
