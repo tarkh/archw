@@ -157,15 +157,15 @@ gui () {
         exit 1
       fi
       # Select preset
-      if [ "$PPI" -lt "144"]; then
+      if [ "$PPI" -lt "144" ]; then
         archw --gui preset 100
-      elif [ "$PPI" -lt "192"]; then
+      elif [ "$PPI" -lt "192" ]; then
         archw --gui preset 150
-      elif [ "$PPI" -lt "240"]; then
+      elif [ "$PPI" -lt "240" ]; then
         archw --gui preset 200
-      elif [ "$PPI" -lt "288"]; then
+      elif [ "$PPI" -lt "288" ]; then
         archw --gui preset 250
-      elif [ "$PPI" -ge "288"]; then
+      elif [ "$PPI" -ge "288" ]; then
         archw --gui preset 300
       fi
     elif [ "$2" == "preset" ]; then
