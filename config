@@ -33,9 +33,10 @@ S_CPUM=intel
 
 # GUI scaling preset
 # Presets representing GUI scaling in percents
-# Could be overridden by S_PATCH config
+# If not set, ArchW will try to set proper
+# preset automatically based on screen PPI
 # Available options: 100, 150, 200, 250, 300
-S_GUISCALE=100
+#S_GUISCALE=100
 
 # Boot type (bios|uefi|hfs)
 # Use hfs mode to enable dualboot with

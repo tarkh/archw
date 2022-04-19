@@ -254,9 +254,7 @@ fi
 #
 # GuiDpi
 ProgressBar
-if [ -n "$S_GUISCALE" ]; then
-  . ./package/set-guidpi/install.sh
-fi
+. ./package/set-guidpi/install.sh
 
 #
 # IOS mount drivers

@@ -20,10 +20,6 @@ S_CPUM=intel
 S_GRAPHICS=intel
 
 #
-# Main monitor size and interface scaling
-S_GUISCALE=200
-
-#
 # Plymouth
 S_ADD_PLYMOUTH=true
 

@@ -18,8 +18,8 @@ if [ "$1" == 'help' ]; then
   auto           ;Automatically set preset based on screen PPI
   preset [name]  ;Get current preset name or set one with oprional [name] value:
                  ;100 - no interface scale, 100%
-                 ;150 - scale GUI up to 150%
-                 ;200, 250, 300
+                 ;125 - scale GUI up to 125%
+                 ;150, 175, 200, 225, 250, 275, 300
   dpi [num]      ;Get current DPI value or set custom one with optional [num]
   hidpi [on|off] ;Get current HiDPI status or set it with optional [on|off]
 "
@@ -156,15 +156,33 @@ gui () {
         echo "Can't set GUI profile automatically: wrong PPI detected"
         exit 1
       fi
+      # Get diagonal
+      local DIAG=$(round $(archw --disp info | grep diagonal | cut -d ':' -f2 | awk '{print $1}') 0)
       # Select preset
       if [ "$PPI" -lt "144" ]; then
-        archw --gui preset 100
+        if [ "$DIAG" -lt "27" ]; then
+          archw --gui preset 100
+        else
+          archw --gui preset 125
+        fi
       elif [ "$PPI" -lt "192" ]; then
-        archw --gui preset 150
+        if [ "$DIAG" -lt "27" ]; then
+          archw --gui preset 150
+        else
+          archw --gui preset 175
+        fi
       elif [ "$PPI" -lt "240" ]; then
-        archw --gui preset 200
+        if [ "$DIAG" -lt "27" ]; then
+          archw --gui preset 200
+        else
+          archw --gui preset 225
+        fi
       elif [ "$PPI" -lt "288" ]; then
-        archw --gui preset 250
+        if [ "$DIAG" -lt "27" ]; then
+          archw --gui preset 250
+        else
+          archw --gui preset 275
+        fi
       elif [ "$PPI" -ge "288" ]; then
         archw --gui preset 300
       fi
@@ -175,12 +193,20 @@ gui () {
       if [ -n "$3" ]; then
         if [ "$3" == "100" ]; then
           set_xprof $3 $DPISTART off 6
+        elif [ "$3" == "125" ]; then
+          set_xprof $3 120 off 5
         elif [ "$3" == "150" ]; then
           set_xprof $3 144 on 4
+        elif [ "$3" == "175" ]; then
+          set_xprof $3 168 on 4
         elif [ "$3" == "200" ]; then
           set_xprof $3 192 on 3
+        elif [ "$3" == "225" ]; then
+          set_xprof $3 216 on 3
         elif [ "$3" == "250" ]; then
           set_xprof $3 240 on 3
+        elif [ "$3" == "275" ]; then
+          set_xprof $3 264 on 3
         elif [ "$3" == "300" ]; then
           set_xprof $3 288 on 3
         else
