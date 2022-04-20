@@ -80,12 +80,6 @@ S_ADD_REDSHIFT=true
 # ==========================================
 #
 
-# Enable ArchW wallpaper manager
-S_AUTOWALLPAPER=true
-
-# Enable ArchW multi monitor manager
-S_AUTODISPLAY=true
-
 # Enable autologin
 #S_AUTOLOGIN=true
 #S_AUTOLOGIN_TIMEOUT=0

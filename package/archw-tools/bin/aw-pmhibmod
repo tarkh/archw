@@ -44,7 +44,8 @@ if [[ "$1" =~ ^(UPDATE|ENABLE|DISABLE)$ ]]; then
       VALUE="yes"
       COMMAND="suspend-then-hibernate"
     elif [ "$1" == "DISABLE" ]; then
-      VALUE="no"
+      #VALUE="no"
+      VALUE="yes"
       COMMAND="suspend"
     fi
     update_settings "$PM_SLEEP" "AllowHibernation" "$VALUE"
@@ -76,16 +77,22 @@ fi
 
 #
 # Set configs
-HIB_DELAY_VALUE=$(cat $PM_SLEEP | grep -w "HibernateDelaySec" | cut -d "=" -f 2)
+HIB_DELAY_VALUE=$(cat $PM_SLEEP | grep -w "HibernateDelaySec" | cut -d "=" -f2)
 if [ "$HIB_DELAY_VALUE" != "$SET_VALUE" ]; then
   sudo aw-pmhibmod "UPDATE" "$SET_VALUE"
 fi
 
 #
 # Check conditions to alter config settings
-HIB_STATUS=$(cat $PM_SLEEP | grep -w "AllowHibernation" | cut -d "=" -f 2)
-if [ "$SET_VALUE" -gt "0" ] && [ "$HIB_STATUS" == "no" ]; then
+#HIB_STATUS=$(cat $PM_SLEEP | grep -w "AllowHibernation" | cut -d "=" -f 2)
+#if [ "$SET_VALUE" -gt "0" ] && [ "$HIB_STATUS" == "no" ]; then
+#  sudo aw-pmhibmod "ENABLE"
+#elif [ "$SET_VALUE" -le "0" ] && [ "$HIB_STATUS" == "yes" ]; then
+#  sudo aw-pmhibmod "DISABLE"
+#fi
+
+if [ "$SET_VALUE" -gt "0" ]; then
   sudo aw-pmhibmod "ENABLE"
-elif [ "$SET_VALUE" -le "0" ] && [ "$HIB_STATUS" == "yes" ]; then
+elif [ "$SET_VALUE" -le "0" ]; then
   sudo aw-pmhibmod "DISABLE"
 fi

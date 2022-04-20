@@ -1,11 +1,5 @@
 #!/bin/bash
 
 #
-# Presetting
-
-#
-# Check displays
-#AUTODISPLAY=true
-if [ -n "$AUTODISPLAY" ]; then
-  archw --disp dset
-fi
+# Run wp setup, but don't wait for it
+bash -c "archw --disp dset; sleep 1; archw --wp" &

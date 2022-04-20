@@ -66,6 +66,7 @@ while true; do
     # Check if display is still off
     if sa "aw-screen-state-off.target"; then
       archw --pm applynow
+      xset -display :0 dpms force on
       systemctl $COMMAND
     fi
     exit 0

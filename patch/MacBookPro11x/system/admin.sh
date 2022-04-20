@@ -78,3 +78,8 @@ sudo pacman --noconfirm -S upower
 sed -i -E \
 "s:^[#\s]*(driver =) \"sysfs\"\s*$:\1 \"upower\":" \
 $V_HOME/.config/i3status-rust/config.toml
+
+#
+# Tweaks
+. ./tweaks/intel_iommu.sh
+. ./tweaks/intel_video_tune.sh
