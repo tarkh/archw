@@ -35,6 +35,8 @@ EOL
 (xinit "/usr/bin/i3" -- :1 vt1) &
 echo "Initializing i3 config..."
 sleep 5
+# Auto gui
+. ./package/set-guidpi/install.sh
 # Turn off X
 DISPLAY=:1 i3-msg exit
 sudo sed -i -E "s:^\s*(exec i3-config-wizard).*:\1:" /etc/i3/config
@@ -97,7 +99,7 @@ I3_STATUS_BAR_STYLE=`echo ${I3_STATUS_BAR_STYLE} | tr '\n' "\\n"`
 sed -i -E \
 "s:^\s*(status_command.*):  \1${I3_STATUS_BAR_STYLE}:; \
 s:^(.*)\s10\s*px\s*or\s*10\s*ppt\s*:\1 10 px or 1 ppt:; \
-s:^(.*)\s+(i3-sensible-terminal.*):\1 \"\2\":" \
+s:^(.*)\s+(i3-sensible-terminal.*):\1 \"aw-xprof \2\":" \
 ${V_HOME}/.config/i3/config
 
 #

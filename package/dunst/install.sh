@@ -58,7 +58,7 @@ $V_HOME/.config/dunst/dunstrc
 # Rofi
 if [ -n "$S_ADD_ROFI" ]; then
   sed -i -E \
-  "s:^(\s*dmenu\s*=\s*).*:\1 /usr/bin/rofi -dmenu -p dunst:" \
+  "s:^(\s*dmenu\s*=\s*).*:\1${V_XPROF} /usr/bin/rofi -dmenu -p dunst:" \
   $V_HOME/.config/dunst/dunstrc
 fi
 
