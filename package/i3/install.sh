@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo rm /etc/i3/config > /dev/null 2>&1
-sudo pacman --noconfirm -S i3-gaps perl-anyevent-i3 ttf-dejavu i3lock i3status
+sudo pacman --noconfirm -S i3-gaps perl-anyevent-i3 i3lock i3status
 
 \cp ./package/set-common-scripts/.xinitrc $V_HOME
 sudo chmod +x ./package/i3/bin/*

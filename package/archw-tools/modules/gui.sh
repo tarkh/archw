@@ -116,14 +116,18 @@ gui () {
       # xprof
       local MULTI=2
       local SCALE=0.5
+      local GRUBFS=28
       if [ "$DPI" -ge "240" ]; then
         MULTI=3
         SCALE=0.33
+        GRUBFS=36
       fi
       wconf set "xprof.conf" GDK_SCALE "$MULTI"
       wconf set "xprof.conf" GDK_DPI_SCALE "$SCALE"
       wconf set "xprof.conf" QT_SCALE_FACTOR "$MULTI"
       wconf set "xprof.conf" QT_FONT_DPI "$(( ($DPI + ($MULTI - 1)) / $MULTI ))"
+      # Update GRUB font
+      sudo grub-mkfont -s $GRUBFS -o /boot/grub/fonts/custom.pf2 /usr/share/fonts/TTF/DejaVuSansMono.ttf
     elif [ "$1" == "off" ]; then
       # i3bar tray_padding
       sed -i -E \
@@ -134,6 +138,8 @@ gui () {
       wconf set "xprof.conf" GDK_DPI_SCALE "1"
       wconf set "xprof.conf" QT_SCALE_FACTOR "1"
       wconf set "xprof.conf" QT_FONT_DPI "$DPI"
+      # Update GRUB font
+      sudo grub-mkfont -o /boot/grub/fonts/custom.pf2 /usr/share/fonts/TTF/DejaVuSansMono.ttf
     fi
   }
 

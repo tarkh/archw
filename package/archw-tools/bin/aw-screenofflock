@@ -42,7 +42,7 @@ while true; do
     #
     # Check if display is still off
     if sa "aw-screen-state-off.target"; then
-      bash -c "DISPLAY=:0 archw --lock"
+      bash -c "DISPLAY=:0 archw --lock" &
     fi
     exit 0
   fi

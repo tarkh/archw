@@ -5,17 +5,6 @@
 #
 
 #
-# Get config path
-if ! CONFIGPATH=$(archw --sys pathconf "xprof.conf"); then
-  echo "Can't find config"
-  exit 1
-fi
-
-#
-# Load config
-. $CONFIGPATH
-
-#
 # Set profile envs
 . ~/.profile
 

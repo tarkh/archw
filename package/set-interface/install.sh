@@ -2,7 +2,7 @@
 
 #
 # Install packages
-sudo pacman --noconfirm -S gucharmap ttf-roboto noto-fonts-emoji
+sudo pacman --noconfirm -S gucharmap ttf-dejavu ttf-roboto noto-fonts-emoji
 yay --noconfirm -S nerd-fonts-roboto-mono
 
 # Create root .config
@@ -111,6 +111,15 @@ if ! cat $V_HOME/.xinitrc | grep "xrdb -merge ~/.Xresources" > /dev/null 2>&1; t
   touch $V_HOME/.xinitrc
   echo -e "xrdb -merge ~/.Xresources\n$(cat $V_HOME/.xinitrc)" > $V_HOME/.xinitrc
 fi
+
+#
+# Set GRUB font
+sudo mkdir -p /boot/grub/fonts/
+sudo grub-mkfont -v -o /boot/grub/fonts/custom.pf2 /usr/share/fonts/TTF/DejaVuSansMono.ttf
+sudo bash -c "cat >> /etc/default/grub" << EOL
+# Custom font
+GRUB_FONT="/boot/grub/fonts/custom.pf2"
+EOL
 
 #
 # Set up gsettings

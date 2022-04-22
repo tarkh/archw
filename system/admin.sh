@@ -78,6 +78,11 @@ ProgressBar
 . ./package/set-common-scripts/wallpapers.sh
 
 #
+# Install interface and theme
+ProgressBar
+. ./package/set-interface/install.sh
+
+#
 # If Xorg
 ProgressBar
 if [ "$S_GS" == "xorg" ]; then
@@ -142,11 +147,6 @@ ProgressBar
 . ./package/lightdm-mini-greeter/install.sh
 
 #
-# Install interface and theme
-ProgressBar
-. ./package/set-interface/install.sh
-
-#
 # Enable autologin
 ProgressBar
 if [ -n "$S_AUTOLOGIN" ]; then
@@ -194,13 +194,6 @@ fi
 archw --lang cycle-set $S_KEYMAP_SW
 
 #
-# Run custom patch
-ProgressBar
-if [ -n "$S_PATCH" ]; then
-	. ./patch/${S_PATCH}/install.sh
-fi
-
-#
 # If hibernate supported
 # Activate autohibernate
 if [ -n "$S_CREATE_SWAP" ] && [ -n "$S_HIBERNATION" ]; then
@@ -208,6 +201,13 @@ if [ -n "$S_CREATE_SWAP" ] && [ -n "$S_HIBERNATION" ]; then
   archw --pm hib 43200
   # After 2 hr of sleep ob Battery
   archw --pm hibbat 7200
+fi
+
+#
+# Run custom patch
+ProgressBar
+if [ -n "$S_PATCH" ]; then
+	. ./patch/${S_PATCH}/install.sh
 fi
 
 #

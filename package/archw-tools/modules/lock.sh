@@ -15,14 +15,24 @@ fi
 if [ "$1" == 'help' ]; then
   echo "
 --lock [<mode>]    ;Lock screen, optional [<mode>]s:
-  sleep [on|off]   ;Show lock on system sleep state, optionally turn it [on|off]
-  monsleep [<sec>] ;Show lock on monitor sleep state, set with optional <sec> delay, 0 to disable
+  sleep [on|off]   ;Show lock on system sleep status, optionally turn it [on|off]
+  monsleep [<sec>] ;Show lock on monitor sleep status, set with optional <sec> delay, 0 to disable
+  pixelate [<num>] ;Show lock pixelate amount, optionally set it with [<num>] value
 "
 fi
 
 #
 # Module content
 lock () {
+  #
+  # Service Active checker
+  sa() {
+    if [ "$(systemctl --user show -p ActiveState --value $1)" == "active" ]; then
+      return 0
+    fi
+    return 1
+  }
+
   if [ -n "$2" ]; then
     #
     # Load config
@@ -35,7 +45,7 @@ lock () {
       if [ -n "$3" ]; then
         if [ "$3" == "on" ]; then
           if sudo systemctl enable aw-suspendlock@${USER} > /dev/null; then
-            echo "Sleep screen lock: enabled"
+            echo "Sleep screen lock: on"
             return 0
           else
             echo "Error enabling sleep screen lock"
@@ -43,7 +53,7 @@ lock () {
           fi
         elif [ "$3" == "off" ]; then
           if sudo systemctl disable aw-suspendlock@${USER} > /dev/null; then
-            echo "Sleep screen lock: disabled"
+            echo "Sleep screen lock: off"
             return 0
           else
             echo "Error disabling sleep screen lock"
@@ -51,35 +61,52 @@ lock () {
           fi
         fi
       else
-        echo "Sleep screen lock status: $(systemctl show -p UnitFileState --value aw-suspendlock@${USER})"
+        local STAT=off
+        if $(systemctl show -p UnitFileState --value aw-suspendlock@${USER}) > /dev/null; then
+          STAT=on
+        fi
+        echo "Sleep screen lock status: $STAT"
         return 0
       fi
     elif [ $2 == "monsleep" ]; then
       if [ -n "$3" ]; then
-        if [ "$3" -eq "$3" ]; then
+        if [[ "$3" =~ ^[0-9]+$ ]]; then
           wconf set "lock.conf" MON_SLEEP_LOCK "$3"
-          echo "Monitor sleep screen lock: ${3}d"
+          echo "Monitor sleep screen lock timeout: ${3}d"
           return 0
         fi
       else
-        echo "Monitor sleep screen lock status: $MON_SLEEP_LOCK"
+        echo "Monitor sleep screen lock timeout: $MON_SLEEP_LOCK"
+        return 0
+      fi
+    elif [ $2 == "pixelate" ]; then
+      if [ -n "$3" ]; then
+        if [[ "$3" =~ ^[0-9]+$ ]]; then
+          wconf set "lock.conf" LOCK_PIXEL_SIZE "$3"
+          echo "Lock pixelate value: $3"
+          return 0
+        fi
+      else
+        echo "Lock pixelate value: $LOCK_PIXEL_SIZE"
         return 0
       fi
     fi
   else
     #
     # Pixelate values: X times to scale down and back up
-    LOCK_PIXELATE=6
+    LOCK_PIXELATE=$LOCK_PIXEL_SIZE
     # If hidpi gui, multiply by 2
-    if [[ "$(archw --gui hidpi | cut -d ':' -f2 | awk '{print $1}')" =~ x2$ ]]; then
+    if [ "$(archw --gui hidpi | cut -d ':' -f2 | awk '{print $1}')" == "on" ]; then
       LOCK_PIXELATE=$(( LOCK_PIXELATE * 2 ))
     fi
     # Optional blur, comment out to disable
     # Values: (https://legacy.imagemagick.org/Usage/blur/#blur_args)
-    LOCK_BLUR="1x8"
+    LOCK_BLUR="1x4"
     # Pathes
     icon="$HOME/.config/i3/img/lock.png"
     img=/tmp/i3lock.png
+    # Flush previous img
+    rm -rf $img
     # Switch input lang to US for passwd to unlock later
     $S_ARCHW_BIN/archw --lang set us 1> /dev/null &
     # Take screenshot
@@ -137,8 +164,39 @@ lock () {
     # Apply convert
     scrot -q 100 -o /dev/stdout | convert - -scale ${LOCK_SCALE_DOWN}% ${IMM_BLUR_MODE}-scale ${LOCK_SCALE_UP}% $CONVERT
 
-    # Lock
-    i3lock -u -i $img -p default -t
+    #
+    # Lock function
+    lock () {
+      #
+      # Lock
+      i3lock -e -n -u -i $img -p default -t
+      #
+      # Set screen lock target on
+      if sa "aw-screen-lock-on.target"; then
+        systemctl --user stop aw-screen-lock-on.target
+      fi
+      if ! sa "aw-screen-lock-off.target"; then
+        systemctl --user start aw-screen-lock-off.target
+      fi
+    }
+
+    #
+    # Set screen lock target on
+    if sa "aw-screen-lock-off.target"; then
+      systemctl --user stop aw-screen-lock-off.target
+    fi
+    if ! sa "aw-screen-lock-on.target"; then
+      systemctl --user start aw-screen-lock-on.target
+    fi
+
+    #
+    # Run lock in async
+    lock &
+
+    #
+    # Wait 1 sec
+    #sleep 0.5
+
     #
     return 0
   fi
