@@ -33,11 +33,11 @@ lock () {
     return 1
   }
 
-  if [ -n "$2" ]; then
-    #
-    # Load config
-    wconf load "lock.conf"
+  #
+  # Load config
+  wconf load "lock.conf"
 
+  if [ -n "$2" ]; then
     #
     #
     if [ $2 == "sleep" ]; then

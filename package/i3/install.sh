@@ -61,7 +61,7 @@ if [ -n "$S_PICOM_EXP_BACK" ]; then
 fi
 cat <<< "#
 # Run picom
-exec --no-startup-id picom -b${PICOM_EXP_BACK}
+#exec --no-startup-id picom -b${PICOM_EXP_BACK}
 
 $(cat ${V_HOME}/.config/i3/config)" > ${V_HOME}/.config/i3/config
 

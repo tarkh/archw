@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#
+# Off if exist
+service_ctl user off aw-picom-autostart.service
+
 #sudo pacman --noconfirm -S picom
 yay --noconfirm -S picom-git
 mkdir -p $V_HOME/.config/picom
@@ -27,3 +31,11 @@ if [ -n "$S_PICOM_EXP_BACK" ]; then
   s:^\s*(#\s*blur-strength\s+.*):\1\nblur-strength = 1:g" \
   $V_HOME/.config/picom/picom.conf
 fi
+
+#
+# Autorun with i3
+service_ctl user install-on ./package/picom/systemd/aw-picom-autostart.service
+
+#
+# On
+service_ctl user on aw-picom-autostart.service

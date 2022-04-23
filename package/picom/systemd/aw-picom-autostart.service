@@ -1,0 +1,11 @@
+[Unit]
+Description=Start picom composite manager
+After=graphical.target
+
+[Service]
+ExecStart=/usr/bin/picom
+ExecStop=/usr/bin/killall picom
+Restart=always
+
+[Install]
+WantedBy=default.target
