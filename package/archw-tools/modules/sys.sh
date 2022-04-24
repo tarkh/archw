@@ -31,7 +31,7 @@ if [ "$1" == 'help' ]; then
 "
 #
 # System api:
-# i3status-restart        ;Restart i3status
+# restart i3status        ;Restart i3status
 # waitconn <sec> <try>    ;Wait <sec> for internet connection with <try> attempts
 # pathconf <conf>         ;Get <conf> path (for service apps)
 #
@@ -392,17 +392,19 @@ sys () {
     # GPG gen
     gpg --gen-key
     return 0
-  elif [ "$2" == "i3status-restart" ]; then
+  elif [ "$2" == "restart" ]; then
     #
-    # Restart i3status
-    pgrep i3status | xargs --no-run-if-empty kill -s USR1
-    return 0
-  elif [ "$2" == "i3-restart" ]; then
-    #
-    # Restart i3
-    #i3-msg reload
-    i3-msg restart
-    return 0
+    # Restart various services
+    if [ "$2" == "i3" ]; then
+      i3-msg restart
+      return 0
+    elif [ "$2" == "i3status" ]; then
+      pgrep i3status | xargs --no-run-if-empty kill -s USR1
+      return 0
+    elif [ "$2" == "picom" ]; then
+      systemctl --user restart aw-picom.service
+      return 0
+    fi
   elif [ "$2" == "waitconn" ] && [[ $3 =~ ^[0-9]+$ ]] && [[ $4 =~ ^[0-9]+$ ]]; then
     #
     # Wait for internet connection

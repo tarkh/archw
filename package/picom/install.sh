@@ -1,9 +1,5 @@
 #!/bin/bash
 
-#
-# Off if exist
-service_ctl user off aw-picom-autostart.service
-
 #sudo pacman --noconfirm -S picom
 yay --noconfirm -S picom-git
 mkdir -p $V_HOME/.config/picom
@@ -34,8 +30,12 @@ fi
 
 #
 # Autorun with i3
-service_ctl user install-on ./package/picom/systemd/aw-picom-autostart.service
+service_ctl user install ./package/picom/systemd/aw-picom.service
 
 #
-# On
-service_ctl user on aw-picom-autostart.service
+# Experimental backends
+if [ -n "$S_PICOM_EXP_BACK" ]; then
+  sudo sed -i -E \
+  "s:(.*/usr/bin/picom):\1 --experimental-backends:" \
+  /usr/lib/systemd/user/aw-picom.service
+fi

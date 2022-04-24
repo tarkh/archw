@@ -4,8 +4,8 @@ After=aw-screen-state-off.target
 
 [Service]
 Type=forking
+KillMode=process
 Environment=DISPLAY=:0
-ExecStartPre=-/usr/bin/pkill aw-screenofflock
 ExecStart=/usr/local/bin/aw-screenofflock
 
 [Install]

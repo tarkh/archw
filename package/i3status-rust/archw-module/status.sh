@@ -33,7 +33,7 @@ status () {
       #
       # Edit config
       nano -Sablq -Y SH ~/.config/i3status-rust/config.toml
-      archw --sys i3status-restart > /dev/null 2>&1
+      archw --sys restart i3status > /dev/null 2>&1
       notify-send -a $S_ARCHW_BIN/archw "i3status" "reconfigured"
       return 0
     elif [ $2 == "time" ]; then
@@ -42,7 +42,7 @@ status () {
       wconf load "status.conf"
       if [[ $3 =~ ^(24|12)$ ]]; then
         wconf set "status.conf" TIME_FORMAT $3
-        archw --sys i3status-restart > /dev/null 2>&1
+        archw --sys restart i3status > /dev/null 2>&1
         echo "Time format set: $3"
         return 0
       elif [ -n "$3" ]; then
@@ -85,7 +85,7 @@ status () {
           else
             wconf set "status.conf" TIME_SHOW_SECONDS "1"
           fi
-          archw --sys i3status-restart
+          archw --sys restart i3status
         else
           #
           # If show sec
@@ -149,14 +149,14 @@ status () {
           else
             archw --status json sysupd check
           fi
-          archw --sys i3status-restart
+          archw --sys restart i3status
           return 0
         elif [ "$4" == "runprompt" ]; then
           #
           # Run in opened terminal
           echo -e "Available packages for update:\n"
           archw --status json sysupd check
-          archw --sys i3status-restart
+          archw --sys restart i3status
           echo ""; read -p "Do you want to install all updates? (y/n) " -r
           if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 0; fi
           #
@@ -169,7 +169,7 @@ status () {
           if archw --sys upd -y; then
             wconf set "status.conf" UPDATES_PENDING "0"
             wconf set "status.conf" UPDATES_WARNING "0"
-            archw --sys i3status-restart
+            archw --sys restart i3status
             #
             # Ask for reboot if needed
             if [ "$UPDATES_WARNING" == "1" ]; then

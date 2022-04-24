@@ -4,7 +4,7 @@ After=aw-dc-state-on.target aw-dc-state-off.target
 
 [Service]
 Type=oneshot
-ExecStart=archw --sys i3status-restart
+ExecStart=archw --sys restart i3status
 
 [Install]
 WantedBy=aw-dc-state-on.target aw-dc-state-off.target

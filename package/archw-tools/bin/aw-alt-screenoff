@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+#
+# Get config path
+if ! CONFIGPATH=$(archw --sys pathconf "pm.conf"); then
+  echo "Can't find config"
+  exit 1
+fi
+
+#
+# Load config
+. $CONFIGPATH
+
+#
+# Service Active checker
+sa() {
+  if [ "$(systemctl --user show -p ActiveState --value $1)" == "active" ]; then
+    return 0
+  fi
+  return 1
+}
+
+#
+# If on DC
+local TIMEOUT=$LOCK_SCREEN_OFF_AC
+if sa "aw-dc-state-off.target"; then
+  #
+  # If on Battery
+  TIMEOUT=$LOCK_SCREEN_OFF_BAT
+fi
+
+#
+# Check if display is still off
+if [ "$TIMEOUT" -gt "0" ] && sa "aw-screen-lock-on.target"; then
+  #xset -display :0 dpms force off
+  xset dpms $TIMEOUT $TIMEOUT $TIMEOUT
+fi
+exit 0

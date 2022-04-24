@@ -54,14 +54,9 @@ s:^[#\s]*(exec --no-startup-id nm-applet.*):#\1:; \
 s:^[#\s]*(exec --no-startup-id xss-lock.*):#\1:" \
 ${V_HOME}/.config/i3/config
 
-#
-# Add picom to the top of the i3 config
-if [ -n "$S_PICOM_EXP_BACK" ]; then
-  PICOM_EXP_BACK=" --experimental-backends"
-fi
 cat <<< "#
 # Run picom
-#exec --no-startup-id picom -b${PICOM_EXP_BACK}
+exec --no-startup-id systemctl --user start aw-picom.service
 
 $(cat ${V_HOME}/.config/i3/config)" > ${V_HOME}/.config/i3/config
 

@@ -36,7 +36,7 @@ lang () {
   }
 
   i3sr() {
-    archw --sys i3status-restart
+    archw --sys restart i3status
   }
 
 	if [ -n "$2" ]; then

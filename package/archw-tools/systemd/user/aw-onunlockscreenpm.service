@@ -1,0 +1,10 @@
+[Unit]
+Description=Screen PM on Unlock state
+After=aw-screen-lock-off.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/archw --pm applynow
+
+[Install]
+WantedBy=aw-screen-lock-off.target

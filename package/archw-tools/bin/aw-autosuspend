@@ -32,51 +32,57 @@ COMMAND=suspend
 INC=0
 while true; do
   #
-  # Set timeout
-  if sa "aw-dc-state-on.target"; then
-    # Suspend timeout
-    TIMEOUT=$SUSPEND_AC
-    # Hibernation
-    if [ "$HIBERNATE_AC" -gt "0" ]; then
-      COMMAND=suspend-then-hibernate
-    else
-      COMMAND=suspend
-    fi
-  else
-    # Suspend bat timeout
-    TIMEOUT=$SUSPEND_BAT
-    # Hibernation
-    if [ "$HIBERNATE_BAT" -gt "0" ]; then
-      COMMAND=suspend-then-hibernate
-    else
-      COMMAND=suspend
-    fi
-  fi
-
-  #
-  # If off
-  if [ "$TIMEOUT" == "0" ]; then
-    exit 0
-  fi
-
-  #
-  # If timer fires
-  if (( $INC > $TIMEOUT )); then
+  # Check if display is still off
+  if sa "aw-screen-state-off.target"; then
     #
-    # Check if display is still off
-    if sa "aw-screen-state-off.target"; then
-      archw --pm applynow
-      xset -display :0 dpms force on
-      systemctl $COMMAND
+    # Set command
+    local COMMAND=suspend
+
+    #
+    # Set timeout
+    if sa "aw-dc-state-on.target"; then
+      # Suspend timeout
+      TIMEOUT=$SUSPEND_AC
+      # Hibernation
+      if [ "$HIBERNATE_AC" -gt "0" ]; then
+        COMMAND=suspend-then-hibernate
+      fi
+    else
+      # Suspend bat timeout
+      TIMEOUT=$SUSPEND_BAT
+      # Hibernation
+      if [ "$HIBERNATE_BAT" -gt "0" ]; then
+        COMMAND=suspend-then-hibernate
+      fi
     fi
+
+    #
+    # If off
+    if [ "$TIMEOUT" == "0" ]; then
+      exit 0
+    fi
+
+    #
+    # If timer fires
+    if (( $INC > $TIMEOUT )); then
+      #
+      # Check if display is still off
+      if sa "aw-screen-state-off.target"; then
+        archw --pm applynow
+        xset -display :0 dpms force on
+        systemctl $COMMAND
+      fi
+      exit 0
+    fi
+
+    #
+    # Increment timer
+    INC=$(( $INC + 1 ))
+
+    #
+    # Sleep timeout
+    sleep $CYCLETIMEOUT
+  else
     exit 0
   fi
-
-  #
-  # Increment timer
-  INC=$(( $INC + 1 ))
-
-  #
-  # Sleep timeout
-  sleep $CYCLETIMEOUT
 done

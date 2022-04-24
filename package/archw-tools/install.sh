@@ -155,4 +155,6 @@ else
   systemctl --user enable aw-autolanguageloader.service
   systemctl --user enable aw-initiateaudio.service
   systemctl --user enable aw-screenoni3.service
+  systemctl --user enable aw-alt-screenoff.service
+  systemctl --user enable aw-onunlockscreenpm.service
 fi

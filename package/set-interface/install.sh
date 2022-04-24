@@ -107,10 +107,10 @@ sudo chmod 600 /etc/sudoers.d/aw-guienv
 # Install Xresources
 \cp -r ./package/set-interface/.Xresources $V_HOME/
 # Check xinitrc
-if ! cat $V_HOME/.xinitrc | grep "xrdb -merge ~/.Xresources" > /dev/null 2>&1; then
-  touch $V_HOME/.xinitrc
-  echo -e "xrdb -merge ~/.Xresources\n$(cat $V_HOME/.xinitrc)" > $V_HOME/.xinitrc
-fi
+#if ! cat $V_HOME/.xinitrc | grep "xrdb -merge ~/.Xresources" > /dev/null 2>&1; then
+#  touch $V_HOME/.xinitrc
+#  echo -e "xrdb -merge ~/.Xresources\n$(cat $V_HOME/.xinitrc)" > $V_HOME/.xinitrc
+#fi
 
 #
 # Set GRUB font
