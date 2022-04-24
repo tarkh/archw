@@ -14,13 +14,15 @@ if [ "$1" == 'help_draft' ]; then
 fi
 if [ "$1" == 'help' ]; then
   echo "
---pm [<mode>]    ;List basic PM status, optional [<mode>]s:
-  mon <sec>      ;Turn off monitor after <sec>, 0 to disable
-  sleep <sec>    ;System sleep after <sec> after monitor is off, 0 to disable.
-  hib <sec>      ;System hibernation after <sec> after sleep, 0 to disable.
-  monbat <sec>   ;Same as <mon>, but when system is on battery
-  sleepbat <sec> ;Same as <sleep>, but when system is on battery
-  hibbat <sec>   ;Same as <hib>, but when system is on battery
+--pm [<mode>]      ;List basic PM status, optional [<mode>]s:
+  mon <sec>        ;Turn off monitor after <sec>, 0 to disable
+  lockmon <sec>    ;Turn off monitor after <sec> after manual screen lock, 0 to disable
+  sleep <sec>      ;System sleep after <sec> after monitor is off, 0 to disable.
+  hib <sec>        ;System hibernation after <sec> after sleep, 0 to disable.
+  monbat <sec>     ;Same as <mon>, but when system is on battery
+  lockmonbat <sec> ;Same as <lockmon>, but when system is on battery
+  sleepbat <sec>   ;Same as <sleep>, but when system is on battery
+  hibbat <sec>     ;Same as <hib>, but when system is on battery
 "
 fi
 
@@ -61,6 +63,8 @@ pm () {
     if [ -n "$3" ] && [ "$3" -eq "$3" ] 2>/dev/null; then
       if [ $2 == "mon" ]; then
         wconf set "pm.conf" SCREEN_OFF_AC "$3"
+      elif [ $2 == "lockmon" ]; then
+        wconf set "pm.conf" LOCK_SCREEN_OFF_AC "$3"
       elif [ $2 == "sleep" ]; then
         wconf set "pm.conf" SUSPEND_AC "$3"
       elif [ $2 == "hib" ]; then
@@ -72,6 +76,8 @@ pm () {
         fi
       elif [ $2 == "monbat" ]; then
         wconf set "pm.conf" SCREEN_OFF_BAT "$3"
+      elif [ $2 == "lockmonbat" ]; then
+        wconf set "pm.conf" LOCK_SCREEN_OFF_BAT "$3"
       elif [ $2 == "sleepbat" ]; then
         wconf set "pm.conf" SUSPEND_BAT "$3"
       elif [ $2 == "hibbat" ]; then
@@ -97,9 +103,11 @@ pm () {
     #
     # Show current settings
     echo "mon: $SCREEN_OFF_AC
+lockmon: $LOCK_SCREEN_OFF_AC
 sleep: $SUSPEND_AC
 hib: $HIBERNATE_AC
 monbat: $SCREEN_OFF_BAT
+lockmonbat: $LOCK_SCREEN_OFF_BAT
 sleepbat: $SUSPEND_BAT
 hibbat: $HIBERNATE_BAT"
     return 0
