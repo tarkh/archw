@@ -55,8 +55,9 @@ s:^[#\s]*(exec --no-startup-id xss-lock.*):#\1:" \
 ${V_HOME}/.config/i3/config
 
 cat <<< "#
-# Run picom
-exec --no-startup-id systemctl --user start aw-picom.service
+# Run aw-i3.target and all binded services
+exec --no-startup-id systemctl --user start aw-i3.target &
+exec --no-startup-id systemctl --user start aw-screen-lock-off.target &
 
 $(cat ${V_HOME}/.config/i3/config)" > ${V_HOME}/.config/i3/config
 
@@ -208,9 +209,6 @@ for_window [window_type="menu"]                         floating enable
 #
 # archw_plugins_injection
 
-#
-# Run aw-i3.target and all binded services
-exec --no-startup-id systemctl --user start aw-i3.target &
 
 EOL
 

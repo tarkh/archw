@@ -1,11 +1,11 @@
 [Unit]
 Description=Start picom composite manager
-After=graphical.target
+PartOf=aw-i3.target
+After=aw-i3.target
 
 [Service]
 ExecStart=/usr/bin/picom
-ExecStop=/usr/bin/killall picom
 Restart=always
 
 [Install]
-WantedBy=default.target
+WantedBy=aw-i3.target

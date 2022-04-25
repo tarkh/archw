@@ -5,7 +5,6 @@ After=aw-i3.target
 
 [Service]
 ExecStart=/usr/local/bin/aw-pslistener
-ExecStop=/usr/bin/pkill aw-pslistener
 Restart=always
 
 [Install]

@@ -80,6 +80,17 @@ sed -i -E \
 $V_HOME/.config/i3status-rust/config.toml
 
 #
+# DISABLE auto hibernation after sleep delay.
+# MacBook bios disables RTC alarm functionality
+# while lid is closed and AC plugged off, so
+# suspend-and-hibernate can't complete.
+# Automatic hibernation while AC is plugged
+# in or AC is plugged off AND lid is opened
+# do work normally.
+archw --pm hib 0
+archw --pm hibbat 0
+
+#
 # Tweaks
 . ./tweaks/intel_iommu.sh
 . ./tweaks/intel_video_tune.sh

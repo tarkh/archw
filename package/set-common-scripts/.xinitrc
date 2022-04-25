@@ -1,1 +1,0 @@
-archw --pm applynow

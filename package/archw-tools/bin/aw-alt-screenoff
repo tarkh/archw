@@ -26,7 +26,7 @@ sa() {
 
 #
 # If on DC
-local TIMEOUT=$LOCK_SCREEN_OFF_AC
+TIMEOUT=$LOCK_SCREEN_OFF_AC
 if sa "aw-dc-state-off.target"; then
   #
   # If on Battery
