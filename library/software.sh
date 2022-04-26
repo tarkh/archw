@@ -276,3 +276,10 @@ ProgressBar
 if [ -n "$S_ADD_TIMESHIFT" ]; then
   . ./package/timeshift/install.sh
 fi
+
+#
+# Gedit
+ProgressBar
+if [ -n "$S_ADD_GEDIT" ]; then
+  . ./package/gedit/install.sh
+fi

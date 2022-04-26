@@ -203,3 +203,6 @@ S_ADD_FF=true
 #S_ADD_FF_XINPUT=true
 # Enable hardware video acceleration with VA-API
 S_ADD_FF_VAAPI=true
+
+# Gedit text editor
+S_ADD_GEDIT=true
