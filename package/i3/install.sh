@@ -29,18 +29,19 @@ sudo sed -i -E "s:^\s*(exec i3-config-wizard).*:\1 -m${S_I3_MODE_KEY}:" /etc/i3/
 #
 sudo bash -c "cat >> /etc/i3/config" << EOL
 exec archw --disp dset
+exec archw --gui auto
 exec archw --wp
 EOL
 #
 (xinit "/usr/bin/i3" -- :1 vt1) &
 echo "Initializing i3 config..."
 sleep 5
-# Auto gui
-. ./package/set-guidpi/install.sh
+
 # Turn off X
 DISPLAY=:1 i3-msg exit
 sudo sed -i -E "s:^\s*(exec i3-config-wizard).*:\1:" /etc/i3/config
 sudo sed -i "\:^\s*exec\s*archw\s*--disp\s*dset\s*:d" /etc/i3/config
+sudo sed -i "\:^\s*exec\s*archw\s*--gui\s*auto\s*:d" /etc/i3/config
 sudo sed -i "\:^\s*exec\s*archw\s*--wp\s*:d" /etc/i3/config
 sleep 3
 echo "i3 initialization completed!"

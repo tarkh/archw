@@ -62,6 +62,10 @@ sudo pacman --noconfirm -S kvantum lxqt-qtplugin lxqt-config
 \cp -r ./package/set-interface/.Xdefaults $V_HOME/
 \cp -r ./package/set-interface/.icons $V_HOME/
 
+#
+# GTK3 nocsd
+yay --noconfirm -S gtk-nocsd-git
+
 # PAPIRUS
 # icons
 sudo pacman --noconfirm -S papirus-icon-theme

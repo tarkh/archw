@@ -9,6 +9,10 @@ service_ctl user off aw-flameshot-autostart.service
 sudo pacman --noconfirm -S flameshot
 
 #
+# Create Pictures folder
+mkdir ~/Pictures
+
+#
 # Put preconf
 mkdir -p $V_HOME/.config/flameshot/
 \cp -r ./package/flameshot/flameshot.ini $V_HOME/.config/flameshot/

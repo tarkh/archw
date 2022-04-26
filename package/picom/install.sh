@@ -30,7 +30,7 @@ fi
 
 #
 # Autorun with i3
-service_ctl user install ./package/picom/systemd/aw-picom.service
+service_ctl user install-on ./package/picom/systemd/aw-picom.service
 
 #
 # Experimental backends

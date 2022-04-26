@@ -93,6 +93,12 @@ lock () {
     fi
   else
     #
+    # Check if already not locked
+    if sa "aw-screen-lock-on.target"; then
+      exit 0
+    fi
+
+    #
     # Pixelate values: X times to scale down and back up
     LOCK_PIXELATE=$LOCK_PIXEL_SIZE
     # If hidpi gui, multiply by 2
@@ -180,14 +186,20 @@ lock () {
       fi
     }
 
-    #
-    # Set screen lock target on
-    if sa "aw-screen-lock-off.target"; then
+    if sa "aw-screen-lock-on.target"; then
+      #
+      # Check if already not locked after
+      # image has been generated
+      exit 0
+    elif sa "aw-screen-lock-off.target"; then
+      #
+      # Else check lock off to disable
       systemctl --user stop aw-screen-lock-off.target
     fi
-    if ! sa "aw-screen-lock-on.target"; then
-      systemctl --user start aw-screen-lock-on.target
-    fi
+
+    #
+    # Set screen lock target on
+    systemctl --user start aw-screen-lock-on.target
 
     #
     # Run lock in async
