@@ -64,7 +64,7 @@ sudo pacman --noconfirm -S kvantum lxqt-qtplugin lxqt-config
 
 #
 # GTK3 nocsd
-yay --noconfirm -S gtk-nocsd-git
+yay --noconfirm -S gtk3-nocsd-git
 
 # PAPIRUS
 # icons

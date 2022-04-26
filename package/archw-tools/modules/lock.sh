@@ -176,6 +176,7 @@ lock () {
       #
       # Lock
       i3lock -e -n -u -i $img -p default -t
+
       #
       # Set screen lock target on
       if sa "aw-screen-lock-on.target"; then
@@ -202,11 +203,19 @@ lock () {
     systemctl --user start aw-screen-lock-on.target
 
     #
-    # Run lock in async
-    lock &
+    # Run lock
+    if [ "$2" == "engage" ]; then
+      #
+      # Do lock
+      lock
+    else
+      #
+      # Call for lock engage async
+      archw --lock engage &
+    fi
 
     #
-    # Wait 1 sec
+    # Wait
     #sleep 0.5
 
     #

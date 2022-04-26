@@ -25,11 +25,12 @@ SOFTWARE.
 -->
 <!--
 
-ArchW MOD
+Modified version
+ArchW by tarkh (c) 2021
 
 -->
 
-<style-scheme id="dracula" name="Dracula" version="1.0">
+<style-scheme id="archw-dracula" name="ArchW-Dracula" version="1.0">
 	<author>Ricardo Madriz</author>
 	<_description>A dark theme for Gedit</_description>
 

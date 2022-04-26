@@ -39,3 +39,7 @@ if [ -n "$S_PICOM_EXP_BACK" ]; then
   "s:(.*/usr/bin/picom):\1 --experimental-backends:" \
   /usr/lib/systemd/user/aw-picom.service
 fi
+
+#
+# On
+service_ctl user on aw-picom.service
