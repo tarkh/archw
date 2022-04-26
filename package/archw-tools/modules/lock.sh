@@ -211,7 +211,7 @@ lock () {
     else
       #
       # Call for lock engage async
-      archw --lock engage &
+      bash -c "archw --lock engage" &
     fi
 
     #
