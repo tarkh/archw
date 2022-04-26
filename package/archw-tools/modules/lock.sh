@@ -57,6 +57,7 @@ lock () {
       if ! sa "aw-screen-lock-off.target"; then
         systemctl --user start aw-screen-lock-off.target
       fi
+      return 0
     elif [ $2 == "sleep" ]; then
       local USER=$(ls /usr/share/archw/ | grep USER | cut -d "_" -f2)
       if [ -n "$3" ]; then
@@ -207,7 +208,7 @@ lock () {
 
     #
     # Wait
-    #sleep 0.5
+    sleep 0.5
 
     #
     return 0

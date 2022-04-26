@@ -1,6 +1,13 @@
 #!/bin/bash
 
 #
+# Man pages
+ProgressBar
+if [ -n "$S_ADD_MAN" ]; then
+. ./package/man/install.sh
+fi
+
+#
 # Install polkit
 ProgressBar
 if [ -n "$S_ADD_POLKIT" ]; then

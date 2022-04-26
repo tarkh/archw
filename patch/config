@@ -90,6 +90,9 @@ S_ADD_REDSHIFT=true
 # ==========================================
 #
 
+# Man pages
+S_ADD_MAN=true
+
 # Install vm tools
 # Avaliable options:
 # 1: vmware
