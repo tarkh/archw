@@ -25,6 +25,11 @@ fi
 # Module content
 lock () {
   #
+  # Pathes
+  icon="$HOME/.config/i3/img/lock.png"
+  img=/tmp/i3lock.png
+
+  #
   # Service Active checker
   sa() {
     if [ "$(systemctl --user show -p ActiveState --value $1)" == "active" ]; then
@@ -40,7 +45,19 @@ lock () {
   if [ -n "$2" ]; then
     #
     #
-    if [ $2 == "sleep" ]; then
+    if [ "$2" == "engage" ]; then
+      #
+      # Lock
+      i3lock -e -n -u -i $img -p default -t
+      #
+      # Set screen lock target on
+      if sa "aw-screen-lock-on.target"; then
+        systemctl --user stop aw-screen-lock-on.target
+      fi
+      if ! sa "aw-screen-lock-off.target"; then
+        systemctl --user start aw-screen-lock-off.target
+      fi
+    elif [ $2 == "sleep" ]; then
       local USER=$(ls /usr/share/archw/ | grep USER | cut -d "_" -f2)
       if [ -n "$3" ]; then
         if [ "$3" == "on" ]; then
@@ -108,9 +125,6 @@ lock () {
     # Optional blur, comment out to disable
     # Values: (https://legacy.imagemagick.org/Usage/blur/#blur_args)
     LOCK_BLUR="1x4"
-    # Pathes
-    icon="$HOME/.config/i3/img/lock.png"
-    img=/tmp/i3lock.png
     # Flush previous img
     rm -rf $img
     # Switch input lang to US for passwd to unlock later
@@ -171,26 +185,11 @@ lock () {
     scrot -q 100 -o /dev/stdout | convert - -scale ${LOCK_SCALE_DOWN}% ${IMM_BLUR_MODE}-scale ${LOCK_SCALE_UP}% $CONVERT
 
     #
-    # Lock function
-    lock () {
-      #
-      # Lock
-      i3lock -e -n -u -i $img -p default -t
-
-      #
-      # Set screen lock target on
-      if sa "aw-screen-lock-on.target"; then
-        systemctl --user stop aw-screen-lock-on.target
-      fi
-      if ! sa "aw-screen-lock-off.target"; then
-        systemctl --user start aw-screen-lock-off.target
-      fi
-    }
-
+    # Check if already not locked after
+    # image has been generated
     if sa "aw-screen-lock-on.target"; then
       #
-      # Check if already not locked after
-      # image has been generated
+      # Exit lock process
       exit 0
     elif sa "aw-screen-lock-off.target"; then
       #
@@ -204,15 +203,7 @@ lock () {
 
     #
     # Run lock
-    if [ "$2" == "engage" ]; then
-      #
-      # Do lock
-      lock
-    else
-      #
-      # Call for lock engage async
-      bash -c "archw --lock engage" &
-    fi
+    bash -c "archw --lock engage" &
 
     #
     # Wait
