@@ -1,35 +1,18 @@
-# Input module (not yet ready)
-
-# Lightdm
-# Reconfig on vt1
-sudo sed -i -E \
-"s:^\s*[#]*(minimum-vt=).*:\11:" \
-/etc/lightdm/lightdm.conf
-# Update scripts
-sudo \cp -r ./package/lightdm/scripts/* /usr/share/lightdm/scripts
-sudo chmod +x /usr/share/lightdm/scripts/*
+#
+# Picom tweak
+# Disable because of i3/picom flicker
+# after display sleep
+sed -i -E \
+"s:^\s*(#\s*unredir-if-possible\s+.*):\1\nunredir-if-possible = false:g" \
+$V_HOME/.config/picom/picom.conf
 
 #
-# Grub reform
-if pacman -Q --info grub-silent; then
-  yay -noconfirm -R grub-silent
-fi
-#
-#sudo sed -i -E \
-#"s:\s*(S_ADD_GRUBCFG=).*:\1silent:; \
-#s:\s*(S_ADD_GRUBSILENT=.*):#\1:" \
-#$S_ARCHW_FOLDER/config/patch/config
-#
-#sudo pacman -S grub
-#. ./package/grub/install.sh
+# Disable aw-screenoni3 i3 restarter
+# because we don't need ti anymore
+systemctl --user stop aw-screenoni3.service
+systemctl --user disable aw-screenoni3.service
 
 #
-# Set hibernation
-if ! cat $S_ARCHW_FOLDER/config/config | grep "S_SWAP_FILE=" > /dev/null; then
-  sudo sed -i -E \
-  "s:(S_CREATE_SWAP=.*):\1\n# Swap file location\nS_SWAP_FILE=/swapfile:" \
-  /usr/share/archw/config/config
-fi
-HIB_ENABLE_FROM_ARCHW=true
-set_hibernation
-touch ${S_ARCHW_FOLDER}/HIB
+# Restart NM on resume
+sudo chmod +x ./package/networkmanager/systemd/system-sleep/*
+sudo \cp -r ./package/networkmanager/systemd/system-sleep/* /usr/lib/systemd/system-sleep/

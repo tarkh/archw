@@ -111,9 +111,9 @@ lock () {
     fi
   else
     #
-    # Check if already not locked
+    # Check if already locked
     if sa "aw-screen-lock-on.target"; then
-      exit 0
+      return 0
     fi
 
     #
@@ -189,9 +189,7 @@ lock () {
     # Check if already not locked after
     # image has been generated
     if sa "aw-screen-lock-on.target"; then
-      #
-      # Exit lock process
-      exit 0
+      return 0
     elif sa "aw-screen-lock-off.target"; then
       #
       # Else check lock off to disable

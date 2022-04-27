@@ -395,13 +395,13 @@ sys () {
   elif [ "$2" == "restart" ]; then
     #
     # Restart various services
-    if [ "$2" == "i3" ]; then
+    if [ "$3" == "i3" ]; then
       i3-msg restart
       return 0
-    elif [ "$2" == "i3status" ]; then
+    elif [ "$3" == "i3status" ]; then
       pgrep i3status | xargs --no-run-if-empty kill -s USR1
       return 0
-    elif [ "$2" == "picom" ]; then
+    elif [ "$3" == "picom" ]; then
       systemctl --user restart aw-picom.service
       return 0
     fi

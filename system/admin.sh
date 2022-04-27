@@ -34,6 +34,10 @@ sed -i "\:^\s*cd\s*$S_PKG\s*:d" "${V_HOME}/.bashrc"
 sed -i "\:^\s*./install.sh\s*--admin:d" "${V_HOME}/.bashrc"
 
 #
+# Update pacman keys
+sudo pacman -Sy archlinux-keyring
+
+#
 # Install archw tools
 ProgressBar
 . ./package/archw-tools/install.sh

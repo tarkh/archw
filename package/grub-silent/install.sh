@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#
+# Set previous GRUB install custom options
+PCV_GRUB_FONT=$(cat /etc/default/grub | grep GRUB_FONT)
+
 # Remove grub
 sudo pacman --noconfirm -Rns grub
 
@@ -46,6 +50,15 @@ s:^[#\s]*(GRUB_COLOR_NORMAL=).*:\1\"magenta/black\":; \
 s:^[#\s]*(GRUB_COLOR_HIGHLIGHT=).*:\1\"light-magenta/magenta\":; \
 s:^[#\s]*(GRUB_BACKGROUND=).*:\1\"${SPLASH_IMG}\":" \
 /etc/default/grub
+
+#
+# If GRUB_FONT
+if [ -n "$PCV_GRUB_FONT" ]; then
+  sudo bash -c "cat >> /etc/default/grub" << EOL
+# Custom font
+$PCV_GRUB_FONT
+EOL
+fi
 
 #
 # Set grub

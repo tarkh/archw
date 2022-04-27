@@ -15,7 +15,7 @@ s:^\s*(inactive-opacity\s*=.*):#\1;:; \
 s:^\s*#\s*(opacity-rule\s*=)\s*\[\s*\].*:\1 \[\n  \"78\:class_g \*= '' \&\& \!focused\",\n  \"97\:class_g \*= '' \&\& focused\"\n\]:; \
 s:^\s*(blur-kern\s*=.*):#\1;:; \
 s:^\s*(backend\s*=).*:\1 \"glx\":; \
-s:^\s*(#\s*unredir-if-possible\s+.*):\1\nunredir-if-possible = true:g; \
+s:^\s*(#\s*unredir-if-possible\s+.*):\1\nunredir-if-possible = false:g; \
 s:^\s*(#\s*glx-no-stencil\s+.*):\1\nglx-no-stencil = true:g; \
 s:^\s*(#\s*glx-no-rebind-pixmap\s+.*):\1\nglx-no-rebind-pixmap = true:g; \
 s:^\s*(#\s*xrender-sync-fence\s+.*):\1\nxrender-sync-fence = true:g" \
