@@ -88,8 +88,8 @@ sys () {
       echo "Updating ArchW tools"
       sudo rm -rf /tmp/$S_ARCHW_GITPKG_NAME > /dev/null 2>&1
       archw_pkg_get
-      echo "Installing package: $S_ARCHW_GITPKG_NAME -- $S_ARCHW_FOLDER --"
-      (cd /tmp/$S_ARCHW_GITPKG_NAME && S_ARCHW_FOLDER=$S_ARCHW_FOLDER && ./install.sh --archw-tools $1)
+      echo "Installing package2: $S_ARCHW_GITPKG_NAME -- $S_ARCHW_FOLDER --"
+      (export S_ARCHW_FOLDER=$S_ARCHW_FOLDER; cd /tmp/$S_ARCHW_GITPKG_NAME && ./install.sh --archw-tools $1)
     else
       #
       # If not check only
