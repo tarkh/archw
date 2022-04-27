@@ -7,18 +7,18 @@
 
 #
 # Config
-S_ARCHW_FOLDER=/usr/share/archw
-S_ARCHW_CONFIG=$HOME/.config/archw
-S_ARCHW_TMPFS=/tmp/archw-runtime
-S_ARCHW_LIB=/usr/local/lib/archw
-S_ARCHW_MODULES=$S_ARCHW_LIB/modules
-S_ARCHW_BIN=/usr/local/bin
+export S_ARCHW_FOLDER=/usr/share/archw
+export S_ARCHW_CONFIG=$HOME/.config/archw
+export S_ARCHW_TMPFS=/tmp/archw-runtime
+export S_ARCHW_LIB=/usr/local/lib/archw
+export S_ARCHW_MODULES=$S_ARCHW_LIB/modules
+export S_ARCHW_BIN=/usr/local/bin
 
-S_ARCHW_GIT=https://github.com/tarkh
-S_ARCHW_GITRAW=https://raw.githubusercontent.com/tarkh
-S_ARCHW_GITPKG_NAME=tarkh-archw-*
-S_ARCHW_GITPKG=$S_ARCHW_GIT/archw/tarball/main
-S_ARCHW_GITPKG_VERSION=$S_ARCHW_GITRAW/archw/main/package/archw-tools/VERSION
+export S_ARCHW_GIT=https://github.com/tarkh
+export S_ARCHW_GITRAW=https://raw.githubusercontent.com/tarkh
+export S_ARCHW_GITPKG_NAME=tarkh-archw-*
+export S_ARCHW_GITPKG=$S_ARCHW_GIT/archw/tarball/main
+export S_ARCHW_GITPKG_VERSION=$S_ARCHW_GITRAW/archw/main/package/archw-tools/VERSION
 
 #
 # List modules

@@ -104,6 +104,8 @@ if [ -n "$ARG_ARCHW_UPDATE" ]; then
 		echo ""; read -p "Update ArchW tools? (y/n) " -r
 		if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 0; fi
 	fi
+  #
+  export S_ARCHW_FOLDER=/usr/share/archw
 	# Load local confs
 	load_archw_local_conf
   # Create dirs
