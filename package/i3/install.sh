@@ -16,7 +16,18 @@ chmod +x $V_HOME/.config/i3/scripts/*
 sed -i -E \
 "\:^\s*\"window_type = 'dock'\",.*:d; \
 s:^(\s*dock\s+=\s+\{)(.*):\1 fade = true;\2:; \
-s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"82\:window_type = 'dock' \&\& class_g = 'i3bar'\",:" \
+s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"82\:window_type = 'dock' \&\& class_g = 'i3bar'\",:; \
+s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g ~= 'i3lock' \&\& focused\",:g; \
+s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g ~= 'i3lock' \&\& \!focused\",:g" \
+$V_HOME/.config/picom/picom.conf
+
+
+sed -i -E \
+"s:^\s*(shadow-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'utility'\",:g; \
+s:^\s*(shadow-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'tooltip'\",:g; \
+s:^\s*(shadow-exclude\s*=\s*\[):\1\n  \"class_g ~= 'firefox' \&\& window_type \*= 'menu'\",:g; \
+s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g ~= 'firefox' \&\& focused\",:g; \
+s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g ~= 'firefox' \&\& \!focused\",:g" \
 $V_HOME/.config/picom/picom.conf
 
 #
