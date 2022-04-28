@@ -238,7 +238,7 @@ if ! pacstrap /mnt base $S_LINUX linux-firmware $CPURELP $BTRFSRELP \
 base-devel parted grub openssh curl wget ntp zip unzip nano vim git \
 acpi cpupower lm_sensors \
 feh imagemagick scrot libicns \
-xorg-server xorg-apps xorg-xinit xclip arandr \
+xorg-server xorg-apps xorg-xinit dex xclip arandr \
 gnome-keyring libsecret seahorse \
 iwd iw nm-connection-editor \
 bluez bluez-utils blueman \

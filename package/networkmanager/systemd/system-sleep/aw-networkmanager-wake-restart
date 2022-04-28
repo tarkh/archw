@@ -2,7 +2,7 @@
 #
 # NetworkManager restart on wake
 
-case "\$1" in
+case "$1" in
   post)
     systemctl restart NetworkManager.service
     ;;

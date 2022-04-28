@@ -126,6 +126,19 @@ GRUB_FONT="/boot/grub/fonts/custom.pf2"
 EOL
 
 #
+# Set xdg
+sudo pacman --noconfirm -S xdg-user-dirs
+sudo sed -i -E \
+"s:^(TEMPLATES):#\1:g" \
+/etc/xdg/user-dirs.default
+if ! cat /etc/xdg/user-dirs.default | grep '^DEV='; then
+  sudo bash -c "cat >> /etc/xdg/user-dirs.default" << EOL
+# Custom directories
+DEV=Dev
+EOL
+fi
+
+#
 # Set up gsettings
 gsettings set org.gnome.desktop.interface gtk-theme "Dracula"
 gsettings set org.gnome.desktop.wm.preferences theme "Dracula"

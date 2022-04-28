@@ -3,10 +3,10 @@ Description=Lock screen on suspend
 Before=sleep.target
 
 [Service]
-User=%I
 Type=forking
-Environment=DISPLAY=:0
-ExecStart=archw --lock
+Environment="USER=%I"
+Environment="DISPLAY=:0"
+ExecStart=bash -c "env XDG_RUNTIME_DIR=/run/user/$(id -u $USER) sudo --preserve-env=XDG_RUNTIME_DIR -u $USER archw --lock"
 
 [Install]
 WantedBy=sleep.target
