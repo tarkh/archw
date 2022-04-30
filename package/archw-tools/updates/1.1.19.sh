@@ -1,7 +1,7 @@
 #
 # Set as default terminal
-gsettings set org.gnome.desktop.default-applications.terminal exec terminator
-gsettings set org.cinnamon.desktop.default-applications.terminal exec terminator
+gsettings set org.gnome.desktop.default-applications.terminal exec i3-sensible-terminal
+gsettings set org.cinnamon.desktop.default-applications.terminal exec i3-sensible-terminal
 gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
 
 #

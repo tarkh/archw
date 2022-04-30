@@ -5,7 +5,7 @@
 #
 
 #
-# Set profile envs
-. ~/.profile
+# Run with bash proxy to set
+# all environment variables
 
 "$@"

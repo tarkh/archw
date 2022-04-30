@@ -68,8 +68,4 @@ fi
 # Install rofi pass script
 sudo \cp -r ./package/rofi/bin/aw-rofipass /usr/local/bin/
 sudo chmod +x /usr/local/bin/aw-rofipass
-sudo bash -c "cat >> $V_HOME/.profile" << EOL
-#
-# Rofi password
-export SUDO_ASKPASS="/usr/local/bin/aw-rofipass"
-EOL
+sed -i -E "s:^(# DBUS-UPDATE-ENV):export SUDO_ASKPASS=\"/usr/local/bin/aw-rofipass\"\n\1:" $V_HOME/.profile

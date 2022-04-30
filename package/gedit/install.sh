@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo pacman --noconfirm -S gedit
+sudo pacman --noconfirm -S gedit aspell hspell nuspell libvoikko
 
 #
 # Install dracula style

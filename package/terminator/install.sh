@@ -18,9 +18,3 @@ $V_HOME/.config/picom/picom.conf
 # .bashrc mod
 sed -i "\:^\s*PS1=.*:d" $V_HOME/.bashrc
 echo 'PS1="\[\033[38;5;34m\][\[\033[38;5;96m\]\h \[\033[38;5;182m\]\w\[\033[38;5;34m\]]\\$\[$(tput sgr0)\] "' >> $V_HOME/.bashrc
-
-#
-# Set as default terminal
-gsettings set org.gnome.desktop.default-applications.terminal exec terminator
-gsettings set org.cinnamon.desktop.default-applications.terminal exec terminator
-gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e

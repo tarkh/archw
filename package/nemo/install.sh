@@ -11,6 +11,29 @@ fi
 gsettings set org.nemo.preferences show-hidden-files false
 
 #
+# Set as default terminal
+gsettings set org.gnome.desktop.default-applications.terminal exec i3-sensible-terminal
+gsettings set org.cinnamon.desktop.default-applications.terminal exec i3-sensible-terminal
+gsettings set org.cinnamon.desktop.default-applications.terminal exec-arg -e
+
+#
 # Network share
-sudo pacman --noconfirm -S avahi nss-mdns nemo-share
+sudo pacman --noconfirm -S avahi nss-mdns samba
 sudo systemctl enable avahi-daemon.service
+# SMB
+sudo mkdir /var/lib/samba/usershares
+sudo groupadd -r sambashare
+sudo chown root:sambashare /var/lib/samba/usershares
+sudo chmod 1770 /var/lib/samba/usershares
+sudo usermod -a -G sambashare $S_MAINUSER
+sudo \cp -r ./package/nemo/smb/smb.conf /etc/samba/
+sudo systemctl enable smb.service
+sudo systemctl enable nmb.service
+# Nemo share
+#sudo pacman --noconfirm -S nemo-share
+# Tmp nemo-share flag fix
+cd $V_AUR
+mkdir nemo-share && cd nemo-share
+cp $S_PKG/package/nemo/nemo-share/PKGBUILD ./
+makepkg -si --noconfirm
+cd $S_PKG
