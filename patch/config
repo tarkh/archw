@@ -168,6 +168,8 @@ S_ADD_DUNST=true
 # File managers
 # Nemo file browser
 S_ADD_NEMO=true
+# Nemo network file sharing
+S_ADD_NEMO_SHARE=true
 # Midnight Commander file browser
 S_ADD_MC=true
 # System default file manager
