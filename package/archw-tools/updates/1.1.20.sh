@@ -19,12 +19,13 @@ sudo groupadd -r sambashare
 sudo chown root:sambashare /var/lib/samba/usershares
 sudo chmod 1770 /var/lib/samba/usershares
 sudo usermod -a -G sambashare $USER
-sudo \cp -r ./package/nemo/smb.conf /etc/samba/
+sudo \cp -r ./package/nemo/smb/smb.conf /etc/samba/
 sudo systemctl enable smb.service
 sudo systemctl enable nmb.service
 # Nemo share
 #sudo pacman --noconfirm -S nemo-share
 # Tmp nemo-share flag fix
+sudo pacman --noconfirm -R nemo-share
 CWDIR=$(pwd)
 cd ./package/nemo/nemo-share/
 makepkg -si --noconfirm
