@@ -66,7 +66,7 @@ sys () {
   #
   # ArchW tools update
   archw_tools_update () {
-    local GITVER=$(curl --silent $S_ARCHW_GITPKG_VERSION -o /dev/stdout 2> /dev/null)
+    local GITVER=$(curl --silent -H 'Cache-Control: no-cache, no-store' $S_ARCHW_GITPKG_VERSION -o /dev/stdout 2> /dev/null)
     local VER=$(archw --version | sed -n -e 's/^.*version //p')
     #
     # Check if archw exist locally
