@@ -801,7 +801,8 @@ mergeconf () {
         #
         # If file exist, merge it
         local CONF=$(awk -F= '!a[$1]++' $TFL $f)
-        sudo bash -c echo "$CONF" > $TFL
+        #sudo bash -c "echo \"$CONF\" > $TFL"
+        echo "$CONF" | ${OPT}tee $TFL
       else
         #
         # Otherwise just copy

@@ -30,3 +30,19 @@ CWDIR=$(pwd)
 cd ./package/nemo/nemo-share/
 makepkg -si --noconfirm
 cd $CWDIR
+
+#
+# Fix xdg
+sudo pacman --noconfirm -R xdg-user-dirs
+sudo rm /etc/xdg/user-dirs.default
+sudo rm /etc/xdg/user-dirs.defaults
+sudo pacman --noconfirm -S xdg-user-dirs
+sudo sed -i -E \
+"s:^(TEMPLATES):#\1:g" \
+/etc/xdg/user-dirs.defaults
+if ! cat /etc/xdg/user-dirs.defaults | grep '^DEV='; then
+  sudo bash -c "cat >> /etc/xdg/user-dirs.defaults" << EOL
+# Custom directories
+DEV=Dev
+EOL
+fi

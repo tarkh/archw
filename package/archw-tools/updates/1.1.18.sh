@@ -7,9 +7,9 @@ sudo pacman --noconfirm -S dex
 sudo pacman --noconfirm -S xdg-user-dirs
 sudo sed -i -E \
 "s:^(TEMPLATES):#\1:g" \
-/etc/xdg/user-dirs.default
-if ! cat /etc/xdg/user-dirs.default | grep '^DEV='; then
-  sudo bash -c "cat >> /etc/xdg/user-dirs.default" << EOL
+/etc/xdg/user-dirs.defaults
+if ! cat /etc/xdg/user-dirs.defaults | grep '^DEV='; then
+  sudo bash -c "cat >> /etc/xdg/user-dirs.defaults" << EOL
 # Custom directories
 DEV=Dev
 EOL
