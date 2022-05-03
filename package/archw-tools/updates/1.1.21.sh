@@ -18,6 +18,10 @@ sed -i -E \
 $V_HOME/.config/terminator/config
 
 #
+# Xresources
+\cp -r ./package/set-interface/.Xresources ~/
+
+#
 # Fix picom
 sed -i -E \
 "s:^\s*(shadow-radius\s*=).*:\1 0;:; \

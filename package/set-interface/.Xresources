@@ -5,3 +5,4 @@ Xft.hintstyle: hintslight
 Xft.hinting: true
 Xft.antialias: 1
 Xft.rgba: rgb
+Xcursor.size: 32
