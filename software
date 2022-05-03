@@ -27,6 +27,9 @@
 # OpenRGB keyboard lights controller
 #S_ADD_OPENRGB=true
 
+# Webapp-manager
+#S_ADD_WEBAPPMANAGER=true
+
 #
 #
 # OFFICE / TEXT

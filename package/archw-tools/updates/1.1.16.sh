@@ -3,7 +3,7 @@
 # Disable because of i3/picom flicker
 # after display sleep
 sed -i -E \
-"s:^\s*(#\s*unredir-if-possible\s+.*):\1\nunredir-if-possible = false:g" \
+"s:^\s*(unredir-if-possible\s+=):\1 false:g" \
 $V_HOME/.config/picom/picom.conf
 
 #

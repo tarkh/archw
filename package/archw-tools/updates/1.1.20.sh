@@ -1,7 +1,9 @@
 #
 # Set dbus update env
-echo "# DBUS-UPDATE-ENV" >> ~/.profile
-echo "dbus-update-activation-environment --systemd --all" >> ~/.profile
+if ! grep "dbus-update-activation-environment" ~/.profile; then
+  echo "# DBUS-UPDATE-ENV" >> ~/.profile
+  echo "dbus-update-activation-environment --systemd --all" >> ~/.profile
+fi
 
 #
 # Gedit fix

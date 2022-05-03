@@ -16,7 +16,7 @@ chmod +x $V_HOME/.config/i3/scripts/*
 sed -i -E \
 "\:^\s*\"window_type = 'dock'\",.*:d; \
 s:^(\s*dock\s+=\s+\{)(.*):\1 fade = true;\2:; \
-s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"82\:window_type = 'dock' \&\& class_g = 'i3bar'\",:; \
+s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:window_type = 'dock' \&\& class_g = 'i3bar'\",:; \
 s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g ~= 'i3lock' \&\& focused\",:g; \
 s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"100\:class_g ~= 'i3lock' \&\& \!focused\",:g" \
 $V_HOME/.config/picom/picom.conf
@@ -82,15 +82,14 @@ ${V_HOME}/.config/i3/config
 #
 # i3 status style
 I3_STATUS_BAR_STYLE="\n
-\n  i3bar_command i3bar
+\n  i3bar_command i3bar -t
 \n  font pango\:RobotoMono Nerd Font 10
 \n  separator_symbol \" \"
-\n  #position top
+\n  position bottom
 \n  #tray_output primary
 \n  tray_padding 4
 \n  colors {
-\n    background #140B19
-\n    #background #140B1900
+\n    background #140B1900
 \n    statusline #D2AAD2
 \n    separator  #A485A4
 \n    focused_workspace  #741B86 #741B86 #FFFFFF

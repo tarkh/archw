@@ -9,19 +9,20 @@
 # Help content
 if [ "$1" == 'help_draft' ]; then
   echo "
---gui             ;Tune graphics interface for Retina/Large displays
+--gui                 ;Tune graphics interface for Retina/Large displays
 "
 fi
 if [ "$1" == 'help' ]; then
   echo "
---gui <mode>     ;Tune graphics interface with <mode>s:
-  auto           ;Automatically set preset based on screen PPI
-  preset [name]  ;Get current preset name or set one with oprional [name] value:
-                 ;100 - no interface scale, 100%
-                 ;125 - scale GUI up to 125%
-                 ;150, 175, 200, 225, 250, 275, 300
-  dpi [num]      ;Get current DPI value or set custom one with optional [num]
-  hidpi [on|off] ;Get current HiDPI status or set it with optional [on|off]
+--gui <mode>          ;Tune graphics interface with <mode>s:
+  auto                ;Automatically set preset based on screen PPI
+  preset [name]       ;Get current preset name or set one with oprional [name] value:
+                      ;100 - no interface scale, 100%
+                      ;125 - scale GUI up to 125%
+                      ;150, 175, 200, 225, 250, 275, 300
+  dpi [num]           ;Get current DPI value or set custom one with optional [num]
+  hidpi [on|off]      ;Get current HiDPI status or set it with optional [on|off]
+  pannel [top|bottom] ;Get current pannel location or set it with optional [top|bottom]
 "
 fi
 
@@ -257,6 +258,22 @@ gui () {
         HIDPI_STAT=on
       fi
       echo "HiDPI scaling: $HIDPI_STAT"
+      return 0
+    elif [ $2 == "pannel" ]; then
+      if [ -n "$3" ]; then
+        if [ "$3" == "top" ]; then
+          PSITION=top
+        elif [ "$3" == "bottom" ]; then
+          PSITION=bottom
+        else
+          error
+        fi
+        # Edit config
+        sed -E "/bar \{[ ]*$/,/^\}/ s:([ ]*)[#]*(position).*:\1\2 $PSITION:" .config/i3/config
+        archw --sys restart i3
+        return 0
+      fi
+      echo "Pannel position: $(echo "$(grep -E "^[# ]*position (-top|-bottom)[ ]*$" .config/i3/config || echo ': invalid_value')" | awk '{print $2}')"
       return 0
     elif [ $2 == "set-env-vars" ]; then
       echo export GDK_SCALE=$GDK_SCALE

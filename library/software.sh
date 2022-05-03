@@ -290,3 +290,10 @@ ProgressBar
 if [ -n "$S_ADD_GEDIT" ]; then
   . ./package/gedit/install.sh
 fi
+
+#
+# WebApp Manager
+ProgressBar
+if [ -n "$S_ADD_WEBAPPMANAGER" ]; then
+  . ./package/webapp-manager/install.sh
+fi
