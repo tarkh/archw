@@ -24,7 +24,7 @@ s:^\s*(#\s*unredir-if-possible\s+.*):\1\nunredir-if-possible = false:; \
 s:^\s*(#\s*glx-no-stencil\s+.*):\1\nglx-no-stencil = true:g; \
 s:^\s*(#\s*glx-no-rebind-pixmap\s+.*):\1\nglx-no-rebind-pixmap = true:; \
 s:^\s*(#\s*xrender-sync-fence\s+.*):\1\nxrender-sync-fence = true:; \
-s:^([ ]+dock = \{ fade = true; shadow =).*:\1 true; full-shadow = true; clip-shadow-above = true; \}:" \
+s:^([ ]+dock = \{).*:\1 fade = true; shadow = true; full-shadow = true; clip-shadow-above = true; \}:" \
 $V_HOME/.config/picom/picom.conf
 
 if [ -n "$S_PICOM_EXP_BACK" ]; then
