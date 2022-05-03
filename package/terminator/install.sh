@@ -11,7 +11,7 @@ sed -i -E \
 $V_HOME/.config/picom/picom.conf
 
 sed -i -E \
-"s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"92\:class_g = 'Terminator' \&\& !focused\",:" \
+"s:^\s*(opacity-rule\s*=\s*\[):\1\n  \"79\:class_g = 'Terminator' \&\& !focused\",:" \
 $V_HOME/.config/picom/picom.conf
 
 #
