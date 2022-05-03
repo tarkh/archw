@@ -19,8 +19,8 @@ s:^\s*(#\s*shadow-color\s*=.*):\1\nshadow-color = \"#140B19\":; \
 s:^([ ]+)(\"92\:class_g = 'Terminator' && \!focused\"):\1#\2:; \
 s:^([ ]+\")82(\:window_type = 'dock' && class_g = 'i3bar'\"):\1100\2:; \
 s:^([ ]+\")78(\:class_g \*= '' && \!focused\"):\172\2:; \
-s:^\s*(unredir-if-possible\s*=):\1 false:; \
-s:^([ ]+dock = \{ fade = true; shadow =).*:\1 true; full-shadow = true; clip-shadow-above = true; \}:" \
+s:^\s*(unredir-if-possible\s*=).*:\1 false:; \
+s:^([ ]+dock = \{).*:\1 fade = true; shadow = true; full-shadow = true; clip-shadow-above = true; \}:" \
 $V_HOME/.config/picom/picom.conf
 
 #

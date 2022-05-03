@@ -26,7 +26,7 @@ fi
 lock () {
   #
   # Pathes
-  icon="$HOME/.config/i3/img/lock.png"
+  icon="$HOME/.config/i3/img/lock-shadow.png"
   img=/tmp/i3lock.png
 
   #

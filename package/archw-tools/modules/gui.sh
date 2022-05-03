@@ -269,7 +269,7 @@ gui () {
           error
         fi
         # Edit config
-        sed -E "/bar \{[ ]*$/,/^\}/ s:([ ]*)[#]*(position).*:\1\2 $PSITION:" .config/i3/config
+        sed -i -E "/bar \{[ ]*$/,/^\}/ s:([ ]*)[#]*(position).*:\1\2 $PSITION:" .config/i3/config
         archw --sys restart i3
         return 0
       fi
