@@ -271,6 +271,7 @@ gui () {
         # Edit config
         sed -i -E "/bar \{[ ]*$/,/^\}/ s:([ ]*)[#]*(position).*:\1\2 $PSITION:" .config/i3/config
         archw --sys restart i3
+        archw --sys restart picom
         return 0
       fi
       echo "Pannel position: $(echo "$(grep -E "^[# ]*position (-top|-bottom)[ ]*$" .config/i3/config || echo ': invalid_value')" | awk '{print $2}')"
