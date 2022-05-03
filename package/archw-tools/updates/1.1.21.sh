@@ -7,7 +7,7 @@ if grep -E "^[ ]+background #140B19[ ]+$" ~/.config/i3/config; then
   sed -i -E "s:^([ ]+background #140B19)([ ]+)$:\100\2:" ~/.config/i3/config
 fi
 if grep -E "^[ ]+#position (top|bottom)[ ]+$" ~/.config/i3/config; then
-  sed -i -E "s:^([ ]+)#(position (top|bottom))[ ]+$:\1\2:" ~/.config/i3/config
+  sed -i -E "s:^([ ]+)#(position) (top|bottom))[ ]+$:\1\2 bottom:" ~/.config/i3/config
 fi
 \cp -r ./package/i3/img/lock-shadow.png ~/.config/i3/img/
 
