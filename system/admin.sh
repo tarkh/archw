@@ -87,6 +87,16 @@ ProgressBar
 . ./package/set-interface/install.sh
 
 #
+# Install lightdm
+ProgressBar
+. ./package/lightdm/install.sh
+
+#
+# Install lightdm-mini-greeter
+ProgressBar
+. ./package/lightdm-mini-greeter/install.sh
+
+#
 # If Xorg
 ProgressBar
 if [ "$S_GS" == "xorg" ]; then
@@ -134,21 +144,11 @@ ProgressBar
 . ./package/blueman/install.sh
 
 #
-# Install lightdm
-ProgressBar
-. ./package/lightdm/install.sh
-
-#
 # Plymouth
 ProgressBar
 if [ -n "$S_ADD_PLYMOUTH" ]; then
 . ./package/plymouth/install.sh
 fi
-
-#
-# Install lightdm-mini-greeter
-ProgressBar
-. ./package/lightdm-mini-greeter/install.sh
 
 #
 # Enable autologin
