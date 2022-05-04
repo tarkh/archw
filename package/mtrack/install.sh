@@ -2,7 +2,7 @@
 
 #
 # Install from AUR
-yay --noconfirm -S xf86-input-mtrack
+#yay --noconfirm -S xf86-input-mtrack
 
 #
 # PATCHED version

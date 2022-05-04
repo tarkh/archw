@@ -317,7 +317,7 @@ set_hibernation () {
 #
 # Progress bar
 PROGCOUNTER=0
-PROGTOTAL=1
+PROGTOTAL=0
 PROGCOMPL=0
 function ProgressBar {
   #
