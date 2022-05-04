@@ -161,10 +161,10 @@ remove_system_hook () {
 
 #
 # Set glob shortcuts
-export V_AUR=""
-export V_PB=""
-export V_TR=""
-export V_RPB=""
+V_AUR=""
+V_PB=""
+V_TR=""
+V_RPB=""
 set_glob_shortcuts () {
   if [ -n "$S_PKG" ]; then
     V_AUR="$S_PKG/AUR"
@@ -179,9 +179,9 @@ set_glob_shortcuts () {
 
 #
 # Save DEVICES
-export V_DEV_SYSTEM=""
-export V_DEV_EFI=""
-export V_DEV_SWAP=""
+V_DEV_SYSTEM=""
+V_DEV_EFI=""
+V_DEV_SWAP=""
 save_devices_config () {
   echo "Creating DEVICES config"
   #
@@ -316,9 +316,9 @@ set_hibernation () {
 
 #
 # Progress bar
-export PROGCOUNTER=0
-export PROGTOTAL=0
-export PROGCOMPL=0
+PROGCOUNTER=0
+PROGTOTAL=1
+PROGCOMPL=0
 function ProgressBar {
   #
   # If no gui

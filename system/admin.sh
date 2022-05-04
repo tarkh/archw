@@ -36,6 +36,9 @@ sed -i "\:^\s*./install.sh\s*--admin:d" "${V_HOME}/.bashrc"
 #
 # Update pacman keys
 sudo pacman --noconfirm -Sy archlinux-keyring
+sudo pacman --noconfirm -Syyu
+sudo pacman-key --populate archlinux
+sudo pacman-key --refresh-keys
 
 #
 # Install archw tools
