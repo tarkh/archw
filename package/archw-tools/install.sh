@@ -61,7 +61,6 @@ sudo chmod +x $S_ARCHW_LIB/modules/*
 # Add functions library
 sudo mkdir $S_ARCHW_LIB/library > /dev/null 2>&1
 sudo \cp -a ./library/functions.sh $S_ARCHW_LIB/library
-. $S_ARCHW_LIB/library/functions.sh
 
 #
 # Copy side modules and configs if updating
