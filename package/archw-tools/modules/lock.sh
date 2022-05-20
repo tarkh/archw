@@ -154,7 +154,7 @@ lock () {
       #
       # If there is more then 1 display
       # Get icon sizes
-      local ICON_SIZE=$(identify -ping -format "%[fx:w]x%[fx:h]" $icon)
+      local ICON_SIZE=$(convert $icon -print "%wx%h" /dev/null)
       local ICON_W=$(echo "$ICON_SIZE" | cut -d "x" -f1)
       local ICON_H=$(echo "$ICON_SIZE" | cut -d "x" -f2)
       # Apply composite for displays
