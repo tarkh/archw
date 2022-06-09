@@ -5,7 +5,7 @@ After=aw-i3.target
 [Service]
 KillMode=process
 Environment=DISPLAY=:0
-ExecStart=bash -c "sleep 2 && /usr/local/bin/archw --layout load && sleep 30" &
+ExecStart=bash -c "/usr/local/bin/archw --layout load && sleep 30" &
 
 [Install]
 WantedBy=aw-i3.target

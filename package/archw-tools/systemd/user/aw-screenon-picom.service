@@ -4,7 +4,7 @@ After=aw-screen-state-on.target
 
 [Service]
 Type=oneshot
-ExecStart=archw --sys restart i3
+ExecStart=archw --sys restart picom
 
 [Install]
 WantedBy=aw-screen-state-on.target

@@ -113,7 +113,7 @@ ${V_HOME}/.config/i3/config
 # Screen locker hibernate/suspend
 SCR_LOCK_HIB_SUS_MENU=" (s) suspend,"
 SCR_LOCK_HIB_SUS_PROC="
-  bindsym s exec --no-startup-id systemctl suspend, mode \"default\"
+  bindsym s exec --no-startup-id aw-suspend, mode \"default\"
 "
 
 #
@@ -121,7 +121,7 @@ SCR_LOCK_HIB_SUS_PROC="
 if [ -n "$S_HIBERNATION" ]; then
   SCR_LOCK_HIB_SUS_MENU=" (s) suspend, (h) hibernate,"
   SCR_LOCK_HIB_SUS_PROC="
-    bindsym s exec --no-startup-id systemctl suspend-then-hibernate, mode \"default\"
+    bindsym s exec --no-startup-id systemctl aw-suspend, mode \"default\"
     bindsym h exec --no-startup-id systemctl hibernate, mode \"default\"
   "
 fi
