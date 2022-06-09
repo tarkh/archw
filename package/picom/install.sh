@@ -21,7 +21,6 @@ s:^\s*#\s*(opacity-rule\s*=)\s*\[\s*\].*:\1 \[\n  \"72\:class_g \*= '' \&\& \!fo
 s:^\s*(blur-kern\s*=.*):#\1;:; \
 s:^\s*(backend\s*=).*:\1 \"glx\":; \
 s:^\s*(#\s*unredir-if-possible\s+.*):\1\nunredir-if-possible = true:; \
-s:^\s*(#\s*unredir-if-possible-delay\s+.*):\1\unredir-if-possible-delay = 1000:; \
 s:^\s*(#\s*glx-no-stencil\s+.*):\1\nglx-no-stencil = true:g; \
 s:^\s*(#\s*glx-no-rebind-pixmap\s+.*):\1\nglx-no-rebind-pixmap = true:; \
 s:^\s*(#\s*xrender-sync-fence\s+.*):\1\nxrender-sync-fence = true:; \
