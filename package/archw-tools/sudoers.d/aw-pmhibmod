@@ -1,4 +1,0 @@
-#
-# Allow switching hibernate modes
-
-ALL ALL=(ALL:ALL) NOPASSWD: /usr/local/bin/aw-pmhibmod

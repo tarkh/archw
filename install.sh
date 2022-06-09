@@ -1,187 +1,49 @@
 #!/bin/bash
 #
 # ArchW build script
-# by tarkh (c) 2021
+# by tarkh (c) 2022
 
 #
-# If logfile
-. ./library/log.sh
+# Set system vars
+cd "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+S_BASE_PATCH="base"
 
 #
-# Prepare arg list combinations
-ARGS=()
-for arg in "$@"; do
-	pat="^-[a-zA-Z]{2,}"
-	if [[ $arg =~ $pat ]]; then
-		arg="${arg:1}"
-		for (( i=0; i<${#arg}; i++ )); do
-			ARGS+=("-${arg:$i:1}")
-		done
-	else
-		ARGS+=("$arg")
-	fi
-done
+# Load common functions library
+. "./library/common.sh"
+. "./library/installer.sh"
 
 #
-# Read args
-for arg in "${ARGS[@]}"; do
-	case $arg in
-		--chroot)
-		ARG_CHROOT=1
-		shift
-		;;
-    --admin)
-		ARG_ADMIN=1
-		shift
-		;;
-		--manual)
-		ARG_MANUAL=" --manual"
-		shift
-		;;
-		--archw-tools)
-		ARG_ARCHW_UPDATE=true
-		shift
-		;;
-		--noconfirm)
-		ARG_NOCONFIRM=true
-		shift
-		;;
-		-t)
-		ARG_NOTXTGUI=true
-		shift
-		;;
-		-h|--help)
-		echo "Usage: `basename "$0"` [options]"
-		echo "ArchW installer."
-		echo "Consists of 3 stages:"
-		echo "1. Create new system from boot ISO."
-		echo "2. Run chroot tasks."
-		echo "3. Reboot to new system and continue installation."
-		echo " "
-		echo "options:"
-		echo "--chroot      [stage 2] run chroot tasks"
-		echo "--admin       [stage 3] run admin tasks"
-		echo "--manual      run installer without auto reboot and auto start of stage 3"
-		echo "-t            do not use text GUI"
-		echo "-h            program help"
-		exit 0
-		;;
-	esac
-done
+# Read and set arguments
+args "$@"
+set -- "${ARGV[@]}"
 
 #
-# Load configs
-. ./config
-. ./patch/config
-. ./software
-
-#
-# Load base functions
-. ./library/functions.sh
-. ./library/banner.sh
-. ./library/progress_bar.sh
-
-#
-# Load selected path config
-if [ -z "$ARG_ARCHW_UPDATE" ]; then
-	if [ -f ./patch/${S_PATCH}/config ]; then
-		. ./patch/${S_PATCH}/config
-	else
-		echo "Can't find patch config file: ./patch/${S_PATCH}/config"
-		echo "Please, check global config"
-		exit 1
-	fi
+# Base patch override
+if optval=$(arg "--base-patch") && [ -n "$optval" ]; then
+  S_BASE_PATCH="$optval"
 fi
 
-################################
-# Set global shortcuts
-set_glob_shortcuts
+#
+# Load base configs
+loadPatchConf "$S_BASE_PATCH"
 
-################################
-# ArchW tools update
-if [ -n "$ARG_ARCHW_UPDATE" ]; then
-	if [ -z "$ARG_NOCONFIRM" ]; then
-		echo ""; read -p "Update ArchW tools? (y/n) " -r
-		if [[ ! $REPLY =~ ^[Yy]$ ]]; then exit 0; fi
-	fi
-  #
-  export S_ARCHW_FOLDER=/usr/share/archw
-	# Load local confs
-	load_archw_local_conf
-  # Create dirs
-	mk_install_sys_dirs
-	# Load devices config
-	load_devices_config
-  # Set update runtime shortcuts
-  V_TMP_PKG=$S_PKG
-  S_PKG=$(cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd)
-	cd $S_PKG
-	S_MAINUSER=$(id -un)
-	V_HOME=$HOME
-  # Run ArchW-tools install/update
-	. ./package/archw-tools/install.sh
-  # Cleanup
-  sudo rm -rf $V_TMP_PKG
-	echo "ArchW tools installed/updated!"
-	exit 0
-fi
+#
+# Override config options with args
+argsConf
 
-################################
-# Enable banner
-print_archw_banner
-ProgressBar create
+#
+# Start logger
+logger
 
-################################
-# PRE ADMIN section
-# Sleep for a while and wait
-# for network interfaces
 #
-if [ -n "$ARG_ADMIN" ]; then
-  echo "Waiting for interfaces..."
-  sleep 10
-fi
+# Starting banner
+log "
+========================
+STARTING ARCHW INSTALLER
+========================
+"
 
-################################
-# Run custom patch before archw
 #
-#
-#
-if [ -n "$S_PATCH" ]; then
-	STAGE_BOOTSTRAP=true
-	. ./patch/${S_PATCH}/install.sh
-	unset STAGE_BOOTSTRAP
-fi
-
-################################
-# CHROOT section
-#
-#
-#
-if [ -n "$ARG_CHROOT" ]; then
-	print_archw_banner "chroot stage"
-	ProgressBar create
-	ProgressBar init "./system/*,./library/software.sh,./patch/${S_PATCH}/system/*" "./system/iso.sh,./patch/${S_PATCH}/system/iso.sh"
-	. ./system/chroot.sh
-
-################################
-# ADMIN section
-#
-#
-#
-elif [ -n "$ARG_ADMIN" ]; then
-	print_archw_banner "sudo stage"
-	ProgressBar create
-	ProgressBar init "./system/*,./library/software.sh,./patch/${S_PATCH}/system/*" "./system/iso.sh,./system/chroot.sh,./patch/${S_PATCH}/system/iso.sh,./patch/${S_PATCH}/system/chroot.sh"
-	. ./system/admin.sh
-
-################################
-# MAIN sectionqt5ct
-#
-#
-#
-else
-	print_archw_banner "preparing new system"
-	ProgressBar create
-	ProgressBar init "./system/*,./library/software.sh,./patch/${S_PATCH}/system/*"
-	. ./system/iso.sh
-fi
+# Run base installer patch
+runBase

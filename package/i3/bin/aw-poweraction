@@ -1,9 +1,0 @@
-#!/bin/bash
-
-#
-# ArchW by tarkh (c) 2021
-#
-
-if [ "$1" == "off" ]; then
-  i3-msg power_menu_string
-fi
