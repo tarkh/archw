@@ -1,0 +1,10 @@
+[Unit]
+Description=Restart i3-wm on screen-on
+After=aw-screen-state-on.target
+
+[Service]
+Type=oneshot
+ExecStart=archw --sys restart picom
+
+[Install]
+WantedBy=aw-screen-state-on.target

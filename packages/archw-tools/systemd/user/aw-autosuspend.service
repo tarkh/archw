@@ -1,0 +1,10 @@
+[Unit]
+Description=Auto suspend on system idle
+After=aw-screen-state-off.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/aw-autosuspend
+
+[Install]
+WantedBy=aw-screen-state-off.target

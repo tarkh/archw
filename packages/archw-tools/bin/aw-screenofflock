@@ -1,0 +1,57 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+CYCLETIMEOUT=1
+
+#
+# Get config path
+if ! CONFIGPATH=$(archw --sys pathconf "lock.conf"); then
+  echo "Can't find config"
+  exit 1
+fi
+
+#
+# Load config
+. $CONFIGPATH
+
+#
+# Service Active checker
+sa() {
+  if [ "$(systemctl --user show -p ActiveState --value $1)" == "active" ]; then
+    return 0
+  fi
+  return 1
+}
+
+#
+# If off
+if [ "$MON_SLEEP_LOCK" == "0" ]; then
+  exit 0
+fi
+
+#
+# Checker eternal loop
+INC=0
+while true; do
+  #
+  # If timer fires
+  if (( $INC > $MON_SLEEP_LOCK )); then
+    #
+    # Check if display is still off
+    if sa "aw-screen-state-off.target"; then
+      bash -c "DISPLAY=:0 archw --lock" &
+    fi
+    exit 0
+  fi
+
+  #
+  # Increment timer
+  INC=$(( $INC + 1 ))
+
+  #
+  # Sleep timeout
+  sleep $CYCLETIMEOUT
+done

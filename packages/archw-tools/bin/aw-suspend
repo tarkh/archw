@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+#
+# Set path for system configs
+PM_LOGIN=/usr/lib/systemd/logind.conf.d/aw-pm-login.conf
+
+#
+# Check if config exist and get HandleSuspendKey value
+if [ -f $PM_LOGIN ]; then
+  $CMD=$(cat $PM_LOGIN | grep HandleSuspendKey | cut -d '=' -f2)
+fi
+if [ -n "$CMD" ]; then
+  systemctl $CMD
+else
+  systemctl suspend
+fi

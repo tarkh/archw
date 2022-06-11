@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+#
+# Run with bash proxy to set
+# all environment variables
+
+"$@"

@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Screen PM re-apply
+
+case "\$1" in
+  post)
+    archw --pm applynow
+    ;;
+esac

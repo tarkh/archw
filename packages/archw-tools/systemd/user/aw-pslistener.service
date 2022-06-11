@@ -1,0 +1,11 @@
+[Unit]
+Description=Power States listener
+PartOf=aw-i3.target
+After=aw-i3.target
+
+[Service]
+ExecStart=/usr/local/bin/aw-pslistener
+Restart=always
+
+[Install]
+WantedBy=aw-i3.target

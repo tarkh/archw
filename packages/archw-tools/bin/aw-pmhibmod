@@ -1,0 +1,98 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+#
+# Check if hibernation is configured
+if [ ! -f "/usr/share/archw/HIB" ]; then
+  exit 1
+fi
+
+#
+# Get config path
+if ! CONFIGPATH=$(archw --sys pathconf "pm.conf"); then
+  echo "Can't find config"
+  exit 1
+fi
+
+#
+# Load config
+. $CONFIGPATH
+
+#
+# Set path for system configs
+PM_LOGIN=/usr/lib/systemd/logind.conf.d/aw-pm-login.conf
+PM_SLEEP=/usr/lib/systemd/sleep.conf.d/aw-pm-sleep.conf
+
+#
+# Conf updater function
+update_settings () {
+  sed -i -E \
+  "s:\s*($2=).*$:\1$3:" \
+  $1
+}
+
+#
+# If config update mode
+if [[ "$1" =~ ^(UPDATE|ENABLE|DISABLE)$ ]]; then
+  if [ "$1" == "UPDATE" ] && [ -n "$2" ]; then
+    update_settings "$PM_SLEEP" "HibernateDelaySec" "$2"
+  else
+    if [ "$1" == "ENABLE" ]; then
+      VALUE="yes"
+      COMMAND="suspend-then-hibernate"
+    elif [ "$1" == "DISABLE" ]; then
+      #VALUE="no"
+      VALUE="yes"
+      COMMAND="suspend"
+    fi
+    update_settings "$PM_SLEEP" "AllowHibernation" "$VALUE"
+    update_settings "$PM_SLEEP" "AllowSuspendThenHibernate" "$VALUE"
+    update_settings "$PM_LOGIN" "HandleSuspendKey" "$COMMAND"
+    update_settings "$PM_LOGIN" "HandleLidSwitch" "$COMMAND"
+    update_settings "$PM_LOGIN" "HandleLidSwitchExternalPower" "$COMMAND"
+    systemctl restart systemd-logind.service
+  fi
+  exit 0
+fi
+
+#
+# Service Active checker
+sa() {
+  if [ "$(systemctl --user show -p ActiveState --value $1)" == "active" ]; then
+    return 0
+  fi
+  return 1
+}
+
+#
+# Check current DC state
+if sa "aw-dc-state-on.target"; then
+  SET_VALUE=$HIBERNATE_AC
+else
+  SET_VALUE=$HIBERNATE_BAT
+fi
+
+#
+# Set configs
+HIB_DELAY_VALUE=$(cat $PM_SLEEP | grep -w "HibernateDelaySec" | cut -d "=" -f2)
+if [ "$HIB_DELAY_VALUE" != "$SET_VALUE" ]; then
+  sudo aw-pmhibmod "UPDATE" "$SET_VALUE"
+fi
+
+#
+# Check conditions to alter config settings
+#HIB_STATUS=$(cat $PM_SLEEP | grep -w "AllowHibernation" | cut -d "=" -f 2)
+#if [ "$SET_VALUE" -gt "0" ] && [ "$HIB_STATUS" == "no" ]; then
+#  sudo aw-pmhibmod "ENABLE"
+#elif [ "$SET_VALUE" -le "0" ] && [ "$HIB_STATUS" == "yes" ]; then
+#  sudo aw-pmhibmod "DISABLE"
+#fi
+
+if [ "$SET_VALUE" -gt "0" ]; then
+  sudo aw-pmhibmod "ENABLE"
+elif [ "$SET_VALUE" -le "0" ]; then
+  sudo aw-pmhibmod "DISABLE"
+fi

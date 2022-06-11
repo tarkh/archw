@@ -1,0 +1,80 @@
+#!/bin/bash
+
+#
+# ArchW by tarkh (c) 2021
+#
+
+TIMEOUT=2
+
+#
+# Sleep on init
+sleep 10
+
+#
+# Get focused workspace name
+fws_num () {
+  i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' | cut -d"\"" -f2
+}
+FWS_MEM=$(fws_num)
+
+#
+# Line processor
+process_line () {
+  local EVENT=$(echo "$@" | jq '."change"' | cut -d"\"" -f2)
+  if [[ $EVENT =~ ^(new|move|close|resize)$ ]]; then
+    #
+    # Run layout save subprocess
+    run_layout_save
+  elif [ "$EVENT" == "focus" ]; then
+    #
+    # Check if workspace has been changed
+    local FWS=$(fws_num)
+    if [ "$FWS" != "$FWS_MEM" ]; then
+      FWS_MEM=$FWS
+      #
+      # Run layout save subprocess
+      run_layout_save ws_upd
+    fi
+  fi
+}
+
+#
+# Run layout save subprocess
+run_layout_save () {
+  #
+  # Check save type
+  if [ -n "$1" ]; then
+    #
+    # If LO PID is running, return
+    if ps -p $LOPID > /dev/null 2>&1; then
+      return 0
+    fi
+    #
+    # Kill last WS PID
+    kill $WSPID > /dev/null 2>&1
+  else
+    #
+    # Kill last WS and LO PID
+    kill $WSPID > /dev/null 2>&1
+    kill $LOPID > /dev/null 2>&1
+  fi
+
+  #
+  # Run layout save with exec delay
+  bash -c "sleep $TIMEOUT; /usr/local/bin/archw --layout save \"\" \"\" $1" &
+  local PID=$!
+
+  #
+  # Differentiate PIDs
+  if [ -n "$1" ]; then
+    WSPID=$PID
+  else
+    LOPID=$PID
+  fi
+}
+
+#
+# Run i3 event listener
+i3-msg -t subscribe -m '[ "window", "mode" ]' | while read line; do
+  process_line $line
+done
