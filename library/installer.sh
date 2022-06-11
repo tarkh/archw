@@ -6,8 +6,8 @@
 #
 # Load patch config
 loadPatchConf() {
-  config require "./patches/$1/config/main.cfg"
-  config require "./patches/$1/config/software.cfg"
+  config require "./patch/$1/config/main.cfg"
+  config require "./patch/$1/config/software.cfg"
 }
 
 #
