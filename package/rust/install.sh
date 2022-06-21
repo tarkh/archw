@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sudo pacman --noconfirm -S rustup
+sudo pacman --noconfirm -S rustup gcc sccache
 rustup default stable
-rustup component add rustfmt
-rustup component add rls
+rustup component add rls rust-analysis rust-src clippy rustfmt
