@@ -18,7 +18,6 @@ device_format = "{icon}{ips}"
 [[block]]
 driver = "sysfs"
 block = "battery"
-allow_missing = true
 hide_missing = true
 interval = 30
 format = "{percentage} {time}"

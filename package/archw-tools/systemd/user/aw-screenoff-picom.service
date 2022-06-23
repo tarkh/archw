@@ -1,0 +1,12 @@
+[Unit]
+Description=Restart Picom and i3-wm on screen-off
+After=aw-screen-state-off.target
+
+[Service]
+Type=oneshot
+ExecStartPre=archw --sys restart picom
+ExecStartPre=sleep 0.5
+ExecStart=archw --sys restart i3
+
+[Install]
+WantedBy=aw-screen-state-off.target
