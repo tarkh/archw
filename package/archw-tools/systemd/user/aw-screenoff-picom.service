@@ -4,6 +4,7 @@ After=aw-screen-state-off.target
 
 [Service]
 Type=oneshot
+ExecStartPre=xset -display :0 dpms force off
 ExecStartPre=archw --sys restart picom
 ExecStartPre=sleep 0.5
 ExecStart=archw --sys restart i3
