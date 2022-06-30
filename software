@@ -75,6 +75,9 @@
 # Atom
 #S_ADD_ATOM=true
 
+# VSCodium
+#S_ADD_VSCODIUM=true
+
 # NodeJS
 #S_ADD_NODEJS=true
 

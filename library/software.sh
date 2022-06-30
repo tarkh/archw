@@ -203,6 +203,13 @@ if [ -n "$S_ADD_ATOM" ]; then
 fi
 
 #
+# Install vscodium
+ProgressBar
+if [ -n "$S_ADD_VSCODIUM" ]; then
+. ./package/vscodium/install.sh
+fi
+
+#
 # Install nodejs
 ProgressBar
 if [ -n "$S_ADD_NODEJS" ]; then
