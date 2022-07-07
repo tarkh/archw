@@ -157,4 +157,6 @@ else
   systemctl --user enable aw-screenoff-picom.service
   systemctl --user enable aw-alt-screenoff.service
   systemctl --user enable aw-onunlockscreenpm.service
+  systemctl --user enable aw-osd-screen-lock-on.service
+  systemctl --user enable aw-osd-screen-lock-off.service
 fi

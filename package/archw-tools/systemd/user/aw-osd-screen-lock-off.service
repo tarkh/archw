@@ -1,0 +1,10 @@
+[Unit]
+Description=OSD resume on unlock state
+After=aw-screen-lock-off.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/archw --osd resume
+
+[Install]
+WantedBy=aw-screen-lock-off.target

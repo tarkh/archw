@@ -1,0 +1,10 @@
+[Unit]
+Description=OSD pause on lock state
+After=aw-screen-lock-on.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/archw --osd pause
+
+[Install]
+WantedBy=aw-screen-lock-on.target
