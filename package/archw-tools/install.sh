@@ -146,17 +146,17 @@ else
   #
   # Set default state while install
   sudo systemctl enable aw-suspendlock@${S_MAINUSER}
-  systemctl --user enable aw-autosuspend.service
-  systemctl --user enable aw-ondcscreenpm.service
-  systemctl --user enable aw-ondci3status.service
-  systemctl --user enable aw-pslistener.service
-  systemctl --user enable aw-screen-state-off-lock.service
-  systemctl --user enable aw-xeventbind-autostart.service
-  systemctl --user enable aw-autolanguageloader.service
-  systemctl --user enable aw-initiateaudio.service
-  systemctl --user enable aw-screenoff-picom.service
-  systemctl --user enable aw-alt-screenoff.service
-  systemctl --user enable aw-onunlockscreenpm.service
-  systemctl --user enable aw-osd-screen-lock-on.service
-  systemctl --user enable aw-osd-screen-lock-off.service
+  systemctl --user enable aw-autosuspend.service \
+  aw-ondcscreenpm.service \
+  aw-ondci3status.service \
+  aw-pslistener.service \
+  aw-screen-state-off-lock.service \
+  aw-xeventbind-autostart.service \
+  aw-autolanguageloader.service \
+  aw-initiateaudio.service \
+  aw-screenoff-picom.service \
+  aw-alt-screenoff.service \
+  aw-onunlockscreenpm.service \
+  aw-osd-screen-lock-on.service \
+  aw-osd-screen-lock-off.service
 fi
