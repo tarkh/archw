@@ -48,7 +48,8 @@ layout () {
   # Dedupe apps array
   # Run this apps only onece in auto mode
   local REMOVE_DUPLICATES_FOR_APPS=(
-    "firefox$"
+    "firefox"
+    "firefoxdeveloperedition"
   )
 
   #

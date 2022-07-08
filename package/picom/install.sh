@@ -17,7 +17,7 @@ s:^\s*(fade-in-step\s*=).*:\1 0.009;:; \
 s:^\s*(fade-out-step\s*=).*:\1 0.009;:; \
 s:^\s*(#\s*fade-delta\s*=.*):\1\nfade-delta = 1:; \
 s:^\s*(inactive-opacity\s*=.*):#\1;:; \
-s:^\s*#\s*(opacity-rule\s*=)\s*\[\s*\].*:\1 \[\n  \"72\:class_g \*= '' \&\& \!focused\",\n  \"97\:class_g \*= '' \&\& focused\"\n\]:; \
+s:^\s*#\s*(opacity-rule\s*=)\s*\[\s*\].*:\1 \[\n  \"80\:class_g \*= '' \&\& \!focused\",\n  \"97\:class_g \*= '' \&\& focused\"\n\]:; \
 s:^\s*(blur-kern\s*=.*):#\1;:; \
 s:^\s*(backend\s*=).*:\1 \"glx\":; \
 s:^\s*(#\s*unredir-if-possible\s+.*):\1\nunredir-if-possible = true:; \
@@ -27,12 +27,14 @@ s:^\s*(#\s*xrender-sync-fence\s+.*):\1\nxrender-sync-fence = true:; \
 s:^([ ]+dock = \{).*:\1 fade = true; shadow = true; full-shadow = true; clip-shadow-above = true; \}:" \
 $V_HOME/.config/picom/picom.conf
 
+COMMENTHASH="#"
 if [ -n "$S_PICOM_EXP_BACK" ]; then
-  sed -i -E \
-  "s:^\s*(#\s*blur-method\s+.*):\1\nblur-method = \"dual_kawase\":g; \
-  s:^\s*(#\s*blur-strength\s+.*):\1\nblur-strength = 1:g" \
-  $V_HOME/.config/picom/picom.conf
+  COMMENTHASH=""
 fi
+sed -i -E \
+"s:^\s*(#\s*blur-method\s+.*):\1\n${COMMENTHASH}blur-method = \"dual_kawase\":g; \
+s:^\s*(#\s*blur-strength\s+.*):\1\n${COMMENTHASH}blur-strength = 1:g" \
+$V_HOME/.config/picom/picom.conf
 
 #
 # Autorun with i3

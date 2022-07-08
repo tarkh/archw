@@ -132,7 +132,7 @@ gui () {
     elif [ "$1" == "off" ]; then
       # i3bar tray_padding
       sed -i -E \
-      "s:^([ ]*tray_padding)[ ]{1,}[0-9]{1,}[ ]*$:\1 4:" \
+      "s:^([ ]*tray_padding)[ ]{1,}[0-9]{1,}[ ]*$:\1 2:" \
       ~/.config/i3/config
       # xprof
       wconf set "xprof.conf" GDK_SCALE "1"

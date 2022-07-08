@@ -482,6 +482,7 @@ sys () {
     #
     # Wait
     sleep 1
+    bash -c 'sleep 1 && systemctl --user stop aw-picom.service' &
     return 0
   elif [ $2 == "aw-initiateaudio" ]; then
     #
