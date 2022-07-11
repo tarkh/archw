@@ -18,9 +18,12 @@ s:^\s*(fade-out-step\s*=).*:\1 0.009;:; \
 s:^\s*(#\s*fade-delta\s*=.*):\1\nfade-delta = 1:; \
 s:^\s*(inactive-opacity\s*=.*):#\1;:; \
 s:^\s*#\s*(opacity-rule\s*=)\s*\[\s*\].*:\1 \[\n  \"80\:class_g \*= '' \&\& \!focused\",\n  \"97\:class_g \*= '' \&\& focused\"\n\]:; \
+s:^\s*(\s*corner-radius\s*=.*):\1\ncorner-radius = 12:; \
+s:^\s*(rounded-corners-exclude\s*=\s*\[):\1\n \"class_g = 'i3bar'\",:g; \
 s:^\s*(blur-kern\s*=.*):#\1;:; \
-s:^\s*(backend\s*=).*:\1 \"glx\":; \
+s:^\s*(backend\s*=).*:\1 \"glx\"\nglx-use-copysubbuffer-mesa = true:; \
 s:^\s*(#\s*unredir-if-possible\s+.*):\1\nunredir-if-possible = true:; \
+s:^\s*(use-damage\s*=).*:\1 false;:; \
 s:^\s*(#\s*glx-no-stencil\s+.*):\1\nglx-no-stencil = true:g; \
 s:^\s*(#\s*glx-no-rebind-pixmap\s+.*):\1\nglx-no-rebind-pixmap = true:; \
 s:^\s*(#\s*xrender-sync-fence\s+.*):\1\nxrender-sync-fence = true:; \

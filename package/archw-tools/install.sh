@@ -154,7 +154,7 @@ else
   aw-xeventbind-autostart.service \
   aw-autolanguageloader.service \
   aw-initiateaudio.service \
-  aw-screenoff-picom.service \
+  #aw-screenoff-picom.service \
   aw-alt-screenoff.service \
   aw-onunlockscreenpm.service \
   aw-osd-screen-lock-on.service \

@@ -36,7 +36,7 @@ while true; do
   if sa "aw-screen-state-off.target"; then
     #
     # Set command
-    local COMMAND=suspend
+    COMMAND=suspend
 
     #
     # Set timeout
