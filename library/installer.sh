@@ -25,3 +25,8 @@ runBase() {
   fi
 
 }
+
+error "test some string"
+log "foo bar"
+sleep 1
+panic "shit"

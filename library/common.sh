@@ -34,21 +34,24 @@ datetime() {
 # General error print
 error() {
   print() {
-    echo "$(color B_HRed Error:) $(color HRed "$1")" >&2
+    echo "$(color B_HRed $1) $(color HRed "$2")" >&2
     if [ -n "$S_LOGFILE" ]; then
-      echo "[$(datetime time)] Error: $1" >> $S_LOGFILE
+      echo "[$(datetime time)] $1 $2" >> $S_LOGFILE
     fi
   }
-  if [ -n "$1" ]; then
-    print "$1"
-  else
-    print "Something went wrong!"
-  fi
   if [ -n "$2" ]; then
-    echo $(color B_HRed "Exit program now...")
+    print "[Panic!]" "$1"
+    echo $(color B_HRed "Stopping program now...")
     exit 1
+  elif [ -n "$1" ]; then
+    print "[Error]" "$1"
+  else
+    print "[Error]" "Something went wrong!"
   fi
   return 1
+}
+panic() {
+  error "$@" true
 }
 
 #
