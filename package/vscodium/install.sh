@@ -25,5 +25,5 @@ bash -c "cat > $V_HOME/.config/VSCodium/User/settings.json" << EOL
 EOL
 
 # Gui askpass
-sudo pacman -S lxqt-openssh-askpass
+sudo pacman --noconfirm -S lxqt-openssh-askpass
 sudo ln -s /usr/bin/lxqt-openssh-askpass /usr/lib/ssh/ssh-askpass

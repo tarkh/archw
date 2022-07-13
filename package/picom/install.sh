@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #sudo pacman --noconfirm -S picom
-yay --noconfirm -S picom-git
+#yay --noconfirm -S picom-git
+yay --noconfirm -S picom-ibhagwan-git
 mkdir -p $V_HOME/.config/picom
 cp /etc/xdg/picom.conf.example $V_HOME/.config/picom/picom.conf
 
