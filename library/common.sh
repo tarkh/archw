@@ -241,7 +241,7 @@ cache() {
 argsConf() {
   if optval=$(arg "--config") && [ -n "$optval" ]; then
     local _IFS_=$IFS
-    IFS=';'
+    IFS=','
     read -ra CONFARGS <<< "$optval"
     for i in "${CONFARGS[@]}"; do
       # Check if it's config format
@@ -290,4 +290,10 @@ config() {
     confld "$2"
   fi
   return 0
+}
+
+#
+# Column formater
+columnFormat() {
+	echo "$@" | sed -E "s/\s*;/;/" | column -L -s ';' -t -d -N C1,C2 -W C2
 }

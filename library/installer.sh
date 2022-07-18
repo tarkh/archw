@@ -11,6 +11,12 @@ loadPatchConf() {
 }
 
 #
+# Check config
+checkConfig() {
+  :
+}
+
+#
 # Base installer path
 runBase() {
   log "Running base patch"
@@ -26,7 +32,40 @@ runBase() {
 
 }
 
-error "test some string"
-log "foo bar"
-sleep 1
-panic "shit"
+#
+# Run installer
+runInstaller() {
+  . "./library/installer.sh"
+
+  #
+  # Base patch override
+  S_BASE_PATCH="base"
+  if optval=$(arg "--base-patch") && [ -n "$optval" ]; then
+    S_BASE_PATCH="$optval"
+  fi
+
+  #
+  # Load base configs
+  loadPatchConf "$S_BASE_PATCH"
+
+  #
+  # Override config options with args
+  argsConf
+
+  #
+  # Start logger
+  logger
+
+  #
+  # Starting banner
+  log "
+  ========================
+  STARTING ARCHW INSTALLER
+  ========================
+  "
+
+  #
+  # Check config
+  checkConfig
+}
+
