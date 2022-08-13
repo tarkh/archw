@@ -246,7 +246,7 @@ alsa-utils pulseaudio pulseaudio-alsa pulseaudio-bluetooth pavucontrol \
 playerctl; then
   echo ""
   echo "Error happened while installing new system!"
-  echo "Please, check the errors and try to resolve them manually."
+  echo "Please, check error log and try to resolve them manually."
   exit 1
 fi
 
