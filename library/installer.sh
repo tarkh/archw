@@ -12,7 +12,7 @@ loadPatchConf() {
 
 #
 # Check config
-checkConfig() {
+makeConfig() {
   :
 }
 
@@ -35,8 +35,6 @@ runBase() {
 #
 # Run installer
 runInstaller() {
-  . "./library/installer.sh"
-
   #
   # Base patch override
   S_BASE_PATCH="base"
@@ -65,7 +63,7 @@ runInstaller() {
   "
 
   #
-  # Check config
-  checkConfig
+  # Make config
+  makeConfig
 }
 

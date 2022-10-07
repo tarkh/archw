@@ -21,6 +21,7 @@ set -- "${ARGV[@]}"
 if [ "$1" == "install" ]; then
   #
   # Run installer
+  . "./library/installer.sh"
   runInstaller
 elif [ "$1" == "update" ]; then
   #
