@@ -13,7 +13,9 @@ acpi cpupower lm_sensors btop sysbench
 
 #
 # Install VM Host tools
-pacman -S dmidecode qemu-base libvirt iptables-nft dnsmasq bridge-utils openbsd-netcat vde2 virt-viewer virt-install libguestfs cockpit cockpit-machines cockpit-pcp udisks2 packagekit
+pacman -S dmidecode qemu-base libvirt iptables-nft dnsmasq bridge-utils openbsd-netcat \
+vde2 virt-viewer virt-install libguestfs cockpit cockpit-machines cockpit-pcp cockpit-storaged \
+cockpit-packagekit udisks2 packagekit
 
 systemctl enable libvirtd
 systemctl enable udisks2
