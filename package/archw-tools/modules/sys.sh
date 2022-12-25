@@ -185,6 +185,10 @@ sys () {
     autosnap
 
     #
+    # Update keyring
+    sudo pacman -Sy $NOCONFIRM archlinux-keyring
+    
+    #
     # Update
     if [ -n "$U_CORE" ]; then
       sudo pacman -Syyu $NOCONFIRM
