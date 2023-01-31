@@ -3,7 +3,7 @@
 #
 # Install packages
 sudo pacman --noconfirm -S gucharmap ttf-dejavu ttf-roboto noto-fonts-emoji
-yay --noconfirm -S nerd-fonts-roboto-mono
+sudo pacman --noconfirm -S ttf-roboto-mono-nerd
 
 # Create root .config
 sudo mkdir -p /root/.config/
