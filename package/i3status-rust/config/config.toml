@@ -1,26 +1,32 @@
+icons_format = "{icon}"
+
 [theme]
-file = "archw.toml"
+theme = "archw"
+
 [icons]
-file = "archw.toml"
+icons = "archw.toml"
 
 #
 # Network
 [[block]]
-block = "networkmanager"
+block = "net"
 #on_click = "alacritty -e nmtui"
-interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+"]
-interface_name_include = []
+#interface_name_exclude = ["br\\-[0-9a-f]{12}", "docker\\d+"]
+#interface_name_include = []
 #ap_format = "{ssid}"
-device_format = "{icon}{ips}"
+format = " $icon $ip "
 
 #
 # Battery
 [[block]]
-driver = "sysfs"
 block = "battery"
-hide_missing = true
+format = " $icon $percentage {$time |}"
+full_format = " $icon $percentage {$time |}"
+
+#device = "DisplayDevice"
+driver = "upower"
+missing_format = ""
 interval = 30
-format = "{percentage} {time}"
 
 #
 # Package updates
@@ -28,8 +34,10 @@ format = "{percentage} {time}"
 block = "custom"
 command = "archw --status json sysupd"
 interval = 5
-on_click = "archw --status json sysupd run"
 json = true
+[[block.click]]
+button = "left"
+cmd = "archw --status json sysupd run"
 
 #
 # Keyboard layout
@@ -37,8 +45,10 @@ json = true
 block = "custom"
 command = "echo '{\"icon\":\"kbd_layout\",\"text\": \"'$(archw --lang get | tr '[:lower:]' '[:upper:]')'\"}'"
 interval = 30
-on_click = "archw --lang cycle"
 json = true
+[[block.click]]
+button = "left"
+cmd = "archw --lang cycle"
 
 #
 # Disk
@@ -48,52 +58,34 @@ path = "/"
 info_type = "used"
 alert = 90
 warning = 80
-format = "{icon} {percentage:4}"
+format = " $icon $percentage.eng(w:2) "
 
 #
 # CPU usage
 [[block]]
 block = "cpu"
 interval = 1
-format = "{utilization}"
-warning = 75
-critical = 90
-
-#
-# System load
-#[[block]]
-#block = "load"
-#format = "{1m}"
-#interval = 1
+format = " $icon $utilization "
 
 #
 # Memory usage
 [[block]]
 block = "memory"
-format_mem = "{mem_used_percents:4}"
-format_swap = "{swap_used_percents:4}"
-display_type = "memory"
-icons = true
-clickable = true
-interval = 5
-warning_mem = 80
-warning_swap = 80
-critical_mem = 95
-critical_swap = 95
+format = " $icon $mem_used_percents.eng(w:2) "
+format_alt = " $icon $swap_used_percents.eng(w:2) "
 
 #
 # Temps
 [[block]]
 block = "temperature"
-collapsed = false
 interval = 10
-format = "{average:2}"
+format = " $icon $average.eng(w:2) "
 chip = "*-isa-*"
 inputs = ["Package id 0", "Package id 1", "Package id 2", "Package id 3"]
 good = 25
 idle = 45
-info = 60
-warning = 75
+info = 75
+warning = 92
 
 #
 # Time
@@ -106,6 +98,8 @@ json = true
 [[block]]
 block = "custom"
 command = "archw --status json time"
-on_click = "archw --status json time sectoggle"
 interval = 1
 json = true
+[[block.click]]
+button = "left"
+cmd = "archw --status json time sectoggle"
