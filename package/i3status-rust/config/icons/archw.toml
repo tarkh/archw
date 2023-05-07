@@ -1,32 +1,37 @@
-kbd_layout = ""
+kbd_layout = "􀇳"
 
-net_wireless = "直"
-net_wired = ""
-net_vpn = ""
+net_wireless = "􀙇"
+net_wired = "􀩲"
+net_vpn = "􀙨"
 
-update = ""
+update = "􀯛"
 
-bat_charging = ""
-bat_not_available = ""
-bat_empty = ""
-bat_quarter = ""
-bat_half = ""
-bat_three_quarters = ""
-bat_full = ""
-bat = ""
+bat = [
+  "󰁻",
+  "󰁽",
+  "󰂀",
+  "󰁹"
+]
+bat_charging = [
+  "󰂆",
+  "󰂈",
+  "󰂊",
+  "󰂅"
+]
+bat_not_available = "󰂑"
 
-disk_drive = ""
+disk_drive = "􀤂"
 
-cpu = ""
+cpu = "􀍾"
 cpu_boost_on = ""
 cpu_boost_off = ""
 
 cogs = "" #""
 
-memory_mem = ""
-memory_swap = "" #""
+memory_mem = "􀫦"
+memory_swap = "􀥾"
 
-thermometer = ""
+thermometer = "􀇬"
 
-date = ""
-time = ""
+date = "􀉉"
+time = "􀐫"
