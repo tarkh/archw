@@ -72,7 +72,7 @@ format = " $icon $utilization "
 [[block]]
 block = "memory"
 format = " $icon $mem_used_percents.eng(w:2) "
-format_alt = " $icon $swap_used_percents.eng(w:2) "
+format_alt = " $icon_swap $swap_used_percents.eng(w:2) "
 
 #
 # Temps
