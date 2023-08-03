@@ -21,6 +21,11 @@ systemctl enable libvirtd
 systemctl enable udisks2
 systemctl enable pmlogger
 
+# For VM autorun
+# set spice_listen = "::1" in /etc/libvirt/qemu.conf
+# Autostart default network
+sudo virsh net-autostart default
+
 #
 # Converter tools (XVA > qcow2)
 pacman -S xxhash cmake
