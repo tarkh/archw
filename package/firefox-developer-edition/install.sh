@@ -49,16 +49,16 @@ if [ -n "$S_ADD_FF_VAAPI" ]; then
 // enable the use of VA-API with FFmpeg
 defaultPref("media.ffmpeg.vaapi.enabled", true);
 // disable the internal decoders for VP8/VP9
-defaultPref("media.ffvpx.enabled", false);
+//defaultPref("media.ffvpx.enabled", false);
 // disable the remote data decoder process for VP8/VP9
-defaultPref("media.rdd-vpx.enabled", false);
-defaultPref("media.rdd-process.enabled", false);
+//defaultPref("media.rdd-vpx.enabled", false);
+//defaultPref("media.rdd-process.enabled", false);
 // enable hardware VA-API decoding for WebRTC
 defaultPref("media.navigator.mediadatadecoder_vpx_enabled", true);
 // run Firefox with the following environment variable
-defaultPref("gfx.x11-egl.force-enabled", true);
+//defaultPref("gfx.x11-egl.force-enabled", true);
 // run Firefox with the following environment variable
-defaultPref("gfx.x11-egl.force-disabled", false);
+//defaultPref("gfx.x11-egl.force-disabled", false);
 // Enable WebRender
 defaultPref("gfx.webrender.all", true);
 EOL
