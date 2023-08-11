@@ -2,7 +2,7 @@
 
 #
 # Off if exist
-sudo systemctl disable lightdm-plymouth.service > /dev/null 2>&1
+#sudo systemctl disable lightdm-plymouth.service > /dev/null 2>&1
 sudo systemctl disable lightdm.service > /dev/null 2>&1
 
 #
@@ -37,7 +37,7 @@ sudo systemctl daemon-reload
 
 #
 # On
-sudo systemctl enable lightdm-plymouth.service
+#sudo systemctl enable lightdm-plymouth.service
 
 #
 # Adjust GRUB
