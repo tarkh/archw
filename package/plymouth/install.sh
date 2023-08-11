@@ -33,7 +33,19 @@ sudo sed -i -E \
 #"s:\s*(ExecStart=.*):\1 --tty=tty${S_SYS_TTY}:" \
 #/usr/lib/systemd/system/plymouth-start.service
 
+mkdir -p /etc/systemd/system/display-manager.service.d/
+bash -c "cat > /etc/systemd/system/display-manager.service.d/plymouth.conf" << EOL
+[Unit]
+Conflicts=plymouth-quit.service
+After=plymouth-quit.service rc-local.service plymouth-start.service systemd-user-sessions.service
+OnFailure=plymouth-quit.service
 
+[Service]
+ExecStartPre=-/usr/bin/plymouth deactivate
+ExecStartPost=-/usr/bin/sleep 30
+ExecStartPost=-/usr/bin/plymouth quit --retain-splash
+
+EOL
 
 sudo systemctl daemon-reload
 
