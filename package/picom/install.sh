@@ -14,9 +14,9 @@ s:^\s*(#\s*shadow-opacity\s*=.*):\1\nshadow-opacity = 1:; \
 s:^\s*(shadow-offset-x\s*=).*:\1 0;:; \
 s:^\s*(shadow-offset-y\s*=).*:\1 0;:; \
 s:^\s*(#\s*shadow-color\s*=.*):\1\nshadow-color = \"#140B19\":; \
-s:^\s*(fade-in-step\s*=).*:\1 0.009;:; \
-s:^\s*(fade-out-step\s*=).*:\1 0.009;:; \
-s:^\s*(#\s*fade-delta\s*=.*):\1\nfade-delta = 1:; \
+s:^\s*(fade-in-step\s*=).*:\1 0.3;:; \
+s:^\s*(fade-out-step\s*=).*:\1 0.3;:; \
+s:^\s*(#\s*fade-delta\s*=.*):\1\nfade-delta = 10:; \
 s:^\s*(inactive-opacity\s*=.*):#\1;:; \
 s:^\s*#\s*(opacity-rule\s*=)\s*\[\s*\].*:\1 \[\n  \"80\:class_g \*= '' \&\& \!focused\",\n  \"97\:class_g \*= '' \&\& focused\"\n\]:; \
 s:^\s*(\s*corner-radius\s*=.*):\1\ncorner-radius = 12:; \
