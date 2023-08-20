@@ -18,8 +18,8 @@ if [ -n "$S_ADD_SXHKD" ]; then
   bash -c "cat > $V_HOME/.config/sxhkd/macbookbrightness.conf" << EOL
 # Display brightness
 XF86MonBrightness{Up,Down}
-  brightnessctl -d intel_backlight set {+1%,1%-} --save && \
-  archw --osd show-brightness intel_backlight Screen
+  brightnessctl -d acpi_video0 set {+1%,1%-} --save && \
+  archw --osd show-brightness acpi_video0 Screen 
 
 # Keyboard backlight brightness
 XF86KbdBrightness{Up,Down}
