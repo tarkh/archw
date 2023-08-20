@@ -30,7 +30,7 @@ EOL
 
 #
 # Set brightness
-sudo brightnessctl -d intel_backlight set 65% --save
+sudo brightnessctl -d acpi_video0 set 65% --save
 sudo brightnessctl -d smc::kbd_backlight set 45% --save
 fi
 
