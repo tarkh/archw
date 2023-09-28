@@ -14,14 +14,15 @@ if [ "$1" == 'help_draft' ]; then
 fi
 if [ "$1" == 'help' ]; then
   echo "
---fan <mode>...      ;System fan control <mode>s
-  quiet              ;Fan speed will be as low as possible
-  normal             ;Fan speed will act normally depending on CPU load
-  turbo              ;Fan will not be affraid to wake up your parents
-  <low> <high> <max> ;Manually set fan temp thresholds in celcius
-                     ; <low>: Temp at which the fan will run at minimum speed
-                     ;<high>: Temp at which the fan will gradually ramp up
-                     ; <max>: Temp at which the fan will run at maximum speed
+--fan <mode>...          ;System fan control <mode>s
+  quiet                  ;Fan speed will be as low as possible
+  normal                 ;Fan speed will act normally depending on CPU load
+  turbo                  ;Fan will not be affraid to wake up your parents
+  <low> <high> <max> [pi];Manually set fan temp thresholds in celcius
+                         ; <low>: Temp at which the fan will run at minimum speed
+                         ;<high>: Temp at which the fan will gradually ramp up
+                         ; <max>: Temp at which the fan will run at maximum speed
+                         ;  [pi]: Optional polling interval in sec, default 5
 "
 fi
 
@@ -29,24 +30,28 @@ fi
 # Module content
 fan () {
   if [ -n "$2" ] && [ -n "$3" ] && [ -n "$4" ]; then
+    pl=5
+    if [ -n "$5" ]; then
+      pl=$5
+    fi
     sudo bash -c "cat > /etc/mbpfan.conf" << EOL
 [general]
 low_temp = $2
 high_temp = $3
 max_temp = $4
-polling_interval = 1
+polling_interval = ${pl}
 EOL
     sudo systemctl restart mbpfan.service
     echo "System fan settings has been applied"
     return 0
   elif [[ $2 == 'quiet' ]]; then
-    archw --fan 65 80 98
+    archw --fan 65 85 101
     return 0
   elif [[ $2 == 'normal' ]]; then
-    archw --fan 60 70 95
+    archw --fan 60 75 95
     return 0
   elif [[ $2 == 'turbo' ]]; then
-    archw --fan 55 65 85
+    archw --fan 55 65 90
     return 0
   fi
   error
