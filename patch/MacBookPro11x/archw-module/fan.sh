@@ -14,15 +14,15 @@ if [ "$1" == 'help_draft' ]; then
 fi
 if [ "$1" == 'help' ]; then
   echo "
---fan <mode>...          ;System fan control <mode>s
-  quiet                  ;Fan speed will be as low as possible
-  normal                 ;Fan speed will act normally depending on CPU load
-  turbo                  ;Fan will not be affraid to wake up your parents
-  <low> <high> <max> [pi];Manually set fan temp thresholds in celcius
-                         ; <low>: Temp at which the fan will run at minimum speed
-                         ;<high>: Temp at which the fan will gradually ramp up
-                         ; <max>: Temp at which the fan will run at maximum speed
-                         ;  [pi]: Optional polling interval in sec, default 5
+--fan <mode>...           ;System fan control <mode>s
+  quiet                   ;Fan speed will be as low as possible
+  normal                  ;Fan speed will act normally depending on CPU load
+  turbo                   ;Fan will not be affraid to wake up your parents
+  <low> <high> <max> [pi] ;Manually set fan temp thresholds in celcius
+                          ; <low>: Temp at which the fan will run at minimum speed
+                          ;<high>: Temp at which the fan will gradually ramp up
+                          ; <max>: Temp at which the fan will run at maximum speed
+                          ;  [pi]: Optional polling interval in sec, default 5
 "
 fi
 
