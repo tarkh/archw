@@ -94,6 +94,9 @@ block = "custom"
 command = "echo '{\"icon\":\"date\",\"text\": \"'$(date +\"%b %d\")'\"}'"
 interval = 10
 json = true
+[[block.click]]
+button = "left"
+cmd = "aw-xprof i3-sensible-terminal -e 'cal -y; sleep infinity'"
 
 [[block]]
 block = "custom"
