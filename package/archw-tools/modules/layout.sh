@@ -215,6 +215,12 @@ layout () {
         fi
 
         #
+        # If APPCMD is empty
+        if [[ -z "${APPCMD// }" ]]; then
+          continue
+        fi
+
+        #
         # Modify keeped titles
         #if [ "$MODE" == "auto" ]; then
         #  for class in "${LEAVE_TITLES_FOR_CLASSES[@]}"; do
