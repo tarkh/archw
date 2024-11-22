@@ -304,3 +304,10 @@ ProgressBar
 if [ -n "$S_ADD_WEBAPPMANAGER" ]; then
   . ./package/webapp-manager/install.sh
 fi
+
+#
+# Outline-cli
+ProgressBar
+if [ -n "$S_ADD_OUTLINECLI" ]; then
+  . ./package/outline-cli/install.sh
+fi

@@ -235,7 +235,7 @@ fi
 #
 # Pacstrap init
 if ! pacstrap /mnt base $S_LINUX linux-firmware $CPURELP $BTRFSRELP \
-base-devel parted grub openssh curl wget ntp zip unzip nano vim git \
+base-devel parted grub openssh curl wget ntp zip unzip nano vim git ncdu \
 exfatprogs libprocps acpi cpupower lm_sensors \
 feh imagemagick scrot libicns \
 xorg-server xorg-apps xorg-xinit dex xclip arandr \

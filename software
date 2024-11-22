@@ -9,6 +9,9 @@
 # ==========================================
 #
 
+# Outline-cli VPN
+#S_ADD_OUTLINECLI=true
+
 # QEMU Virtualization and Aqemu GUI
 #S_ADD_QEMU=true
 
