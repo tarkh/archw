@@ -48,8 +48,8 @@ layout () {
   # Dedupe apps array
   # Run this apps only onece in auto mode
   local REMOVE_DUPLICATES_FOR_APPS=(
-    "firefox$"
-    "firefoxdeveloperedition"
+    "firefox/firefox"
+    "edition/firefox"
   )
 
   #
@@ -171,7 +171,7 @@ layout () {
       # PROCESS LAYOUT CONTENTS
       # Get class names
       IFS=$'\n'
-      local CNAMES=($(cat $LOPATH/${WSNAME}.json | grep '"class"' | awk -F: '{print $2}' | sed -E "s:\s*\"(.*)\",:\1:" | sed -E "s:\\\\::"))
+      local CNAMES=($(cat $LOPATH/${WSNAME}.json | grep '"class"' | awk -F: '{print $2}' | sed -E "s:\s*\"(.*)\",:\1:" | sed -E "s:\\\\::g"))
       unset IFS
 
       #
