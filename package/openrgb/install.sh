@@ -18,3 +18,4 @@ service_ctl user on openrgb-load-profile.service
 #
 # Copy openrgb load profile to systemd sleep
 sudo cp ./package/openrgb/systemd/openrgb-load-profile /usr/lib/systemd/system-sleep/
+sudo chmod +x /usr/lib/systemd/system-sleep/openrgb-load-profile
