@@ -1,0 +1,8 @@
+#!/bin/bash
+
+case $1 in
+    post)
+        # After wake: Reload openrgb profile
+        /usr/bin/openrgb --profile /home/tarkh/.config/OpenRGB/ArchW.orp
+        ;;
+esac
