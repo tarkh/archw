@@ -3,7 +3,7 @@ Description=Load OpenRGB profile on startup
 After=aw-i3.target
 
 [Service]
-Type=simple
+Type=oneshot
 ExecStart=/usr/bin/openrgb --profile /home/tarkh/.config/OpenRGB/ArchW.orp
 
 [Install]
