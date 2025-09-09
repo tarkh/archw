@@ -1,9 +1,9 @@
 #
-# W package
+# ArchW package
 #
 
 # Install function
-install_w() {
+install_archw() {
   # Log
   log "Installation started: $W_MODULE_NAME"
 
@@ -26,11 +26,10 @@ install_w() {
   sudo cp -r ${W_MODULE_DIR}/lib ${W_DIR}
 
   # Add new system wide env
-  echo "export PATH=\$PATH:${W_DIR_BIN}" | sudo tee /etc/profile.d/w.sh > /dev/null
-  sudo chmod +x /etc/profile.d/w.sh
+  echo "export PATH=\$PATH:${W_DIR_BIN}" | sudo tee /etc/profile.d/archw.sh > /dev/null
 
   # Load
-  . /etc/profile.d/w.sh
+  . /etc/profile.d/archw.sh
 
   # Completed
   log "Installing completed: $W_MODULE_NAME"

@@ -3,7 +3,7 @@
 echo "Starting ArchW installation..."
 
 # Install target
-W_DIR=/opt/w
+W_DIR=/opt/archw
 W_PKG_URL=https://github.com/tarkh/archw/archive/refs/heads/main.zip
 
 # Create a unique temporary directory
@@ -23,14 +23,14 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 # Download the package from GitHub to temp directory
-curl -L -o "${TEMP_DIR}/w.zip" $W_PKG_URL
+curl -L -o "${TEMP_DIR}/archw.zip" $W_PKG_URL
 if [ $? -ne 0 ]; then
   echo "Failed to download package"
   exit 1
 fi
 
 # Unzip package in temp directory
-unzip "${TEMP_DIR}/w.zip" -d "$TEMP_DIR"
+unzip "${TEMP_DIR}/archw.zip" -d "$TEMP_DIR"
 if [ $? -ne 0 ]; then
   echo "Failed to unzip package"
   exit 1
@@ -59,12 +59,15 @@ sudo chown root:root "$W_DIR"
 
 # Switch to target directory
 cd "$W_DIR" || { echo "Failed to change to $W_DIR"; exit 1; }
-W_MODULE_DIR="${W_DIR}/apps/w"
+W_MODULE_DIR="${W_DIR}/apps/archw"
 
-# Install W
+# Load lib
+. ${W_MODULE_DIR}/lib/system.sh
+
+# Install ArchW
 if [ -f "${W_MODULE_DIR}/install.sh" ]; then
   . "${W_MODULE_DIR}/install.sh"
-  install_w
+  install_archw
 else
   echo "Install script not found at ${W_MODULE_DIR}/install.sh"
   exit 1
@@ -73,7 +76,7 @@ fi
 # Run W initial system setup
 w setup-new-system default
 if [ $? -ne 0 ]; then
-  echo "Failed to run W setup"
+  echo "Failed to run ArchW setup"
   exit 1
 fi
 

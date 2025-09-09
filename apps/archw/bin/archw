@@ -7,7 +7,7 @@ W_BIN="$(dirname "$W_SCRIPT_PATH")"
 W_DIR=${W_BIN}/..
 W_LIB=${W_DIR}/lib
 W_APPS=${W_DIR}/apps
-W_NAME=w
+W_NAME=archw
 W_VERSION=$(cat ${W_DIR}/version)
 
 #
