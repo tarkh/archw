@@ -1,0 +1,59 @@
+#!/bin/bash
+
+#
+# Set global vars
+W_SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
+W_SCRIPT_DIR="$(dirname "$W_SCRIPT_PATH")"
+#W_DIR=/opt/w
+W_DIR=$W_SCRIPT_DIR
+W_LIB=${W_DIR}/lib
+W_APPS=${W_DIR}/apps
+W_NAME=w
+W_VERSION=$(cat ${W_DIR}/version)
+
+#
+# Load lib
+. ${W_LIB}/system.sh
+
+#
+# Check if module parameter is provided
+if [ -z "$1" ]; then
+    echo "Error: No module specified. Usage: $W_NAME <module> [args...]"
+    exit 1
+fi
+
+#
+# Set module name and path
+W_MODULE_NAME="$1"
+W_MODULE_DIR="${W_LIB}/${W_MODULE_NAME}"
+W_MODULE_MAIN="${W_MODULE_DIR}/main.sh"
+
+#
+# Check if module directory exists
+if [ ! -d "$W_MODULE_DIR" ]; then
+    echo "Error: Module '${W_MODULE_NAME}' not found in ${W_LIB}"
+    exit 1
+fi
+
+#
+# Check if main.sh exists
+if [ ! -f "$W_MODULE_MAIN" ]; then
+    echo "Error: Main script not found for module '${W_MODULE_NAME}'"
+    exit 1
+fi
+
+#
+# Source the module's main.sh
+. "$W_MODULE_MAIN"
+
+#
+# Check if the function exists
+if ! type -t "$W_MODULE_NAME" | grep -q "function"; then
+    echo "Error: Function '${W_MODULE_NAME}' not found in ${W_MODULE_NAME}/main.sh"
+    exit 1
+fi
+
+#
+# Shift the first parameter (module name) and pass the rest to the function
+shift
+"module_${W_MODULE_NAME}" "$@"
