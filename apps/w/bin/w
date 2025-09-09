@@ -3,9 +3,8 @@
 #
 # Set global vars
 W_SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
-W_SCRIPT_DIR="$(dirname "$W_SCRIPT_PATH")"
-#W_DIR=/opt/w
-W_DIR=$W_SCRIPT_DIR
+W_BIN="$(dirname "$W_SCRIPT_PATH")"
+W_DIR=${W_BIN}/..
 W_LIB=${W_DIR}/lib
 W_APPS=${W_DIR}/apps
 W_NAME=w
@@ -48,8 +47,8 @@ fi
 
 #
 # Check if the function exists
-if ! type -t "$W_MODULE_NAME" | grep -q "function"; then
-    echo "Error: Function '${W_MODULE_NAME}' not found in ${W_MODULE_NAME}/main.sh"
+if ! type -t "module_${W_MODULE_NAME}" | grep -q "function"; then
+    echo "Error: Function 'module_${W_MODULE_NAME}' not found in ${W_MODULE_NAME}/main.sh"
     exit 1
 fi
 
