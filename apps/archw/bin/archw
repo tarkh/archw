@@ -4,7 +4,7 @@
 # Set global vars
 W_SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
 W_BIN="$(dirname "$W_SCRIPT_PATH")"
-W_DIR=${W_BIN}/..
+W_DIR="$(realpath "$W_BIN/..")"
 W_LIB=${W_DIR}/lib
 W_APPS=${W_DIR}/apps
 W_NAME=archw

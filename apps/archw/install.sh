@@ -24,6 +24,8 @@ install_archw() {
   # Copy bin and lib folders
   sudo cp -r ${W_MODULE_DIR}/bin ${W_DIR}
   sudo cp -r ${W_MODULE_DIR}/lib ${W_DIR}
+  # Copy version file
+  sudo cp ${W_MODULE_DIR}/version ${W_DIR}
 
   # Add new system wide env
   #echo "export PATH=\$PATH:${W_DIR_BIN}" | sudo tee /etc/profile.d/archw.sh > /dev/null
