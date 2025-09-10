@@ -74,7 +74,7 @@ else
 fi
 
 # Run W initial system setup
-w setup-new-system default
+archw setup-new-system default
 if [ $? -ne 0 ]; then
   echo "Failed to run ArchW setup"
   exit 1

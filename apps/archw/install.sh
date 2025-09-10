@@ -26,10 +26,14 @@ install_archw() {
   sudo cp -r ${W_MODULE_DIR}/lib ${W_DIR}
 
   # Add new system wide env
-  echo "export PATH=\$PATH:${W_DIR_BIN}" | sudo tee /etc/profile.d/archw.sh > /dev/null
+  #echo "export PATH=\$PATH:${W_DIR_BIN}" | sudo tee /etc/profile.d/archw.sh > /dev/null
+  sudo mkdir -p /etc/environment.d
+  echo "PATH=$(echo $PATH):${W_DIR_BIN}" | sudo tee /etc/environment.d/archw.conf > /dev/null
+  systemctl --user import-environment PATH
 
   # Load
-  . /etc/profile.d/archw.sh
+  #. /etc/profile.d/archw.sh
+  export PATH=\$PATH:${W_DIR_BIN}
 
   # Completed
   log "Installing completed: $W_MODULE_NAME"
