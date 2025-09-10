@@ -46,6 +46,12 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Check if target dir exist, warn and delete it
+if [ -d "$W_DIR" ]; then
+  echo "Target directory already exists, cleaning up"
+  sudo rm -rf "$W_DIR"
+fi
+
 # Move contents to target directory
 # Adjust path to match unzipped directory structure
 sudo mv "${TEMP_DIR}/archw-main/"* "$W_DIR"
@@ -74,7 +80,7 @@ else
 fi
 
 # Run W initial system setup
-archw setup-new-system default
+archw initsetup
 if [ $? -ne 0 ]; then
   echo "Failed to run ArchW setup"
   exit 1

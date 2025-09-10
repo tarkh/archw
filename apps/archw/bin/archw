@@ -23,7 +23,7 @@ fi
 
 #
 # Set module name and path
-W_MODULE_NAME="$1"
+W_MODULE_NAME="${1//-/_}"
 W_MODULE_DIR="${W_LIB}/${W_MODULE_NAME}"
 W_MODULE_MAIN="${W_MODULE_DIR}/main.sh"
 
