@@ -33,8 +33,8 @@ install_archw() {
 
   # Load
   #. /etc/profile.d/archw.sh
-  export PATH=\$PATH:${W_DIR_BIN}
+  export PATH=${PATH}:${W_DIR_BIN}
 
   # Completed
-  log "Installing completed: $W_MODULE_NAME"
+  log "Installation completed: $W_MODULE_NAME"
 }

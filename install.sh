@@ -30,7 +30,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Unzip package in temp directory
-unzip "${TEMP_DIR}/archw.zip" -d "$TEMP_DIR"
+unzip -q "${TEMP_DIR}/archw.zip" -d "$TEMP_DIR"
 if [ $? -ne 0 ]; then
   echo "Failed to unzip package"
   exit 1
