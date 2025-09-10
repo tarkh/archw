@@ -29,7 +29,7 @@ install_archw() {
   #echo "export PATH=\$PATH:${W_DIR_BIN}" | sudo tee /etc/profile.d/archw.sh > /dev/null
   sudo mkdir -p /etc/environment.d
   echo "PATH=$(echo $PATH):${W_DIR_BIN}" | sudo tee /etc/environment.d/archw.conf > /dev/null
-  sudo systemctl --user import-environment PATH
+  systemctl --user import-environment PATH
 
   # Load
   #. /etc/profile.d/archw.sh
