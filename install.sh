@@ -36,7 +36,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Create target directory
 echo "############################################"
 echo "# SUDO PASSWORD IS NEEDED TO INSTALL ARCHW #"
 echo "############################################"
@@ -47,7 +46,8 @@ if [ -d "$W_DIR" ]; then
   sudo rm -rf "$W_DIR"
 fi
 
-# Create app dir
+# Create target directory
+echo "Creating target directory $W_DIR"
 sudo mkdir -p "$W_DIR"
 if [ $? -ne 0 ]; then
   echo "Failed to create target directory $W_DIR"
