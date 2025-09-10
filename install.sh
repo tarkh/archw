@@ -40,16 +40,18 @@ fi
 echo "############################################"
 echo "# SUDO PASSWORD IS NEEDED TO INSTALL ARCHW #"
 echo "############################################"
-sudo mkdir -p "$W_DIR"
-if [ $? -ne 0 ]; then
-  echo "Failed to create target directory $W_DIR"
-  exit 1
-fi
 
 # Check if target dir exist, warn and delete it
 if [ -d "$W_DIR" ]; then
   echo "Target directory already exists, cleaning up"
   sudo rm -rf "$W_DIR"
+fi
+
+# Create app dir
+sudo mkdir -p "$W_DIR"
+if [ $? -ne 0 ]; then
+  echo "Failed to create target directory $W_DIR"
+  exit 1
 fi
 
 # Move contents to target directory
